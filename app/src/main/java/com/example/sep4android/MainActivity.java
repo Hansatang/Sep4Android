@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Main test");
+        System.out.println("Main");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
