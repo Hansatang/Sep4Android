@@ -3,6 +3,8 @@ package com.example.sep4android;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavController navController;
     NavigationView navigationView;
+    TextView UsernameInNavBar;
 
     AppBarConfiguration mAppBarConfiguration;
 
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         NavGraph graph = navInflater.inflate(R.navigation.nav_graph);
         if (SaveSharedPreference.getStatus(MainActivity.this)) {
             graph.setStartDestination(R.id.Home);
+            UsernameInNavBar.setText(SaveSharedPreference.getUserName(MainActivity.this));
             System.out.println("YAY");
         } else {
             graph.setStartDestination(R.id.Login);
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        View headerContainer = navigationView.getHeaderView(0);
+        UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Login)
                 .setOpenableLayout(drawerLayout)
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == findViewById(R.id.NavigationBut).getId()) {
             SaveSharedPreference.logOutUser(MainActivity.this);
             System.out.println(SaveSharedPreference.getUser(MainActivity.this));
+            UsernameInNavBar.setText("");
             navController.navigate(R.id.action_Home_to_Login);
         }
         return super.onOptionsItemSelected(item);

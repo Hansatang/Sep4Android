@@ -39,4 +39,7 @@ public class SaveSharedPreference {
         return getSharedPreferences(ctx).getBoolean(PREF_LoggedIn, false);
     }
 
+    public static String getUserName(Context ctx) {
+        return (getSharedPreferences(ctx).getString(PREF_USER_NAME, ""));
+    }
 }
