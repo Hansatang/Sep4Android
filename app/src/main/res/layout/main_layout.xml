@@ -14,4 +14,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/CurrentTemperatureView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp"
+        tools:layout_editor_absoluteX="187dp"
+        tools:layout_editor_absoluteY="193dp" />
+
+    <TextView
+        android:id="@+id/CurrentHumidityView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <TextView
+        android:id="@+id/CurrentCOView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Co2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="287dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

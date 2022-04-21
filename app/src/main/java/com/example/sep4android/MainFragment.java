@@ -23,12 +23,12 @@ public class MainFragment extends Fragment {
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         }
-
         View view = inflater.inflate(R.layout.main_layout, container, false);
         findViews(view);
         return view;
     }
 
     private void findViews(View view) {
+
     }
 }

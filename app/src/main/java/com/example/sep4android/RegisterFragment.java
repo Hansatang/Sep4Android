@@ -24,13 +24,9 @@ public class RegisterFragment extends Fragment {
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
-
         View view = inflater.inflate(R.layout.register_layout, container, false);
-
         findViews(view);
         setListenersToButtons();
-
-
         return view;
     }
 
@@ -46,7 +42,6 @@ public class RegisterFragment extends Fragment {
                 view -> {
                     if (registerUsernameField.getText().toString().equals("Name")
                         //     && PasswordField.getText().toString().equals("1")
-
                     ) {
                         Navigation.findNavController(view).navigate(R.id.action_Register_to_Login);
                         viewModel.addUserToDatabase();

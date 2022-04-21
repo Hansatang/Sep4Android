@@ -52,12 +52,15 @@ public class LoginFragment extends Fragment {
     }
 
     private void checkCredentials(UserObject userObject) {
-        SaveSharedPreference.setUser(getContext(), "Robot", 1, true);
-        if (SaveSharedPreference.getStatus(getContext())) {
-            Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
+        if (userObject == null) {
+            Toast.makeText(getContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            SaveSharedPreference.setUser(getContext(), "Robot", 1, true);
+            if (SaveSharedPreference.getStatus(getContext())) {
+                Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
+            } else {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
-
 }

@@ -18,7 +18,6 @@ public class MeasurementsViewModel extends AndroidViewModel {
     }
 
     public void getMeasurementsFromRepo() {
-        ;
         repository.lookForUser();
     }
 }
