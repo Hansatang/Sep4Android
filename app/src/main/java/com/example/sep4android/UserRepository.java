@@ -56,4 +56,27 @@ public class UserRepository {
                      }
         );
     }
+
+    public void addUserToDatabase()
+    {
+        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+        Call<UserObject> call = databaseApi.addUser();
+        System.out.println("SET");
+        call.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if (response.isSuccessful()){
+                    UserObject temp = response.body();
+                    user.postValue(temp);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                System.out.println(t);
+                System.out.println(t.getMessage());
+                Log.i("Retrofit" ,"Something went wrong :(");
+            }
+        });
+    }
 }
