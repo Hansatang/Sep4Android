@@ -57,16 +57,17 @@ public class UserRepository {
         );
     }
 
-    public void addUserToDatabase()
+    public void addUserToDatabase(String name, String password)
     {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<UserObject> call = databaseApi.addUser();
+        UserObject temp = new UserObject(name, password, null);
+        Call<UserObject> call = databaseApi.addUser(temp);
         System.out.println("SET");
         call.enqueue(new Callback<UserObject>() {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if (response.isSuccessful()){
-                    UserObject temp = response.body();
+                    UserObject temp = new UserObject(name, password, null);
                     user.postValue(temp);
                 }
             }
