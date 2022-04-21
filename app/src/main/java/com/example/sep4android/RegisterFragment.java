@@ -49,7 +49,7 @@ public class RegisterFragment extends Fragment {
 
                     ) {
                         Navigation.findNavController(view).navigate(R.id.action_Register_to_Login);
-                        viewModel.addUserToDatabase();
+                        viewModel.addUserToDatabase(registerUsernameField.getText().toString(), registerPasswordField.getText().toString());
                     } else {
                         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }

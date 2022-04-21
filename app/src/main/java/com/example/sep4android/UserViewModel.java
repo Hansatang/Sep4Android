@@ -23,8 +23,8 @@ public class UserViewModel extends AndroidViewModel {
         repository.lookForUser();
     }
 
-    public void addUserToDatabase()
+    public void addUserToDatabase(String name, String password)
     {
-        repository.addUserToDatabase();
+        repository.addUserToDatabase(name, password);
     }
 }
