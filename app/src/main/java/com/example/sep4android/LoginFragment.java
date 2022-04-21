@@ -19,6 +19,7 @@ public class LoginFragment extends Fragment {
     Button loginButton;
     Button toRegisterButton;
     UserViewModel viewModel;
+    SaveSharedPreference saveSharedPreference;
     View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,10 +29,10 @@ public class LoginFragment extends Fragment {
         }
         view = inflater.inflate(R.layout.login_layout, container, false);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        saveSharedPreference = new SaveSharedPreference();
         viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> checkCredentials(listObjects));
         findViews(view);
         setListenersToButtons();
-
         return view;
     }
 
@@ -51,7 +52,6 @@ public class LoginFragment extends Fragment {
         loginButton = view.findViewById(R.id.LoginButton);
         toRegisterButton = view.findViewById(R.id.toRegisterView);
     }
-
 
     private void checkCredentials(UserObject userObject) {
         System.out.println("as "+userObject.getUser());
