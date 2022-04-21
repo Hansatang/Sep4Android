@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/Home"
         android:name="com.example.sep4android.MainFragment"
-        android:label="Home" />
+        android:label="Home" >
+        <action
+            android:id="@+id/action_Home_to_Login"
+            app:destination="@id/Login" />
+    </fragment>
     <fragment
         android:id="@+id/Login"
         android:name="com.example.sep4android.LoginFragment"
@@ -19,7 +23,7 @@
         <action
             android:id="@+id/action_Login_to_Home"
             app:destination="@id/Home"
-            app:enterAnim="@anim/slide_in_right" />
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
 
     <fragment

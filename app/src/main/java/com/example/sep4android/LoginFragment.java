@@ -19,7 +19,6 @@ public class LoginFragment extends Fragment {
     Button loginButton;
     Button toRegisterButton;
     UserViewModel viewModel;
-    SaveSharedPreference saveSharedPreference;
     View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,8 +28,6 @@ public class LoginFragment extends Fragment {
         }
         view = inflater.inflate(R.layout.login_layout, container, false);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        saveSharedPreference = new SaveSharedPreference();
-        viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> checkCredentials(listObjects));
         findViews(view);
         setListenersToButtons();
         return view;
@@ -39,6 +36,7 @@ public class LoginFragment extends Fragment {
     private void setListenersToButtons() {
         loginButton.setOnClickListener(
                 view -> {
+                    viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> checkCredentials(listObjects));
                     viewModel.getUserFromRepo();
                 }
         );
@@ -54,9 +52,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void checkCredentials(UserObject userObject) {
-        System.out.println("as "+userObject.getUser());
-        if (UsernameField.getText().toString().equals("Name")
-        ) {
+        SaveSharedPreference.setUser(getContext(), "Robot", 1, true);
+        if (SaveSharedPreference.getStatus(getContext())) {
             Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
         } else {
             Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();

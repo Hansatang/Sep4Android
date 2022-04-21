@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavController navController;
     NavigationView navigationView;
+
     AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -34,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        NavInflater navInflater = navController.getNavInflater();
+        NavGraph graph = navInflater.inflate(R.navigation.nav_graph);
+        if (SaveSharedPreference.getStatus(MainActivity.this)) {
+            graph.setStartDestination(R.id.Home);
+            System.out.println("YAY");
+        } else {
+            graph.setStartDestination(R.id.Login);
+            System.out.println("not YAY");
+        }
+        navController.setGraph(graph);
     }
 
     private void findViews() {
@@ -53,8 +66,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        System.out.println(item.getItemId());
-        System.out.println(findViewById(R.id.NavigationBut).getId());
+        if (item.getItemId() == findViewById(R.id.NavigationBut).getId()) {
+            SaveSharedPreference.logOutUser(MainActivity.this);
+            System.out.println(SaveSharedPreference.getUser(MainActivity.this));
+            navController.navigate(R.id.action_Home_to_Login);
+        }
         return super.onOptionsItemSelected(item);
     }
 
