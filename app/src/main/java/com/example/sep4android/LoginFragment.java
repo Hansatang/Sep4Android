@@ -19,15 +19,16 @@ public class LoginFragment extends Fragment {
     Button loginButton;
     Button toRegisterButton;
     UserViewModel viewModel;
+    View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("LoginView");
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
-        View view = inflater.inflate(R.layout.login_layout, container, false);
+        view = inflater.inflate(R.layout.login_layout, container, false);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
+        viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> checkCredentials(listObjects));
         findViews(view);
         setListenersToButtons();
 
@@ -37,14 +38,7 @@ public class LoginFragment extends Fragment {
     private void setListenersToButtons() {
         loginButton.setOnClickListener(
                 view -> {
-                    viewModel.getUser(UsernameField.getText().toString()).observe(getViewLifecycleOwner(), listObjects -> System.out.println(listObjects));
-                    if (UsernameField.getText().toString().equals("Name")
-                        //     && PasswordField.getText().toString().equals("1")
-                    ) {
-                        Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
-                    } else {
-                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-                    }
+                    viewModel.getUserFromRepo();
                 }
         );
         toRegisterButton.setOnClickListener(
@@ -57,4 +51,16 @@ public class LoginFragment extends Fragment {
         loginButton = view.findViewById(R.id.LoginButton);
         toRegisterButton = view.findViewById(R.id.toRegisterView);
     }
+
+
+    private void checkCredentials(UserObject userObject) {
+        System.out.println("as "+userObject.getUser());
+        if (UsernameField.getText().toString().equals("Name")
+        ) {
+            Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
+        } else {
+            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

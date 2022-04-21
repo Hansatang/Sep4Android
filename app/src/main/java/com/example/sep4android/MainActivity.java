@@ -53,11 +53,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         System.out.println(item.getItemId());
         System.out.println(findViewById(R.id.NavigationBut).getId());
-
-
         return super.onOptionsItemSelected(item);
     }
 

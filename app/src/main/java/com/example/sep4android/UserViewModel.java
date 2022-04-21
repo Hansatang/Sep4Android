@@ -8,23 +8,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class UserViewModel extends AndroidViewModel {
-    private MutableLiveData<String> User;
     private UserRepository repository;
-
 
     public UserViewModel(Application app) {
         super(app);
-        User = new MutableLiveData<>();
         repository = UserRepository.getInstance(app);
     }
 
-    public LiveData<String> getUser(String str){
-        return  repository.getUser(str);
+    public LiveData<UserObject> getUser(){
+        return  repository.getUser();
     }
 
-    public void getUserFromRepo(String user){ ;
-        User.setValue(user);
+    public void getUserFromRepo(){ ;
+        repository.lookForUser();
     }
-
-
 }
