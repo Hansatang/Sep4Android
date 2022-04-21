@@ -16,6 +16,7 @@ public class RegisterFragment extends Fragment {
     EditText registerUsernameField;
     EditText registerPasswordField;
     EditText registerRepeatPasswordField;
+    UserViewModel viewModel;
     Button registerButton;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class RegisterFragment extends Fragment {
 
         findViews(view);
         setListenersToButtons();
+
 
         return view;
     }
@@ -44,8 +46,10 @@ public class RegisterFragment extends Fragment {
                 view -> {
                     if (registerUsernameField.getText().toString().equals("Name")
                         //     && PasswordField.getText().toString().equals("1")
+
                     ) {
                         Navigation.findNavController(view).navigate(R.id.action_Register_to_Login);
+                        viewModel.addUserToDatabase();
                     } else {
                         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
