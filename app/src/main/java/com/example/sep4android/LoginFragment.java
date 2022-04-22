@@ -1,5 +1,6 @@
 package com.example.sep4android;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment  {
     EditText UsernameField;
     EditText PasswordField;
     Button loginButton;
     Button toRegisterButton;
     UserViewModel viewModel;
     View view;
+
+    ListenerLoginMain fragmentInterfacer;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("LoginView");
@@ -56,11 +59,20 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
         } else {
             SaveSharedPreference.setUser(getContext(), "Robot", 1, true);
+
             if (SaveSharedPreference.getStatus(getContext())) {
+                System.out.println("Valid cred");
+                fragmentInterfacer.setNavUserName();
                 Navigation.findNavController(view).navigate(R.id.action_Login_to_Home);
             } else {
                 Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentInterfacer = (ListenerLoginMain) context;
     }
 }

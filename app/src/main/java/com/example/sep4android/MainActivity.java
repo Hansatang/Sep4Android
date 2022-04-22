@@ -19,7 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListenerLoginMain {
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavController navController;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == findViewById(R.id.NavigationBut).getId()) {
+        if (item.getItemId() == findViewById(R.id.LogOutItem).getId()) {
             SaveSharedPreference.logOutUser(MainActivity.this);
             System.out.println(SaveSharedPreference.getUser(MainActivity.this));
             UsernameInNavBar.setText("");
@@ -85,5 +85,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void setNavUserName() {
+        UsernameInNavBar.setText(SaveSharedPreference.getUserName(MainActivity.this));
     }
 }
