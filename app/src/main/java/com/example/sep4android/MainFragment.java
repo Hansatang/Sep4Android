@@ -23,12 +23,8 @@ public class MainFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("MainView");
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        }
         View view = inflater.inflate(R.layout.main_layout, container, false);
         findViews(view);
-
         return view;
     }
 
