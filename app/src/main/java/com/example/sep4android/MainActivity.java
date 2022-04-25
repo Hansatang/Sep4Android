@@ -1,5 +1,6 @@
 package com.example.sep4android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +18,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements ListenerLoginMain {
+public class MainActivity extends AppCompatActivity{
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavController navController;
@@ -34,23 +40,20 @@ public class MainActivity extends AppCompatActivity implements ListenerLoginMain
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().hide();
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
         NavInflater navInflater = navController.getNavInflater();
         NavGraph graph = navInflater.inflate(R.navigation.nav_graph);
-        if (SaveSharedPreference.getStatus(MainActivity.this)) {
-            graph.setStartDestination(R.id.Home);
-            UsernameInNavBar.setText(SaveSharedPreference.getUserName(MainActivity.this));
-            System.out.println("YAY");
-        } else {
-            graph.setStartDestination(R.id.Login);
-            System.out.println("not YAY");
-        }
         navController.setGraph(graph);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            UsernameInNavBar.setText(email);
+
+        }
     }
 
     private void findViews() {
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements ListenerLoginMain
         View headerContainer = navigationView.getHeaderView(0);
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Login)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home)
                 .setOpenableLayout(drawerLayout)
                 .build();
     }
@@ -73,10 +76,7 @@ public class MainActivity extends AppCompatActivity implements ListenerLoginMain
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == findViewById(R.id.LogOutItem).getId()) {
-            SaveSharedPreference.logOutUser(MainActivity.this);
-            System.out.println(SaveSharedPreference.getUser(MainActivity.this));
-            UsernameInNavBar.setText("");
-            navController.navigate(R.id.action_Home_to_Login);
+            onLogOut();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -87,8 +87,11 @@ public class MainActivity extends AppCompatActivity implements ListenerLoginMain
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void setNavUserName() {
-        UsernameInNavBar.setText(SaveSharedPreference.getUserName(MainActivity.this));
+
+    private void onLogOut() {
+        AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        });
     }
 }

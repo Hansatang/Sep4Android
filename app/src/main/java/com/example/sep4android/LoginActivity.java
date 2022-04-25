@@ -2,13 +2,23 @@ package com.example.sep4android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,33 +26,31 @@ public class LoginActivity extends AppCompatActivity {
     EditText PasswordField;
     Button loginButton;
     Button toRegisterButton;
-    UserViewModel viewModel;
+
+
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    System.out.println("LOL");
+                    goToMainActivity();
+                }
+                else
+                    Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("Login Activity test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         findViews();
         setListenersToButtons();
-
-        if (SaveSharedPreference.getStatus(this)) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            System.out.println("hej");
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
-    }
-
-    private void setListenersToButtons() {
-        loginButton.setOnClickListener(
-                view -> {
-                    viewModel.getUser().observe(this, listObjects -> checkCredentials(listObjects));
-                    viewModel.getUserFromRepo();
-                }
-        );
-        toRegisterButton.setOnClickListener(
-                view -> Navigation.findNavController(view).navigate(R.id.action_Login_to_Register));
     }
 
     private void findViews() {
@@ -52,21 +60,28 @@ public class LoginActivity extends AppCompatActivity {
         toRegisterButton = findViewById(R.id.toRegisterView);
     }
 
-
-    private void checkCredentials(UserObject userObject) {
-        if (userObject == null) {
-            Toast.makeText(this, "Wrong username or password", Toast.LENGTH_SHORT).show();
-        } else {
-            SaveSharedPreference.setUser(this, "Robot", 1, true);
-
-            if (SaveSharedPreference.getStatus(this)) {
-                System.out.println("Valid cred");
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-            } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
-            }
-        }
+    private void setListenersToButtons() {
+        toRegisterButton.setOnClickListener(
+                view -> signIn());
     }
 
+
+    private void goToMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    public void signIn() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+
+        Intent signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setLogo(R.drawable.ic_launcher_foreground)
+                .build();
+
+        activityResultLauncher.launch(signInIntent);
+    }
 }
