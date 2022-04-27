@@ -19,12 +19,9 @@ import retrofit2.internal.EverythingIsNonNull;
 public class UserRepository {
     private static UserRepository instance;
     private final MutableLiveData<UserObject> user;
-    private final MutableLiveData<RoomObject> room;
-
 
     private UserRepository(Application application) {
         user = new MutableLiveData<>();
-        room = new MutableLiveData<>();
     }
 
     public static synchronized UserRepository getInstance(Application application) {
@@ -35,10 +32,6 @@ public class UserRepository {
 
     public LiveData<UserObject> getUser() {
         return user;
-    }
-
-    public LiveData<RoomObject> getRoom() {
-        return room;
     }
 
 
