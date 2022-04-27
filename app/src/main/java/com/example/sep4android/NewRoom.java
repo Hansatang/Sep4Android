@@ -17,7 +17,7 @@ public class NewRoom extends Fragment {
         System.out.println("New Room");
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
+        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
         return inflater.inflate(R.layout.fragment_new_room, container, false);
     }
 }

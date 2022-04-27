@@ -15,11 +15,11 @@ public class UserViewModel extends AndroidViewModel {
         repository = RoomRepository.getInstance(app);
     }
 
-    public LiveData<List<RoomObject>> getUser(){
+    public LiveData<List<RoomObject>> getRooms(){
         return  repository.getRooms();
     }
 
-    public void getUserFromRepo(){ ;
+    public void getRoomsFromRepo(){ ;
         repository.getDatabaseRooms();
     }
 
