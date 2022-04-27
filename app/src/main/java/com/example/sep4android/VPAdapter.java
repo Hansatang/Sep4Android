@@ -13,13 +13,14 @@ public class VPAdapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> stringArrayList = new ArrayList<>();
 
-    public VPAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+    public VPAdapter(@NonNull FragmentManager fm) {
+        super(fm);
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        System.out.println("Rolo "+stringArrayList.get(position));
         return fragmentArrayList.get(position);
     }
 

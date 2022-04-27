@@ -7,11 +7,18 @@
         android:id="@+id/Home"
         android:name="com.example.sep4android.MainFragment"
         android:label="Home" >
+        <action
+            android:id="@+id/action_Home_to_Test"
+            app:destination="@id/Test" />
     </fragment>
 
     <fragment
         android:id="@+id/Test"
         android:name="com.example.sep4android.TestFragment"
         android:label="Test" >
+        <action
+            android:id="@+id/action_Test_to_Home"
+            app:destination="@id/Home"
+            app:launchSingleTop="false" />
     </fragment>
 </navigation>

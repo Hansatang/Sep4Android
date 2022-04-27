@@ -1,5 +1,6 @@
 package com.example.sep4android;
 
+import android.app.TabActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +34,12 @@ public class MainFragment extends Fragment {
         System.out.println("MainView");
         view = inflater.inflate(R.layout.main_layout, container, false);
         findViews(view);
-        tabLayout.setupWithViewPager(viewPager);
-        vpAdapter = new VPAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        vpAdapter.clear();
+        vpAdapter = new VPAdapter(getChildFragmentManager());
         vpAdapter.addFragment(new NewRoom(), "NewRoom");
         vpAdapter.addFragment(new MyRooms(), "MyRooms");
         viewPager.setAdapter(vpAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
         // viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         //viewModel.addRoomToDatabase(123456789);
         //  viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
@@ -48,5 +49,13 @@ public class MainFragment extends Fragment {
     private void findViews(View view) {
         tabLayout = view.findViewById(R.id.tabLay);
         viewPager = view.findViewById(R.id.ViewPager);
+
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        viewPager.setCurrentItem(0);
     }
 }

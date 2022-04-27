@@ -51,11 +51,19 @@ public class MainActivity extends AppCompatActivity{
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            if (user.getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+                System.out.println("User is signed in with Google");
+            }
+            else{
+                System.out.println("User is signed in with Email");
+            }
             String email = user.getEmail();
             String username = user.getDisplayName();
             UsernameInNavBar.setText(email);
             EmailInNavBar.setText(username);
         }
+
+
 
     }
 
