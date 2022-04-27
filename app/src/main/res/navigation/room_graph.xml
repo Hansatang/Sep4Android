@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/room_graph.xml"
-    app:startDestination="@id/Home">
+    app:startDestination="@id/temperatureTreshold">
     <fragment
         android:id="@+id/NewRoom"
         android:name="com.example.sep4android.NewRoom"

@@ -8,4 +8,9 @@
         android:name="com.example.sep4android.MainFragment"
         android:label="Home" >
     </fragment>
+    <fragment
+        android:id="@+id/temperatureTreshold"
+        android:name="com.example.sep4android.TresholdTemperature"
+        android:label="TreholdTemperature" >
+    </fragment>
 </navigation>

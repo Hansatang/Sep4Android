@@ -19,8 +19,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         EmailInNavBar =headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.temperatureTreshold)
                 .setOpenableLayout(drawerLayout)
                 .build();
     }

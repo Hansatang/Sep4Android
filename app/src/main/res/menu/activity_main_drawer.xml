@@ -7,5 +7,10 @@
         android:id="@+id/Home"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/home" />
+
+        <item
+            android:id="@+id/temperatureTreshold"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/temperature_treshold" />
     </group>
 </menu>
