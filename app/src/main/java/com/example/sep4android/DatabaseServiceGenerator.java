@@ -9,7 +9,7 @@ public class DatabaseServiceGenerator {
     public static DatabaseApi getDatabaseApi() {
         if (databaseApi == null) {
             databaseApi = new Retrofit.Builder()
-                    .baseUrl("https://animechan.vercel.app/")
+                    .baseUrl("http://air4you-env-1.eba-cpf6zx99.eu-north-1.elasticbeanstalk.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(DatabaseApi.class);

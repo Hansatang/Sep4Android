@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity{
     NavController navController;
     NavigationView navigationView;
     TextView UsernameInNavBar;
+    TextView EmailInNavBar;
 
     AppBarConfiguration mAppBarConfiguration;
 
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity{
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String email = user.getEmail();
+            String username = user.getDisplayName();
             UsernameInNavBar.setText(email);
+            EmailInNavBar.setText(username);
 
         }
     }
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
         navigationView = findViewById(R.id.nav_view);
         View headerContainer = navigationView.getHeaderView(0);
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
+        EmailInNavBar =headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home)
                 .setOpenableLayout(drawerLayout)

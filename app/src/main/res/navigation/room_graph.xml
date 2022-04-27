@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/room_graph.xml"
+    app:startDestination="@id/Home">
+    <fragment
+        android:id="@+id/NewRoom"
+        android:name="com.example.sep4android.NewRoom"
+        android:label="NewRoom" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/MyRooms"
+        android:name="com.example.sep4android.MyRooms"
+        android:label="NewRoom" >
+    </fragment>
+</navigation>
