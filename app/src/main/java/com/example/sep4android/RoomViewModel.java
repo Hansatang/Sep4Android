@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class UserViewModel extends AndroidViewModel {
+public class RoomViewModel extends AndroidViewModel {
     private RoomRepository repository;
 
-    public UserViewModel(Application app) {
+    public RoomViewModel(Application app) {
         super(app);
         repository = RoomRepository.getInstance(app);
     }
