@@ -10,14 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class NewRoom extends Fragment {
+public class MyRooms extends Fragment {
     UserViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        System.out.println("New Room");
-        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        System.out.println("My Rooms");
+         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
-        return inflater.inflate(R.layout.fragment_new_room, container, false);
+          viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
+        return inflater.inflate(R.layout.fragment_my_rooms, container, false);
     }
 }

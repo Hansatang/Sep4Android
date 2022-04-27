@@ -51,12 +51,20 @@ public class MainActivity extends AppCompatActivity{
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            if (user.getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+                System.out.println("User is signed in with Google");
+            }
+            else{
+                System.out.println("User is signed in with Email");
+            }
             String email = user.getEmail();
             String username = user.getDisplayName();
             UsernameInNavBar.setText(email);
             EmailInNavBar.setText(username);
-
         }
+
+
+
     }
 
     private void findViews() {
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         EmailInNavBar =headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home,R.id.Test)
                 .setOpenableLayout(drawerLayout)
                 .build();
     }
