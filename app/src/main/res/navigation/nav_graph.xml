@@ -21,4 +21,9 @@
             app:destination="@id/Home"
             app:launchSingleTop="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/Settings"
+        android:name="com.example.sep4android.SettingsFragment"
+        android:label="Settings"/>
 </navigation>

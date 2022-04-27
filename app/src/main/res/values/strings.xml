@@ -3,4 +3,11 @@
     <string name="home">Home</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="current_temperature">Current temperature</string>
+    <string name="current_humidity_level">Current humidity level</string>
+    <string name="corrent_co2">Corrent CO2</string>
+    <string name="temp">temp</string>
+    <string name="carbon">carbon</string>
+    <string name="hum">hum</string>
+    <string name="current_co2">Current CO2</string>
 </resources>
