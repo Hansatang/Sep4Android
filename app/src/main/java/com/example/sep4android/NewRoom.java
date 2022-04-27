@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 
 
 public class NewRoom extends Fragment {
-    UserViewModel viewModel;
+    RoomViewModel viewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         System.out.println("New Room");
-        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
 
-        viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
+        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
         return inflater.inflate(R.layout.fragment_new_room, container, false);
     }
 }

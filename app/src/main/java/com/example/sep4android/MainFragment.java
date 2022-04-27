@@ -24,7 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainFragment extends Fragment {
-    UserViewModel viewModel;
+    RoomViewModel viewModel;
     View view;
     TabLayout tabLayout;
     ViewPager viewPager;

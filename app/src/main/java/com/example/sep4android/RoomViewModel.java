@@ -7,19 +7,25 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class MeasurementsViewModel extends AndroidViewModel {
+public class RoomViewModel extends AndroidViewModel {
     private RoomRepository repository;
 
-    public MeasurementsViewModel(Application app) {
+    public RoomViewModel(Application app) {
         super(app);
         repository = RoomRepository.getInstance(app);
     }
 
-    public LiveData<List<RoomObject>> getMeasurements() {
-        return repository.getRooms();
+    public LiveData<List<RoomObject>> getRooms(){
+        return  repository.getRooms();
     }
 
-    public void getMeasurementsFromRepo() {
+    public void getRoomsFromRepo(){ ;
         repository.getDatabaseRooms();
     }
+
+    public void addRoomToDatabase(int roomId)
+    {
+        repository.addRoomToDatabase(roomId);
+    }
 }
+

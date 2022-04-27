@@ -41,34 +41,8 @@ public class UserRepository {
         return room;
     }
 
-    public void lookForUser() {
-        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<UserObject> call = databaseApi.getUser();
-        System.out.println("Call");
-        call.enqueue(new Callback<UserObject>() {
-                         @EverythingIsNonNull
-                         @Override
-                         public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                             if (response.isSuccessful()) {
-                                 UserObject rs = response.body();
-                                 System.out.println("gtr " + rs.getUser());
-                                 user.setValue(rs);
-                             }
-                         }
 
-                         @EverythingIsNonNull
-                         @Override
-                         public void onFailure(Call<UserObject> call, Throwable t) {
-                             System.out.println(t);
-                             System.out.println(t.getMessage());
-                             Log.i("Retrofit", "Something went wrong :(");
-                         }
-                     }
-        );
-    }
-
-    public void addUserToDatabase(String name, String password)
-    {
+    public void addUserToDatabase(String name, String password) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
         UserObject temp = new UserObject(name, password, null);
         Call<UserObject> call = databaseApi.addUser(temp);
@@ -76,7 +50,7 @@ public class UserRepository {
         call.enqueue(new Callback<UserObject>() {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     UserObject temp = new UserObject(name, password, null);
                     user.postValue(temp);
                 }
@@ -86,7 +60,7 @@ public class UserRepository {
             public void onFailure(Call<UserObject> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
-                Log.i("Retrofit" ,"Something went wrong :(");
+                Log.i("Retrofit", "Something went wrong :(");
             }
         });
     }
@@ -96,34 +70,33 @@ public class UserRepository {
         Call<UserObject> call = databaseApi.deleteUser();
         System.out.println("Call");
         call.enqueue(new Callback<UserObject>() {
-                @EverythingIsNonNull
-                @Override
-                public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Successful");
                 }
-                }
+            }
 
-                @EverythingIsNonNull
-                @Override
-                public void onFailure(Call<UserObject> call, Throwable t) {
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
                 Log.i("Retrofit", "Something went wrong :(");
-                }
+            }
         });
 
     }
 
-    public void deleteRoomData(int id)
-    {
+    public void deleteRoomData(int id) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
         Call<RoomObject> call = databaseApi.deleteRoomData();
         System.out.println("Call");
         call.enqueue(new Callback<RoomObject>() {
             @Override
             public void onResponse(Call<RoomObject> call, Response<RoomObject> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //NOT FINISHED YET
                 }
             }

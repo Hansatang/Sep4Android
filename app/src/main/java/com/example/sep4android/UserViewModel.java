@@ -15,17 +15,8 @@ public class UserViewModel extends AndroidViewModel {
         repository = UserRepository.getInstance(app);
     }
 
-    public LiveData<List<RoomObject>> getUser(){
+    public LiveData<UserObject> getUser(){
         return  repository.getUser();
-    }
-
-    public void getUserFromRepo(){ ;
-        repository.lookForUser();
-    }
-
-    public void addRoomToDatabase(int roomId)
-    {
-        repository.addRoomToDatabase(roomId);
     }
 
     public void changePassword(String newPassword)

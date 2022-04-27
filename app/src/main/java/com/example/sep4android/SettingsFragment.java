@@ -1,5 +1,6 @@
 package com.example.sep4android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.firebase.ui.auth.AuthUI;
+
 public class SettingsFragment extends Fragment {
     EditText oldPassword;
     EditText newPassword;
@@ -23,15 +26,9 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Settings page");
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        }
-
         View view = inflater.inflate(R.layout.settings_layout, container, false);
-
         findViews(view);
         setListenersToButtons();
-
         return view;
     }
 
@@ -44,17 +41,16 @@ public class SettingsFragment extends Fragment {
         deleteDataButton = view.findViewById(R.id.deleteDataButton);
     }
 
-    private void setListenersToButtons()
-    {
+    private void setListenersToButtons() {
         savePasswordButton.setOnClickListener(
                 view -> {
                     if (!oldPassword.getText().toString().equals("") &&
-                    newPassword.getText().toString().equals(repeatNewPass.getText().toString()))
-                    {
-                        Navigation.findNavController(view).navigate(R.id.action_Home_to_Login);
+                            newPassword.getText().toString().equals(repeatNewPass.getText().toString())) {
                         viewModel.changePassword(repeatNewPass.getText().toString());
-                    }
-                    else
+                        AuthUI.getInstance().signOut(getContext()).addOnCompleteListener(task -> {
+                            goToMainActivity();
+                        });
+                    } else
                         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
         );
@@ -71,7 +67,8 @@ public class SettingsFragment extends Fragment {
 
     }
 
-
-
-
+    private void goToMainActivity() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
 }
