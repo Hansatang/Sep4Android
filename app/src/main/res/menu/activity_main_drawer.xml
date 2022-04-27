@@ -7,5 +7,9 @@
         android:id="@+id/Home"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/home" />
+        <item
+            android:id="@+id/Test"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Test" />
     </group>
 </menu>

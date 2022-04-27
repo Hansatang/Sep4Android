@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity{
             String username = user.getDisplayName();
             UsernameInNavBar.setText(email);
             EmailInNavBar.setText(username);
-
         }
+
     }
 
     private void findViews() {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity{
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         EmailInNavBar =headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home,R.id.Test)
                 .setOpenableLayout(drawerLayout)
                 .build();
     }

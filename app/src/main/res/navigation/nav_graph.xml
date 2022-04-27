@@ -8,4 +8,10 @@
         android:name="com.example.sep4android.MainFragment"
         android:label="Home" >
     </fragment>
+
+    <fragment
+        android:id="@+id/Test"
+        android:name="com.example.sep4android.TestFragment"
+        android:label="Test" >
+    </fragment>
 </navigation>
