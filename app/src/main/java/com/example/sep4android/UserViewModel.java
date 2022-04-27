@@ -27,4 +27,20 @@ public class UserViewModel extends AndroidViewModel {
     {
         repository.addUserToDatabase(name, password);
     }
+
+    public void changePassword(String newPassword)
+    {
+        getUser().getValue().setAnime(newPassword);
+    }
+
+    /*public void deleteRoomData()
+    {
+        repository.deleteRoomData();
+    }
+     */
+
+    public void deleteAccount()
+    {
+        repository.deleteAccount();
+    }
 }
