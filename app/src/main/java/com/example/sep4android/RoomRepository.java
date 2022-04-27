@@ -14,28 +14,28 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 
-public class UserRepository {
-    private static UserRepository instance;
-    private final MutableLiveData<List<RoomObject>> user;
+public class RoomRepository {
+    private static RoomRepository instance;
+    private final MutableLiveData<List<RoomObject>> rooms;
 
 
-    private UserRepository(Application application) {
-        user = new MutableLiveData<>();
-        lookForUser();
+    private RoomRepository(Application application) {
+        rooms = new MutableLiveData<>();
+        getDatabaseRooms();
     }
 
-    public static synchronized UserRepository getInstance(Application application) {
+    public static synchronized RoomRepository getInstance(Application application) {
         if (instance == null)
-            instance = new UserRepository(application);
+            instance = new RoomRepository(application);
         return instance;
     }
 
-    public LiveData<List<RoomObject>> getUser() {
-        return user;
+    public LiveData<List<RoomObject>> getRooms() {
+        return rooms;
 
     }
 
-    public void lookForUser() {
+    public void getDatabaseRooms() {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
         Call<List<RoomObject>> call = databaseApi.getRoom();
         System.out.println("Call");
@@ -47,7 +47,7 @@ public class UserRepository {
                                  System.out.println(response);
                                  List<RoomObject> rs = response.body();
                                  System.out.println(rs.size());
-                                 user.setValue(rs);
+                                 rooms.setValue(rs);
                              }
                          }
 

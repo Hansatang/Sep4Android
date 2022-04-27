@@ -8,19 +8,19 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class UserViewModel extends AndroidViewModel {
-    private UserRepository repository;
+    private RoomRepository repository;
 
     public UserViewModel(Application app) {
         super(app);
-        repository = UserRepository.getInstance(app);
+        repository = RoomRepository.getInstance(app);
     }
 
     public LiveData<List<RoomObject>> getUser(){
-        return  repository.getUser();
+        return  repository.getRooms();
     }
 
     public void getUserFromRepo(){ ;
-        repository.lookForUser();
+        repository.getDatabaseRooms();
     }
 
     public void addRoomToDatabase(int roomId)
