@@ -24,9 +24,10 @@ public class MainFragment extends Fragment {
         vpAdapter = new VPAdapter(getChildFragmentManager());
         vpAdapter.addFragment(new NewRoom(), "NewRoom");
         vpAdapter.addFragment(new MyRooms(), "MyRooms");
+
         viewPager.setAdapter(vpAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+        viewPager.setOffscreenPageLimit(2);
         // viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         //viewModel.addRoomToDatabase(123456789);
         //  viewModel.getUser().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));

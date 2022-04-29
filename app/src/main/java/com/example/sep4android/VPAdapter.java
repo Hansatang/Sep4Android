@@ -9,19 +9,28 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-public class VPAdapter extends FragmentPagerAdapter {
+public class VPAdapter extends FragmentStatePagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> stringArrayList = new ArrayList<>();
 
     public VPAdapter(@NonNull FragmentManager fm) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        System.out.println("Rolo "+stringArrayList.get(position));
-        return fragmentArrayList.get(position);
+
+            switch (position) {
+                case 0:
+                    return new NewRoom();
+                case 1:
+                    return new MyRooms();
+                default:
+                    return null;
+            }
+//        }
+//        return fragmentArrayList.get(position);
     }
 
     @Override
@@ -41,9 +50,5 @@ public class VPAdapter extends FragmentPagerAdapter {
         return stringArrayList.get(position);
     }
 
-    public void clear() {
-        System.out.println("Clear");
-        fragmentArrayList.clear();
-        stringArrayList.clear();
-    }
+
 }

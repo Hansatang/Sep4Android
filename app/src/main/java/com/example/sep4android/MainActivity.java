@@ -2,6 +2,8 @@ package com.example.sep4android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,12 +22,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavController navController;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         System.out.println("Main test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -51,20 +57,23 @@ public class MainActivity extends AppCompatActivity{
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            if (user.getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
-                System.out.println("User is signed in with Google");
-            }
-            else{
-                System.out.println("User is signed in with Email");
-            }
+
+            user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                @Override
+                public void onSuccess(GetTokenResult result) {
+
+                    if (result.getSignInProvider().equals("google.com")) {
+                        System.out.println("User is signed in with Google");
+                    } else {
+                        System.out.println("User is signed in with Email");
+                    }
+                }
+            });
             String email = user.getEmail();
             String username = user.getDisplayName();
             UsernameInNavBar.setText(email);
             EmailInNavBar.setText(username);
         }
-
-
-
     }
 
     private void findViews() {
@@ -73,9 +82,9 @@ public class MainActivity extends AppCompatActivity{
         navigationView = findViewById(R.id.nav_view);
         View headerContainer = navigationView.getHeaderView(0);
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
-        EmailInNavBar =headerContainer.findViewById(R.id.nav_header_subtitle);
+        EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home,R.id.Test)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Test)
                 .setOpenableLayout(drawerLayout)
                 .build();
     }

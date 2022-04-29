@@ -15,9 +15,16 @@ public class NewRoom extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         System.out.println("New Room");
-        viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+      //  viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
 
-        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
+      //  viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> System.out.println("Wolo " + listObjects.get(0).getRoomId()));
         return inflater.inflate(R.layout.fragment_new_room, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("OnResume New Room");
+
     }
 }
