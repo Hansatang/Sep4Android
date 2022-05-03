@@ -1,4 +1,4 @@
-package com.example.sep4android;
+package com.example.sep4android.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
+import com.example.sep4android.MainActivity;
+import com.example.sep4android.R;
+import com.example.sep4android.ViewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 
 public class SettingsFragment extends Fragment {

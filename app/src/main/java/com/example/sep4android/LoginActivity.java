@@ -25,7 +25,6 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
     EditText UsernameField;
     EditText PasswordField;
-    Button loginButton;
     Button toRegisterButton;
 
 
@@ -34,16 +33,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK) {
                     System.out.println("LOL");
                     goToMainActivity();
-                }
-                else
+                } else
                     Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
             });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
-                .detectLeakedClosableObjects()
-                .build());
+                .detectLeakedClosableObjects().build());
         System.out.println("Login Activity test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
@@ -60,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     private void findViews() {
         UsernameField = findViewById(R.id.UsernameField);
         PasswordField = findViewById(R.id.PasswordField);
-        loginButton = findViewById(R.id.LoginButton);
         toRegisterButton = findViewById(R.id.toRegisterView);
     }
 

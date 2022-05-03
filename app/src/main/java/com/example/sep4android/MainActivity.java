@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-
             user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                 @Override
                 public void onSuccess(GetTokenResult result) {
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             UsernameInNavBar.setText(email);
             EmailInNavBar.setText(username);
         }
+
     }
 
     private void findViews() {
@@ -84,9 +86,8 @@ public class MainActivity extends AppCompatActivity {
         UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
         EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Test)
-                .setOpenableLayout(drawerLayout)
-                .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Test, R.id.Measurements)
+                .setOpenableLayout(drawerLayout).build();
     }
 
     @Override
@@ -98,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == findViewById(R.id.LogOutItem).getId()) {
             onLogOut();
+        }
+        if (item.getItemId() == toolbar.getMenu().findItem(R.id.more).getItemId()) {
+            NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
+                    navController);
         }
         return super.onOptionsItemSelected(item);
     }

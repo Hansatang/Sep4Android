@@ -1,9 +1,12 @@
-package com.example.sep4android;
+package com.example.sep4android.ViewModels;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Repositories.RoomRepository;
 
 import java.util.List;
 
@@ -23,9 +26,10 @@ public class RoomViewModel extends AndroidViewModel {
         repository.getDatabaseRooms();
     }
 
-    public void addRoomToDatabase(int roomId)
+
+    public void addRoomToDatabase(String roomId,String userUID)
     {
-        repository.addRoomToDatabase(roomId);
+        repository.addRoomToDatabase(Integer.parseInt(roomId), userUID);
     }
 }
 

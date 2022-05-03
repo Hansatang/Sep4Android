@@ -1,4 +1,4 @@
-package com.example.sep4android;
+package com.example.sep4android.Objects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
