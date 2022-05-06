@@ -1,14 +1,15 @@
-package com.example.sep4android;
+package com.example.sep4android.Repositories;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
 
-import java.util.List;
+import com.example.sep4android.Database.DatabaseApi;
+import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.UserObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;

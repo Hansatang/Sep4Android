@@ -25,18 +25,17 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <org.eazegraph.lib.charts.ValueLineChart
+            <org.eazegraph.lib.charts.PieChart
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/cubiclinechart"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:egUseCubic="true"
-                app:egUseOverlapFill="true"
-                app:egCurveSmoothness="0"
-                app:egIndicatorLineColor="#66BB6A"
-                app:egLegendHeight="40dp"
-                app:egShowStandardValue="true"/>
-
+                android:id="@+id/piechart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:padding="6dp"
+                />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -62,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="Beetwen 0 and 5" />
+                        android:text="R" />
 
                 </LinearLayout>
 
@@ -83,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="Beetwen 5 and 10" />
+                        android:text="Python" />
 
                 </LinearLayout>
 
@@ -104,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="Beetwen 10 and 15" />
+                        android:text="C++" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,12 +114,11 @@
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:background="@color/Java" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="Beetwen 15 and 20" />
+                        android:text="Java" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -153,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
-                android:text="Piechart of temperature"
+                android:text="Use of Programming Languages(In Percentage):"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
@@ -179,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Beetwen 0 and 5"
+                    android:text="R"
                     android:textSize="18sp" />
 
 
@@ -216,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Beetwen 5 and 10"
+                    android:text="Python"
                     android:textSize="18sp" />
 
 
@@ -253,7 +251,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Beetwen 10 and 15"
+                    android:text="C++"
                     android:textSize="18sp" />
 
                 <TextView
@@ -289,7 +287,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Beetwen 15 and 20"
+                    android:text="Java"
                     android:textSize="18sp" />
 
                 <TextView

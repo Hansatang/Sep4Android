@@ -1,4 +1,8 @@
-package com.example.sep4android;
+package com.example.sep4android.Database;
+
+import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.UserObject;
 
 import java.util.List;
 
@@ -10,10 +14,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface DatabaseApi {
-    @GET("rooms/")
+    @GET("all/rooms/")
     Call<List<RoomObject>> getRoom();
-    @POST("room/registration/{RoomId}/")
-    Call<Integer> addRoom(@Path("RoomId") int name);
+    @POST("room/")
+    Call<Integer> addRoom(@Body RoomObject object);
+    @GET("latest/{userId}")
+    Call<List<MeasurementObject>> getMeasurements(@Path("userId") String object);
 
     @GET("api/random")
     Call<UserObject> getUser();

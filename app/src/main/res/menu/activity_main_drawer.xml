@@ -12,8 +12,13 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Settings" />
         <item
+            android:id="@+id/Measurements"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Measurements" />
+        <item
             android:id="@+id/Test"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Test" />
+
     </group>
 </menu>

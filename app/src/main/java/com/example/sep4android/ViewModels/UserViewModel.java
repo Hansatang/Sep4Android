@@ -1,11 +1,12 @@
-package com.example.sep4android;
+package com.example.sep4android.ViewModels;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
+import com.example.sep4android.Objects.UserObject;
+import com.example.sep4android.Repositories.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {
     private UserRepository repository;
@@ -15,12 +16,11 @@ public class UserViewModel extends AndroidViewModel {
         repository = UserRepository.getInstance(app);
     }
 
-    public LiveData<UserObject> getUser(){
-        return  repository.getUser();
+    public LiveData<UserObject> getUser() {
+        return repository.getUser();
     }
 
-    public void changePassword(String newPassword)
-    {
+    public void changePassword(String newPassword) {
         getUser().getValue().setAnime(newPassword);
     }
 
@@ -30,8 +30,7 @@ public class UserViewModel extends AndroidViewModel {
     }
      */
 
-    public void deleteAccount()
-    {
+    public void deleteAccount() {
         repository.deleteAccount();
     }
 }

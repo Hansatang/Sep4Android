@@ -1,4 +1,4 @@
-package com.example.sep4android;
+package com.example.sep4android.Objects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,9 +8,11 @@ public class UserObject {
     @SerializedName("anime")
     @Expose
     private String anime;
+
     @SerializedName("character")
     @Expose
     private String character;
+
     @SerializedName("quote")
     @Expose
     private String quote;
