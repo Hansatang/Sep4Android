@@ -23,10 +23,10 @@ public class PieFragment extends Fragment {
     TextView tvR, tvPython, tvCPP, tvJava;
     PieChart pieChart;
     View view;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 
         view = inflater.inflate(R.layout.fragment_pie, container, false);
 
@@ -34,8 +34,7 @@ public class PieFragment extends Fragment {
         return view;
     }
 
-    private void setData()
-    {
+    private void setData() {
 
 
     }

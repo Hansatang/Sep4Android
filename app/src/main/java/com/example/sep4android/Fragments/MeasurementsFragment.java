@@ -1,73 +1,59 @@
 package com.example.sep4android.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
-import com.example.sep4android.MeasurementsViewAdapter;
-import com.example.sep4android.Objects.PlaceholderContent;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
+import com.example.sep4android.ViewModels.RoomViewModel;
 
-/**
- * A fragment representing a list of Items.
- */
-public class MeasurementsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public MeasurementsFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static MeasurementsFragment newInstance(int columnCount) {
-        MeasurementsFragment fragment = new MeasurementsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    View view;
+    RoomViewModel viewModel;
+    private ArrayList<Integer> mCountryList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MeasurementsViewAdapter(PlaceholderContent.ITEMS));
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
         return view;
+    }
+
+
+    private void initList(List<RoomObject> listObjects) {
+        mCountryList = new ArrayList<>();
+        for (RoomObject object : listObjects) {
+            mCountryList.add(object.getRoomId());
+        }
+        Spinner spinner = view.findViewById(R.id.sp);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this.getActivity(), R.layout.spin_item, mCountryList);
+        // SpinnerRoomAdapter adapter = new SpinnerRoomAdapter(requireActivity(),android.R.layout.simple_spinner_item, mCountryList);
+        adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        System.out.println(adapterView.getItemAtPosition(i).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

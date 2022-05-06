@@ -27,11 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText PasswordField;
     Button toRegisterButton;
 
-
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    System.out.println("LOL");
                     goToMainActivity();
                 } else
                     Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
@@ -46,12 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_layout);
         findViews();
         setListenersToButtons();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            System.out.println("hej");
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
+
     }
 
     private void findViews() {

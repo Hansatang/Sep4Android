@@ -10,6 +10,7 @@ public class RoomObject {
     @SerializedName("roomId")
     @Expose
     private int RoomId;
+
     @SerializedName("userId")
     @Expose
     private String UserId;
@@ -18,13 +19,10 @@ public class RoomObject {
     @Expose
     private String RegistrationDate;
 
-
-
     public RoomObject(int roomId, String userId, String registrationDate) {
         RoomId = roomId;
         UserId = userId;
         RegistrationDate = registrationDate;
-
     }
 
     public int getRoomId() {

@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sep4android.DatabaseApi;
-import com.example.sep4android.DatabaseServiceGenerator;
+import com.example.sep4android.Database.DatabaseApi;
+import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
@@ -22,10 +22,8 @@ public class RoomRepository {
     private static RoomRepository instance;
     private final MutableLiveData<List<RoomObject>> rooms;
 
-
     private RoomRepository(Application application) {
         rooms = new MutableLiveData<>();
-        getDatabaseRooms();
     }
 
     public static synchronized RoomRepository getInstance(Application application) {
@@ -43,7 +41,6 @@ public class RoomRepository {
         Call<List<RoomObject>> call = databaseApi.getRoom();
         System.out.println("Call");
         call.enqueue(new Callback<List<RoomObject>>() {
-
                          @EverythingIsNonNull
                          @Override
                          public void onResponse(Call<List<RoomObject>> call, Response<List<RoomObject>> response) {
@@ -66,9 +63,9 @@ public class RoomRepository {
         );
     }
 
-    public void addRoomToDatabase(int roomId,String userUID) {
+    public void addRoomToDatabase(int roomId, String userUID) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        RoomObject roomToCreate = new RoomObject(roomId, userUID,null);
+        RoomObject roomToCreate = new RoomObject(roomId, userUID, null);
         Call<Integer> call = databaseApi.addRoom(roomToCreate);
         System.out.println("Post");
         call.enqueue(new Callback<Integer>() {
@@ -90,6 +87,5 @@ public class RoomRepository {
             }
         });
     }
-
 }
 

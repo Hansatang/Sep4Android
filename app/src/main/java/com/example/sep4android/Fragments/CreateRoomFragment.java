@@ -24,7 +24,6 @@ public class CreateRoomFragment extends Fragment {
     RoomViewModel viewModel;
     Button createRoomButton;
     EditText editText;
-    NavigationView navigationView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Create Room View");
@@ -32,16 +31,14 @@ public class CreateRoomFragment extends Fragment {
         findViews(view);
         setListenersToButtons();
         viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-
         return view;
     }
 
     private void setListenersToButtons() {
         createRoomButton.setOnClickListener(view -> {
-                    //   viewModel.addRoomToDatabase(editText.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-                    navController.popBackStack();
-
+                   viewModel.addRoomToDatabase(editText.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                  //  NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+                  //  navController.popBackStack();
                 }
         );
     }
@@ -49,6 +46,5 @@ public class CreateRoomFragment extends Fragment {
     private void findViews(View view) {
         createRoomButton = view.findViewById(R.id.CreateRoom);
         editText = view.findViewById(R.id.tv0005);
-
     }
 }

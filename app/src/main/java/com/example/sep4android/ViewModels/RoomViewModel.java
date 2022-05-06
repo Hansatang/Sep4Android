@@ -18,17 +18,15 @@ public class RoomViewModel extends AndroidViewModel {
         repository = RoomRepository.getInstance(app);
     }
 
-    public LiveData<List<RoomObject>> getRooms(){
-        return  repository.getRooms();
+    public LiveData<List<RoomObject>> getRooms() {
+        return repository.getRooms();
     }
 
-    public void getRoomsFromRepo(){ ;
+    public void getRoomsFromRepo() {
         repository.getDatabaseRooms();
     }
 
-
-    public void addRoomToDatabase(String roomId,String userUID)
-    {
+    public void addRoomToDatabase(String roomId, String userUID) {
         repository.addRoomToDatabase(Integer.parseInt(roomId), userUID);
     }
 }

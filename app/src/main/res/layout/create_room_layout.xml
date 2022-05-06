@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true" >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/details"
@@ -66,7 +69,7 @@
                         android:fontFamily="sans-serif-light"
                         android:hint="Enter Device Id Here"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/color_one"
+                        android:textColor="@color/purple_200"
                         android:textSize="18sp"
                         android:textStyle="bold" />/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -91,11 +94,14 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/CreateRoom"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Create Room" />
+                    android:elevation="2dp"
+                    android:text="Create Room"
+                    app:cardCornerRadius="100dp" />
 
             </RelativeLayout>
 

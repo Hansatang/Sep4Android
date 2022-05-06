@@ -23,28 +23,26 @@ public class TestFragment extends Fragment {
     TextView tvR, tvPython, tvCPP, tvJava;
     PieChart pieChart;
     View view;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Test");
         view = inflater.inflate(R.layout.fragment_test, container, false);
+        findViews();
+        setData();
+        return view;
+    }
 
+    private void findViews() {
         tvR = view.findViewById(R.id.tv0005);
         tvPython = view.findViewById(R.id.tv0510);
         tvCPP = view.findViewById(R.id.tv1015);
         tvJava = view.findViewById(R.id.tv1520);
         pieChart = view.findViewById(R.id.piechart);
-
-        // Creating a method setData()
-        // to set the text in text view and pie chart
-        setData();
-        return view;
     }
 
-    private void setData()
-    {
-        ValueLineChart mCubicValueLineChart = (ValueLineChart) view.findViewById(R.id.cubiclinechart);
+    private void setData() {
+        ValueLineChart mCubicValueLineChart = view.findViewById(R.id.cubiclinechart);
 
         ValueLineSeries series = new ValueLineSeries();
         series.setColor(0xFF56B7F1);

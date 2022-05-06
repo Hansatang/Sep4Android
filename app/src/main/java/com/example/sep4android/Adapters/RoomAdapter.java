@@ -1,4 +1,4 @@
-package com.example.sep4android;
+package com.example.sep4android.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
         System.out.println("Room: " + objects.get(position).getRoomId());
         viewHolder.name.setText("Room: " + objects.get(position).getRoomId());
-        viewHolder.character.setText(objects.get(position).getUserId());
-        viewHolder.creationDate.setText(objects.get(position).getRegistrationDate().toString());
+        viewHolder.temperature.setText(objects.get(position).getUserId());
+        viewHolder.humidity.setText(objects.get(position).getRegistrationDate().toString());
     }
 
 
@@ -56,14 +57,14 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView name;
-        TextView character;
-        TextView creationDate;
+        TextView temperature;
+        TextView humidity;
 
         ViewHolder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.room_name);
-            character = itemView.findViewById(R.id.room_user);
-            creationDate = itemView.findViewById(R.id.room_data);
+            name = itemView.findViewById(R.id.RoomIdText);
+            temperature = itemView.findViewById(R.id.TemperatureText);
+            humidity = itemView.findViewById(R.id.HumidityText);
             itemView.setOnClickListener(this);
         }
 

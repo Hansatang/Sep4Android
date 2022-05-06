@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sep4android.DatabaseApi;
-import com.example.sep4android.DatabaseServiceGenerator;
+import com.example.sep4android.Database.DatabaseApi;
+import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.UserObject;
 
@@ -21,11 +21,8 @@ public class UserRepository {
     private static UserRepository instance;
     private final MutableLiveData<UserObject> user;
 
-
-
     private UserRepository(Application application) {
         user = new MutableLiveData<>();
-
     }
 
     public static synchronized UserRepository getInstance(Application application) {
@@ -37,8 +34,6 @@ public class UserRepository {
     public LiveData<UserObject> getUser() {
         return user;
     }
-
-
 
 
     public void addUserToDatabase(String name, String password) {

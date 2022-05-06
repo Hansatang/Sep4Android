@@ -16,12 +16,11 @@ public class UserViewModel extends AndroidViewModel {
         repository = UserRepository.getInstance(app);
     }
 
-    public LiveData<UserObject> getUser(){
-        return  repository.getUser();
+    public LiveData<UserObject> getUser() {
+        return repository.getUser();
     }
 
-    public void changePassword(String newPassword)
-    {
+    public void changePassword(String newPassword) {
         getUser().getValue().setAnime(newPassword);
     }
 
@@ -31,8 +30,7 @@ public class UserViewModel extends AndroidViewModel {
     }
      */
 
-    public void deleteAccount()
-    {
+    public void deleteAccount() {
         repository.deleteAccount();
     }
 }
