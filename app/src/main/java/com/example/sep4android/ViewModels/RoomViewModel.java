@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.Room;
 import com.example.sep4android.Repositories.RoomRepository;
 
 import java.util.List;
@@ -18,16 +18,16 @@ public class RoomViewModel extends AndroidViewModel {
         repository = RoomRepository.getInstance(app);
     }
 
-    public LiveData<List<RoomObject>> getRooms() {
+    public LiveData<List<Room>> getRooms() {
         return repository.getRooms();
     }
 
-    public void getRoomsFromRepo() {
-        repository.getDatabaseRooms();
+    public void getRoomsFromRepo(String uid) {
+        repository.getDatabaseRooms(uid);
     }
 
-    public void addRoomToDatabase(String roomId, String userUID) {
-        repository.addRoomToDatabase(Integer.parseInt(roomId), userUID);
+    public void addRoomToDatabase(String id, String roomId, String userUID) {
+        repository.addRoomToDatabase(roomId, roomId, userUID);
     }
 }
 

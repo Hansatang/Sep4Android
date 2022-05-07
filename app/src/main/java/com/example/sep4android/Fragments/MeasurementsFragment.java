@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.Room;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     View view;
     RoomViewModel viewModel;
-    private ArrayList<Integer> mCountryList;
+    private ArrayList<String> mCountryList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,13 +33,13 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     }
 
 
-    private void initList(List<RoomObject> listObjects) {
+    private void initList(List<Room> listObjects) {
         mCountryList = new ArrayList<>();
-        for (RoomObject object : listObjects) {
+        for (Room object : listObjects) {
             mCountryList.add(object.getRoomId());
         }
         Spinner spinner = view.findViewById(R.id.sp);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this.getActivity(), R.layout.spin_item, mCountryList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
         // SpinnerRoomAdapter adapter = new SpinnerRoomAdapter(requireActivity(),android.R.layout.simple_spinner_item, mCountryList);
         adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
         spinner.setAdapter(adapter);

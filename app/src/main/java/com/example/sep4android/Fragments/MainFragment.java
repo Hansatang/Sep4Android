@@ -18,7 +18,7 @@ import com.example.sep4android.Adapters.MeasurementAdapter;
 import com.example.sep4android.Objects.MeasurementObject;
 import com.example.sep4android.R;
 import com.example.sep4android.Adapters.RoomAdapter;
-import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.Room;
 import com.example.sep4android.ViewModels.MeasurementViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,11 +51,11 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 //    roomsRV.setAdapter(measurementAdapter);
 
 
-        viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-        roomAdapter = new RoomAdapter(this);
-        viewModel.getRoomsFromRepo();
-        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> setRooms(listObjects));
-        roomsRV.setAdapter(roomAdapter);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    roomAdapter = new RoomAdapter(this);
+    viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> setRooms(listObjects));
+    roomsRV.setAdapter(roomAdapter);
 
     return view;
   }
@@ -75,7 +75,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
   @Override
-  public void onListItemClick(RoomObject clickedItemIndex) {
+  public void onListItemClick(Room clickedItemIndex) {
     Toast.makeText(getContext(), "Room: " + clickedItemIndex.getRoomId(), Toast.LENGTH_SHORT).show();
   }
 
@@ -84,7 +84,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     measurementAdapter.update(listObjects);
   }
 
-  private void setRooms(List<RoomObject> listObjects) {
+  private void setRooms(List<Room> listObjects) {
     textView.setText("Active Rooms: " + listObjects.size());
     roomAdapter.update(listObjects);
   }

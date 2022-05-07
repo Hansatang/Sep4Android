@@ -9,21 +9,17 @@ import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
-import com.example.sep4android.MainActivity;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class CreateRoomFragment extends Fragment {
     View view;
     RoomViewModel viewModel;
     Button createRoomButton;
-    EditText editText;
+    EditText deviceText;
+    EditText nameText;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Create Room View");
@@ -36,7 +32,7 @@ public class CreateRoomFragment extends Fragment {
 
     private void setListenersToButtons() {
         createRoomButton.setOnClickListener(view -> {
-                   viewModel.addRoomToDatabase(editText.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                   viewModel.addRoomToDatabase(deviceText.getText().toString(),nameText.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
                   //  NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
                   //  navController.popBackStack();
                 }
@@ -45,6 +41,7 @@ public class CreateRoomFragment extends Fragment {
 
     private void findViews(View view) {
         createRoomButton = view.findViewById(R.id.CreateRoom);
-        editText = view.findViewById(R.id.tv0005);
+        deviceText = view.findViewById(R.id.tv0005);
+        nameText = view.findViewById(R.id.tv0006);
     }
 }
