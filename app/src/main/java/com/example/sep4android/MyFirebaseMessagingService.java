@@ -18,7 +18,6 @@ package com.example.sep4android;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -29,9 +28,10 @@ import androidx.core.app.NotificationCompat;
 
 import android.util.Log;
 
+import com.example.sep4android.Repositories.RoomRepository;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.example.sep4android.R;
 
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
@@ -66,7 +66,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // TODO(developer): Handle FCM messages here.
     // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
     Log.d(TAG, "From: " + remoteMessage.getFrom());
-
+    RoomRepository repository = RoomRepository.getInstance(this.getApplication());
+    repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
     sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
     // Check if message contains a data payload.
     if (remoteMessage.getData().size() > 0) {
@@ -153,8 +154,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
   private void sendNotification(String messageBody, String content) {
     Intent intent = new Intent(this, MainActivity.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//        PendingIntent.FLAG_ONE_SHOT);
 
     String channelId = getString(R.string.default_notification_channel_id);
     Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

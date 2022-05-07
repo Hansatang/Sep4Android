@@ -1,4 +1,4 @@
-package com.example.sep4android.ViewModels;
+package com.example.sep4android.Repositories;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.MeasurementObject;
-import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
 
@@ -46,6 +45,7 @@ public class MeasurementRepository {
                    public void onResponse(Call<List<MeasurementObject>> call, Response<List<MeasurementObject>> response) {
                      if (response.isSuccessful()) {
                        System.out.println(response);
+                       System.out.println(response.body());
                        List<MeasurementObject> rs = response.body();
                        System.out.println(rs.size());
                        measurements.setValue(rs);

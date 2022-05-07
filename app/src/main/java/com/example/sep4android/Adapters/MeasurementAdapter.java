@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.MeasurementObject;
-import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
 import java.util.ArrayList;
