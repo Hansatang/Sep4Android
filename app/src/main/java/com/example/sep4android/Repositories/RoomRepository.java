@@ -1,10 +1,14 @@
-package com.example.sep4android;
+package com.example.sep4android.Repositories;
 
 import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.sep4android.Database.DatabaseApi;
+import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.Objects.Room;
 
 import java.util.List;
 
@@ -14,46 +18,45 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 
-public class UserRepository {
-    private static UserRepository instance;
-    private final MutableLiveData<List<RoomObject>> user;
+public class RoomRepository {
+    private static RoomRepository instance;
+    private final MutableLiveData<List<Room>> rooms;
 
-
-    private UserRepository(Application application) {
-        user = new MutableLiveData<>();
-        lookForUser();
+    private RoomRepository(Application application) {
+        rooms = new MutableLiveData<>();
     }
 
-    public static synchronized UserRepository getInstance(Application application) {
+    public static synchronized RoomRepository getInstance(Application application) {
         if (instance == null)
-            instance = new UserRepository(application);
+            instance = new RoomRepository(application);
         return instance;
     }
 
-    public LiveData<List<RoomObject>> getUser() {
-        return user;
-
+    public LiveData<List<Room>> getRooms() {
+        return rooms;
     }
 
-    public void lookForUser() {
+    public void getDatabaseRooms(String uid) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<List<RoomObject>> call = databaseApi.getRoom();
+        System.out.println(uid);
+        Call<List<Room>> call = databaseApi.getRoomByUserId(3);
         System.out.println("Call");
-        call.enqueue(new Callback<List<RoomObject>>() {
+        call.enqueue(new Callback<List<Room>>() {
                          @EverythingIsNonNull
                          @Override
-                         public void onResponse(Call<List<RoomObject>> call, Response<List<RoomObject>> response) {
+                         public void onResponse(Call<List<Room>> call, Response<List<Room>> response) {
                              if (response.isSuccessful()) {
+                                 System.out.println("YAY");
                                  System.out.println(response);
-                                 List<RoomObject> rs = response.body();
-                                 System.out.println(rs.size());
-                                 user.setValue(rs);
+                                 List<Room> rs = response.body();
+
+                                 rooms.setValue(rs);
                              }
                          }
 
                          @EverythingIsNonNull
                          @Override
-                         public void onFailure(Call<List<RoomObject>> call, Throwable t) {
+                         public void onFailure(Call<List<Room>> call, Throwable t) {
                              System.out.println(t);
                              System.out.println(t.getMessage());
                              Log.i("Retrofit", "Something went wrong :(");
@@ -62,9 +65,10 @@ public class UserRepository {
         );
     }
 
-    public void addRoomToDatabase(int roomId) {
+    public void addRoomToDatabase(String roomId, String id, String userUID) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<Integer> call = databaseApi.addRoom(roomId);
+        Room roomToCreate = new Room(roomId,id, userUID, null, null);
+        Call<Integer> call = databaseApi.addRoom(roomToCreate);
         System.out.println("Post");
         call.enqueue(new Callback<Integer>() {
             @EverythingIsNonNull
@@ -86,3 +90,4 @@ public class UserRepository {
         });
     }
 }
+
