@@ -1,5 +1,7 @@
 package com.example.sep4android.Database;
 
+import com.example.sep4android.Objects.HumidityThresholdObject;
+import com.example.sep4android.Objects.MeasurementObject;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.Room;
 import com.example.sep4android.Objects.UserObject;
@@ -24,8 +26,12 @@ public interface DatabaseApi {
 
     @GET("api/random")
     Call<UserObject> getUser();
+    @GET("latest/{userId}")
+    Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("userId") String userId);
     @POST("api/random")
     Call<UserObject> addUser(@Body UserObject object);
+    @POST()
+    Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
     @DELETE("api/random")
     Call<UserObject> deleteUser();
     @DELETE("api/random")

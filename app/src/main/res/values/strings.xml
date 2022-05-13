@@ -30,4 +30,9 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
+    <string name="temperature">Temperature</string>
+    <string name="select_treshold">Select Treshold</string>
+    <string name="select_start_time">Select Start Time</string>
+    <string name="select_end_time">Select End Time</string>
+    <string name="temperature_treshold">Temperature Treshold</string>
 </resources>

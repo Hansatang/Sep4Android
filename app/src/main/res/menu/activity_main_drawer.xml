@@ -16,10 +16,6 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Measurements" />
         <item
-            android:id="@+id/HumidityThreshold"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Humidity Thresholds" />
-        <item
             android:id="@+id/Test"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Test" />
