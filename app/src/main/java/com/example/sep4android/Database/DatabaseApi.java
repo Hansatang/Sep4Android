@@ -17,12 +17,13 @@ import retrofit2.http.Path;
 
 public interface DatabaseApi {
     @POST("room/last/{userId}")
-    Call<List<Room>> getRoomByUserId(@Path("userId") int userId);
+    Call<List<Room>> getRoomByUserId(@Path("userId") String userId);
     @POST("room/")
     Call<Integer> addRoom(@Body Room object);
+
     // TODO: 10/05/2022  Change to roomId, and latest is stupid
-    @GET("latest/{userId}")
-    Call<List<MeasurementsObject>> getMeasurements(@Path("userId") String object);
+    @GET("measurement/{roomId}/")
+    Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
 
     @GET("api/random")
     Call<UserObject> getUser();

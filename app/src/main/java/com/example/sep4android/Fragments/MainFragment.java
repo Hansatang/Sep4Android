@@ -72,10 +72,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Toast.makeText(getContext(), "Room: " + clickedItemIndex.getRoomId(), Toast.LENGTH_SHORT).show();
   }
 
-  private void setMeasurements(List<MeasurementsObject> listObjects) {
-    textView.setText("Active Rooms: " + listObjects.size());
-    measurementAdapter.update(listObjects);
-  }
 
   private void setRooms(List<Room> listObjects) {
     textView.setText("Active Rooms: " + listObjects.size());

@@ -10,8 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
   final private MeasurementAdapter.OnListItemClickListener clickListener;
@@ -24,25 +29,34 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void update(List<MeasurementsObject> list) {
     System.out.println("Update call " + list.size());
-    if (list != null) {
-      objects = list;
-      notifyDataSetChanged();
-    }
+    objects = list;
+    notifyDataSetChanged();
   }
 
 
   public MeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
-    view = inflater.inflate(R.layout.room_list_layout, parent, false);
+    view = inflater.inflate(R.layout.measurements_list_layout, parent, false);
     return new MeasurementAdapter.ViewHolder(view);
   }
 
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position) {
     System.out.println("Room: " + objects.get(position).getRoomId());
-    viewHolder.name.setText("Room: " + objects.get(position).getRoomId());
-    viewHolder.temperature.setText((objects.get(position).getTemperature() + ""));
-    viewHolder.humidity.setText(objects.get(position).getHumidity() + "");
+    String strDate = null;
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+      Date date1 = dateFormat.parse(objects.get(position).getDate());
+      DateFormat dateFormat2 = new SimpleDateFormat("E hh:mm:ss");
+      strDate = dateFormat2.format(date1);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    viewHolder.dateId.setText(strDate);
+
+    viewHolder.temperatureId.setText(new StringBuilder().append(objects.get(position).getTemperature()).append(" \u2103").toString());
+    viewHolder.humidityId.setText(objects.get(position).getHumidity() + "");
+    viewHolder.co2Id.setText(objects.get(position).getCo2() + "");
   }
 
 
@@ -56,15 +70,17 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
   }
 
   class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    TextView name;
-    TextView temperature;
-    TextView humidity;
+    TextView dateId;
+    TextView temperatureId;
+    TextView humidityId;
+    TextView co2Id;
 
     ViewHolder(View itemView) {
       super(itemView);
-      name = itemView.findViewById(R.id.RoomIdText);
-      temperature = itemView.findViewById(R.id.TemperatureText);
-      humidity = itemView.findViewById(R.id.HumidityText);
+      dateId = itemView.findViewById(R.id.dateId);
+      temperatureId = itemView.findViewById(R.id.temperatureId);
+      humidityId = itemView.findViewById(R.id.humidityId);
+      co2Id = itemView.findViewById(R.id.co2Id);
       itemView.setOnClickListener(this);
     }
 

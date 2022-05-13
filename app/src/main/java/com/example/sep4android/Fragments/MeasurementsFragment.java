@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.example.sep4android.Adapters.MeasurementAdapter;
+import com.example.sep4android.Adapters.RoomAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.Room;
@@ -24,7 +25,7 @@ import com.example.sep4android.ViewModels.RoomViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener,MeasurementAdapter.OnListItemClickListener {
   View view;
   RoomViewModel viewModel;
   RecyclerView measurementsRV;
@@ -37,10 +38,11 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     findViews();
     measurementsRV.hasFixedSize();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+    measurementAdapter = new MeasurementAdapter(this);
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
     measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
-    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), measurementObjects -> setRooms(measurementObjects));
+
     measurementsRV.setAdapter(measurementAdapter);
     return view;
   }
@@ -58,6 +60,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
     measurementViewModel.getMeasurementsRoom(listObjects.get(0).getRoomId());
+    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), measurementObjects -> setRooms(measurementObjects));
   }
 
   @Override
@@ -73,5 +76,10 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
 
   private void setRooms(List<MeasurementsObject> listObjects) {
     measurementAdapter.update(listObjects);
+  }
+
+  @Override
+  public void onListItemClick(MeasurementsObject clickedItemIndex) {
+    System.out.println("HEYO");
   }
 }
