@@ -36,4 +36,9 @@
         android:id="@+id/CreateRoom"
         android:name="com.example.sep4android.Fragments.CreateRoomFragment"
         android:label="Add new room"/>
+
+    <fragment
+        android:id="@+id/HumidityThreshold"
+        android:name="com.example.sep4android.Fragments.HumidityThresholdFragment"
+        android:label="Humidity Threshold List"/>
 </navigation>
