@@ -3,7 +3,6 @@ package com.example.sep4android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,12 +10,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -76,5 +71,17 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         activityResultLauncher.launch(signInIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppStatusChecker.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppStatusChecker.activityPaused();
     }
 }

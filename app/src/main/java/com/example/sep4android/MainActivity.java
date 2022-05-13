@@ -3,9 +3,9 @@ package com.example.sep4android;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +15,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavGraph;
-import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      // Create channel to show notifications.
       String channelId = getString(R.string.default_notification_channel_id);
       String channelName = getString(R.string.default_notification_channel_name);
       NotificationManager notificationManager =
@@ -87,6 +85,16 @@ public class MainActivity extends AppCompatActivity {
       String username = user.getDisplayName();
       UsernameInNavBar.setText(email);
       EmailInNavBar.setText(username);
+    }
+
+    SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+    final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
+
+    if (isDarkModeOn) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
     }
 
     FirebaseMessaging.getInstance().getToken()
@@ -147,5 +155,17 @@ public class MainActivity extends AppCompatActivity {
       startActivity(new Intent(MainActivity.this, LoginActivity.class));
       finish();
     });
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    AppStatusChecker.activityResumed();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    AppStatusChecker.activityPaused();
   }
 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
-import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.MeasurementsObject;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class MeasurementRepository {
   private static MeasurementRepository instance;
-  private final MutableLiveData<List<MeasurementObject>> measurements;
+  private final MutableLiveData<List<MeasurementsObject>> measurements;
 
   private MeasurementRepository(Application application) {
     measurements = new MutableLiveData<>();
@@ -31,22 +31,22 @@ public class MeasurementRepository {
     return instance;
   }
 
-  public LiveData<List<MeasurementObject>> getMeasurements() {
+  public LiveData<List<MeasurementsObject>> getMeasurements() {
     return measurements;
   }
 
-  public void getLatest(String userId) {
+  public void getMeasurementRoom(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<List<MeasurementObject>> call = databaseApi.getMeasurements(userId);
+    Call<List<MeasurementsObject>> call = databaseApi.getMeasurements(roomId);
     System.out.println("Call");
-    call.enqueue(new Callback<List<MeasurementObject>>() {
+    call.enqueue(new Callback<List<MeasurementsObject>>() {
                    @EverythingIsNonNull
                    @Override
-                   public void onResponse(Call<List<MeasurementObject>> call, Response<List<MeasurementObject>> response) {
+                   public void onResponse(Call<List<MeasurementsObject>> call, Response<List<MeasurementsObject>> response) {
                      if (response.isSuccessful()) {
                        System.out.println(response);
                        System.out.println(response.body());
-                       List<MeasurementObject> rs = response.body();
+                       List<MeasurementsObject> rs = response.body();
                        System.out.println(rs.size());
                        measurements.setValue(rs);
                      }
@@ -54,7 +54,7 @@ public class MeasurementRepository {
 
                    @EverythingIsNonNull
                    @Override
-                   public void onFailure(Call<List<MeasurementObject>> call, Throwable t) {
+                   public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");

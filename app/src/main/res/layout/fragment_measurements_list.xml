@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/green_700"
     tools:context="com.example.sep4android.MainActivity">
 
     <RelativeLayout
@@ -22,6 +23,52 @@
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/header_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details"
+        android:weightSum="4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Date            :"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Temp            :"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:layout_weight="1"
+            android:text="Hum             :"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:layout_weight="1"
+            android:text="Co2             :"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/measurement_linearLayout"

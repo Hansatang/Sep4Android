@@ -77,4 +77,5 @@ public class Room {
     public void setMeasurements(List<MeasurementsObject> measurements) {
         Measurements = measurements;
     }
+
 }

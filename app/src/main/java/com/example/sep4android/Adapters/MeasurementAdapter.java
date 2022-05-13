@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.R;
 
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ import java.util.List;
 
 public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
   final private MeasurementAdapter.OnListItemClickListener clickListener;
-  private List<MeasurementObject> objects;
+  private List<MeasurementsObject> objects;
 
   public MeasurementAdapter(MeasurementAdapter.OnListItemClickListener listener) {
     objects = new ArrayList<>();
     clickListener = listener;
   }
 
-  public void update(List<MeasurementObject> list) {
+  public void update(List<MeasurementsObject> list) {
     System.out.println("Update call " + list.size());
     if (list != null) {
       objects = list;
@@ -41,13 +41,13 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position) {
     System.out.println("Room: " + objects.get(position).getRoomId());
     viewHolder.name.setText("Room: " + objects.get(position).getRoomId());
-    viewHolder.temperature.setText((objects.get(position).getTemperature()+""));
-    viewHolder.humidity.setText(objects.get(position).getHumidity()+"");
+    viewHolder.temperature.setText((objects.get(position).getTemperature() + ""));
+    viewHolder.humidity.setText(objects.get(position).getHumidity() + "");
   }
 
 
   public interface OnListItemClickListener {
-    void onListItemClick(MeasurementObject clickedItemIndex);
+    void onListItemClick(MeasurementsObject clickedItemIndex);
   }
 
 

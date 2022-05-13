@@ -1,7 +1,6 @@
 package com.example.sep4android.Database;
 
-import com.example.sep4android.Objects.HumidityThresholdObject;
-import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.Room;
 import com.example.sep4android.Objects.UserObject;
 
@@ -19,17 +18,14 @@ public interface DatabaseApi {
     Call<List<Room>> getRoomByUserId(@Path("userId") int userId);
     @POST("room/")
     Call<Integer> addRoom(@Body Room object);
+    // TODO: 10/05/2022  Change to roomId, and latest is stupid
     @GET("latest/{userId}")
-    Call<List<MeasurementObject>> getMeasurements(@Path("userId") String object);
+    Call<List<MeasurementsObject>> getMeasurements(@Path("userId") String object);
 
     @GET("api/random")
     Call<UserObject> getUser();
-    @GET("latest/{userId}")
-    Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("userId") String userId);
     @POST("api/random")
     Call<UserObject> addUser(@Body UserObject object);
-    @POST()
-    Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
     @DELETE("api/random")
     Call<UserObject> deleteUser();
     @DELETE("api/random")

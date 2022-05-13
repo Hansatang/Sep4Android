@@ -15,11 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.MeasurementAdapter;
-import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.R;
 import com.example.sep4android.Adapters.RoomAdapter;
 import com.example.sep4android.Objects.Room;
-import com.example.sep4android.ViewModels.MeasurementViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
-  MeasurementViewModel measurementViewModel;
   RoomViewModel viewModel;
   View view;
   FloatingActionButton fab;
@@ -44,11 +42,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     roomsRV.hasFixedSize();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//    measurementAdapter = new MeasurementAdapter(this);
-//    measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
-//    measurementViewModel.getLatestMeasurementsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), listObjects -> setRooms(listObjects));
-//    roomsRV.setAdapter(measurementAdapter);
 
 
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
@@ -79,7 +72,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Toast.makeText(getContext(), "Room: " + clickedItemIndex.getRoomId(), Toast.LENGTH_SHORT).show();
   }
 
-  private void setMeasurements(List<MeasurementObject> listObjects) {
+  private void setMeasurements(List<MeasurementsObject> listObjects) {
     textView.setText("Active Rooms: " + listObjects.size());
     measurementAdapter.update(listObjects);
   }
