@@ -43,7 +43,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     roomAdapter = new RoomAdapter(this);
     viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());

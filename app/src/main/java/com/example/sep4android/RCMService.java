@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.example.sep4android.Repositories.RoomRepository;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -143,7 +144,13 @@ public class RCMService extends FirebaseMessagingService {
    */
   private void sendRegistrationToServer(String token) {
     RoomRepository repository = RoomRepository.getInstance(this.getApplication());
-    repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(),token);
+    FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
+    if (user != null) {
+      user.getIdToken(false).addOnSuccessListener(result -> {
+        repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(),token);
+      });
+    }
+
     // TODO: Implement this method to send token to your app server.
   }
 

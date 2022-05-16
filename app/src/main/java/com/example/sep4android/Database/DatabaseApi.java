@@ -26,10 +26,10 @@ public interface DatabaseApi {
     @GET("measurement/{roomId}/")
     Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
 
-    @PUT("token/")
+    @POST("token/")
     Call<Integer> setToken(@Body UserToken userToken);
 
-    @DELETE("token/")
+    @PUT("token/")
     Call<Integer> deleteToken(@Body UserToken userToken);
 
     @GET("api/random")

@@ -38,23 +38,29 @@ public class MainActivity extends AppCompatActivity {
   TextView EmailInNavBar;
   AppBarConfiguration mAppBarConfiguration;
   RoomViewModel roomViewModel;
+  FirebaseUser user;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     System.out.println("Main test");
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    createNotificationChannel();
-    roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
-    findViews();
-    setSupportActionBar(toolbar);
-    NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-    NavigationUI.setupWithNavController(navigationView, navController);
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    if (user == null) {
+      startActivity(new Intent(this, LoginActivity.class));
+      finish();
+    } else {
 
-    checkUser();
-    checkThemePreferences();
+      setContentView(R.layout.activity_main);
+      createNotificationChannel();
+      roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
+      findViews();
+      setSupportActionBar(toolbar);
+      NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+      NavigationUI.setupWithNavController(navigationView, navController);
+      checkUser();
+      checkThemePreferences();
 
-
+    }
   }
 
   private void checkThemePreferences() {
@@ -68,11 +74,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void checkUser() {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    if (user == null) {
-      startActivity(new Intent(this, LoginActivity.class));
-      finish();
-    }
+
     if (user != null) {
       user.getIdToken(false).addOnSuccessListener(result -> {
         if (result.getSignInProvider().equals("google.com")) {
@@ -134,17 +136,25 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onLogOut() {
-    AuthUI.getInstance().signOut(this).addOnCompleteListener(task ->
-        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(task1 -> {
-          if (!task1.isSuccessful()) {
-            Log.w("Token", "Fetching FCM registration token failed", task1.getException());
-            return;
-          }
-          roomViewModel.deleteToken(FirebaseAuth.getInstance().getCurrentUser().getUid());
-          startActivity(new Intent(MainActivity.this, LoginActivity.class));
-          finish();
-        }));
+    roomViewModel.deleteToken(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(task1 -> {
+      if (!task1.isSuccessful()) {
+        Log.w("Token", "Fetching FCM registration token failed", task1.getException());
+        return;
+      }
+
+      AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
+        if (!task.isSuccessful()) {
+          Log.w("Token", "Fetching FCM registration token failed", task.getException());
+          return;
+        }
+
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
+      });
+    });
   }
+
 
   @Override
   protected void onResume() {
