@@ -2,42 +2,43 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/Login">
-
+    app:startDestination="@id/Home">
     <fragment
         android:id="@+id/Home"
-        android:name="com.example.sep4android.MainFragment"
-        android:label="Home" >
+        android:name="com.example.sep4android.Fragments.MainFragment"
+        android:label="My rooms" >
         <action
-            android:id="@+id/action_Home_to_Login"
-            app:destination="@id/Login" />
-    </fragment>
-    <fragment
-        android:id="@+id/Login"
-        android:name="com.example.sep4android.LoginFragment"
-        android:label="Login" >
-        <action
-            android:id="@+id/action_Login_to_Register"
-            app:destination="@id/Register"
-            app:enterAnim="@android:anim/slide_in_left" />
-        <action
-            android:id="@+id/action_Login_to_Home"
-            app:destination="@id/Home"
-            app:enterAnim="@android:anim/slide_in_left" />
+            android:id="@+id/action_Home_to_Test"
+            app:destination="@id/Test" />
     </fragment>
 
     <fragment
-        android:id="@+id/Register"
-        android:name="com.example.sep4android.RegisterFragment"
-        android:label="Register" >
+        android:id="@+id/Test"
+        android:name="com.example.sep4android.Fragments.TestFragment"
+        android:label="Test" >
         <action
-            android:id="@+id/action_Register_to_Login"
-            app:destination="@id/Login"
-            app:enterAnim="@anim/slide_in_right" />
+            android:id="@+id/action_Test_to_Home"
+            app:destination="@id/Home"
+            app:launchSingleTop="false" />
     </fragment>
 
     <fragment
         android:id="@+id/Settings"
-        android:name="com.example.sep4android.SettingsFragment"
+        android:name="com.example.sep4android.Fragments.SettingsFragment"
         android:label="Settings"/>
+
+    <fragment
+        android:id="@+id/Measurements"
+        android:name="com.example.sep4android.Fragments.MeasurementsFragment"
+        android:label="Measurements"/>
+
+    <fragment
+        android:id="@+id/CreateRoom"
+        android:name="com.example.sep4android.Fragments.CreateRoomFragment"
+        android:label="Add new room"/>
+
+    <fragment
+        android:id="@+id/HumidityThreshold"
+        android:name="com.example.sep4android.Fragments.HumidityThresholdFragment"
+        android:label="Humidity Threshold List"/>
 </navigation>

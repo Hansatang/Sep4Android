@@ -1,12 +1,15 @@
-package com.example.sep4android;
+package com.example.sep4android.Repositories;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
+
+import com.example.sep4android.Database.DatabaseApi;
+import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.UserObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,12 +20,9 @@ import retrofit2.internal.EverythingIsNonNull;
 public class UserRepository {
     private static UserRepository instance;
     private final MutableLiveData<UserObject> user;
-    private final MutableLiveData<RoomObject> room;
-
 
     private UserRepository(Application application) {
         user = new MutableLiveData<>();
-        room = new MutableLiveData<>();
     }
 
     public static synchronized UserRepository getInstance(Application application) {
@@ -35,38 +35,8 @@ public class UserRepository {
         return user;
     }
 
-    public LiveData<RoomObject> getRoom() {
-        return room;
-    }
 
-    public void lookForUser() {
-        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<UserObject> call = databaseApi.getUser();
-        System.out.println("Call");
-        call.enqueue(new Callback<UserObject>() {
-                         @EverythingIsNonNull
-                         @Override
-                         public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                             if (response.isSuccessful()) {
-                                 UserObject rs = response.body();
-                                 System.out.println("gtr " + rs.getUser());
-                                 user.setValue(rs);
-                             }
-                         }
-
-                         @EverythingIsNonNull
-                         @Override
-                         public void onFailure(Call<UserObject> call, Throwable t) {
-                             System.out.println(t);
-                             System.out.println(t.getMessage());
-                             Log.i("Retrofit", "Something went wrong :(");
-                         }
-                     }
-        );
-    }
-
-    public void addUserToDatabase(String name, String password)
-    {
+    public void addUserToDatabase(String name, String password) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
         UserObject temp = new UserObject(name, password, null);
         Call<UserObject> call = databaseApi.addUser(temp);
@@ -74,7 +44,7 @@ public class UserRepository {
         call.enqueue(new Callback<UserObject>() {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     UserObject temp = new UserObject(name, password, null);
                     user.postValue(temp);
                 }
@@ -84,7 +54,7 @@ public class UserRepository {
             public void onFailure(Call<UserObject> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
-                Log.i("Retrofit" ,"Something went wrong :(");
+                Log.i("Retrofit", "Something went wrong :(");
             }
         });
     }
@@ -94,40 +64,39 @@ public class UserRepository {
         Call<UserObject> call = databaseApi.deleteUser();
         System.out.println("Call");
         call.enqueue(new Callback<UserObject>() {
-                @EverythingIsNonNull
-                @Override
-                public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Successful");
                 }
-                }
+            }
 
-                @EverythingIsNonNull
-                @Override
-                public void onFailure(Call<UserObject> call, Throwable t) {
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
                 Log.i("Retrofit", "Something went wrong :(");
-                }
+            }
         });
 
     }
 
-    public void deleteRoomData(int id)
-    {
+    public void deleteRoomData(int id) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<RoomObject> call = databaseApi.deleteRoomData();
+        Call<Room> call = databaseApi.deleteRoomData();
         System.out.println("Call");
-        call.enqueue(new Callback<RoomObject>() {
+        call.enqueue(new Callback<Room>() {
             @Override
-            public void onResponse(Call<RoomObject> call, Response<RoomObject> response) {
-                if (response.isSuccessful()){
+            public void onResponse(Call<Room> call, Response<Room> response) {
+                if (response.isSuccessful()) {
                     //NOT FINISHED YET
                 }
             }
 
             @Override
-            public void onFailure(Call<RoomObject> call, Throwable t) {
+            public void onFailure(Call<Room> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
                 Log.i("Retrofit", "Something went wrong :(");
