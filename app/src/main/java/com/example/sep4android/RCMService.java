@@ -142,6 +142,8 @@ public class RCMService extends FirebaseMessagingService {
    * @param token The new token.
    */
   private void sendRegistrationToServer(String token) {
+    RoomRepository repository = RoomRepository.getInstance(this.getApplication());
+    repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(),token);
     // TODO: Implement this method to send token to your app server.
   }
 
@@ -180,12 +182,10 @@ public class RCMService extends FirebaseMessagingService {
     NotificationManager notificationManager =
         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel channel = new NotificationChannel(channelId,
-          "Channel human readable title",
-          NotificationManager.IMPORTANCE_HIGH);
-      notificationManager.createNotificationChannel(channel);
-    }
+    NotificationChannel channel = new NotificationChannel(channelId,
+        "Channel human readable title",
+        NotificationManager.IMPORTANCE_HIGH);
+    notificationManager.createNotificationChannel(channel);
 
     notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
   }

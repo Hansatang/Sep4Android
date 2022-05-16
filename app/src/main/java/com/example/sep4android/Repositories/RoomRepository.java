@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.UserToken;
 
 import java.util.List;
 
@@ -70,6 +71,58 @@ public class RoomRepository {
     Room roomToCreate = new Room(roomId, name, userUID, null, null);
     Call<Integer> call = databaseApi.addRoom(roomToCreate);
     System.out.println("Post");
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        System.out.println(response);
+        if (response.isSuccessful()) {
+          System.out.println("Complete");
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went wrong :(");
+      }
+    });
+  }
+
+  public void setNewToken(String uid, String token) {
+    System.out.println("SetNew");
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+
+    UserToken userToken = new UserToken(uid,token);
+    Call<Integer> call = databaseApi.setToken(userToken);
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        System.out.println(response);
+        if (response.isSuccessful()) {
+          System.out.println("Complete");
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went wrong :(");
+      }
+    });
+  }
+
+  public void deleteToken(String userUID) {
+    System.out.println("SetNew");
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+
+    UserToken userToken = new UserToken(userUID,null);
+    Call<Integer> call = databaseApi.deleteToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override

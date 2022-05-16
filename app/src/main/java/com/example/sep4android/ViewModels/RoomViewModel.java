@@ -29,5 +29,9 @@ public class RoomViewModel extends AndroidViewModel {
     public void addRoomToDatabase(String roomId, String name, String userUID) {
         repository.addRoomToDatabase(roomId, name, userUID);
     }
+
+    public void deleteToken(String userUID) {
+        repository.deleteToken(userUID);
+    }
 }
 

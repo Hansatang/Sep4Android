@@ -4,33 +4,29 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.sep4android.ViewModels.RoomViewModel;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,45 +36,49 @@ public class MainActivity extends AppCompatActivity {
   NavigationView navigationView;
   TextView UsernameInNavBar;
   TextView EmailInNavBar;
-  private FirebaseAuth mAuth;
-
   AppBarConfiguration mAppBarConfiguration;
+  RoomViewModel roomViewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     System.out.println("Main test");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      String channelId = getString(R.string.default_notification_channel_id);
-      String channelName = getString(R.string.default_notification_channel_name);
-      NotificationManager notificationManager =
-          getSystemService(NotificationManager.class);
-      notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-          channelName, NotificationManager.IMPORTANCE_HIGH));
-    }
-
+    createNotificationChannel();
+    roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
     findViews();
     setSupportActionBar(toolbar);
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
     NavigationUI.setupWithNavController(navigationView, navController);
 
-    mAuth = FirebaseAuth.getInstance();
+    checkUser();
+    checkThemePreferences();
 
-    if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+
+  }
+
+  private void checkThemePreferences() {
+    SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+    final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
+    if (isDarkModeOn) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+  }
+
+  private void checkUser() {
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    if (user == null) {
       startActivity(new Intent(this, LoginActivity.class));
       finish();
     }
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if (user != null) {
-      user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-        @Override
-        public void onSuccess(GetTokenResult result) {
-          if (result.getSignInProvider().equals("google.com")) {
-            System.out.println("User is signed in with Google");
-          } else {
-            System.out.println("User is signed in with Email");
-          }
+      user.getIdToken(false).addOnSuccessListener(result -> {
+        if (result.getSignInProvider().equals("google.com")) {
+          System.out.println("User is signed in with Google");
+        } else {
+          System.out.println("User is signed in with Email");
         }
       });
       String email = user.getEmail();
@@ -86,32 +86,14 @@ public class MainActivity extends AppCompatActivity {
       UsernameInNavBar.setText(email);
       EmailInNavBar.setText(username);
     }
+  }
 
-    SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-    final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
-
-    if (isDarkModeOn) {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-    } else {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
-    }
-
-    FirebaseMessaging.getInstance().getToken()
-        .addOnCompleteListener(new OnCompleteListener<String>() {
-          @Override
-          public void onComplete(@NonNull Task<String> task) {
-            if (!task.isSuccessful()) {
-              Log.w("Token", "Fetching FCM registration token failed", task.getException());
-              return;
-            }
-            // Get new FCM registration token
-            String token = task.getResult();
-            Log.w("Token", token, task.getException());
-            Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-          }
-        });
-
+  private void createNotificationChannel() {
+    String channelId = getString(R.string.default_notification_channel_id);
+    String channelName = getString(R.string.default_notification_channel_name);
+    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+    notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+        channelName, NotificationManager.IMPORTANCE_HIGH));
 
   }
 
@@ -123,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
     UsernameInNavBar = headerContainer.findViewById(R.id.nav_header_title);
     EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-    mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.Home, R.id.Test, R.id.Measurements)
+    mAppBarConfiguration = new AppBarConfiguration.Builder(
+        R.id.Home, R.id.Test, R.id.Measurements)
         .setOpenableLayout(drawerLayout).build();
   }
 
@@ -151,10 +134,16 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onLogOut() {
-    AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
-      startActivity(new Intent(MainActivity.this, LoginActivity.class));
-      finish();
-    });
+    AuthUI.getInstance().signOut(this).addOnCompleteListener(task ->
+        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(task1 -> {
+          if (!task1.isSuccessful()) {
+            Log.w("Token", "Fetching FCM registration token failed", task1.getException());
+            return;
+          }
+          roomViewModel.deleteToken(FirebaseAuth.getInstance().getCurrentUser().getUid());
+          startActivity(new Intent(MainActivity.this, LoginActivity.class));
+          finish();
+        }));
   }
 
   @Override
