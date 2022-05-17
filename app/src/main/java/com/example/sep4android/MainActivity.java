@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     System.out.println("Main test");
     super.onCreate(savedInstanceState);
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    user = FirebaseAuth.getInstance().getCurrentUser();
     if (user == null) {
       startActivity(new Intent(this, LoginActivity.class));
       finish();
