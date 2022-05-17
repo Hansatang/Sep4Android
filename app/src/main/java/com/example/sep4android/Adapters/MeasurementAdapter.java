@@ -3,6 +3,7 @@ package com.example.sep4android.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,16 +22,24 @@ import java.util.Locale;
 public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
   final private MeasurementAdapter.OnListItemClickListener clickListener;
   private List<MeasurementsObject> objects;
+  private int mExpandedPosition;
+  private int previousExpandedPosition;
 
   public MeasurementAdapter(MeasurementAdapter.OnListItemClickListener listener) {
     objects = new ArrayList<>();
     clickListener = listener;
+    mExpandedPosition = -1;
+    previousExpandedPosition = -1;
   }
 
   public void update(List<MeasurementsObject> list) {
     System.out.println("Update call " + list.size());
     objects = list;
     notifyDataSetChanged();
+  }
+
+  public List<MeasurementsObject> getMeasurements() {
+    return objects;
   }
 
 
@@ -53,10 +62,25 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
       e.printStackTrace();
     }
     viewHolder.dateId.setText(strDate);
-
     viewHolder.temperatureId.setText(new StringBuilder().append(objects.get(position).getTemperature()).append(" \u2103").toString());
     viewHolder.humidityId.setText(objects.get(position).getHumidity() + "");
     viewHolder.co2Id.setText(objects.get(position).getCo2() + "");
+
+    final boolean isExpanded = viewHolder.getBindingAdapterPosition() == mExpandedPosition;
+    viewHolder.details.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    viewHolder.itemView.setActivated(isExpanded);
+
+    if (isExpanded)
+      previousExpandedPosition = viewHolder.getBindingAdapterPosition();
+
+    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mExpandedPosition = isExpanded ? -1 : viewHolder.getBindingAdapterPosition();
+        notifyItemChanged(previousExpandedPosition);
+        notifyItemChanged(viewHolder.getBindingAdapterPosition());
+      }
+    });
   }
 
 
@@ -70,6 +94,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
   }
 
   class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    LinearLayout details;
     TextView dateId;
     TextView temperatureId;
     TextView humidityId;
@@ -81,6 +106,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
       temperatureId = itemView.findViewById(R.id.temperatureId);
       humidityId = itemView.findViewById(R.id.humidityId);
       co2Id = itemView.findViewById(R.id.co2Id);
+      details = itemView.findViewById(R.id.details);
       itemView.setOnClickListener(this);
     }
 

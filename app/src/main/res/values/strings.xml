@@ -35,4 +35,8 @@
     <string name="select_start_time">Select Start Time</string>
     <string name="select_end_time">Select End Time</string>
     <string name="temperature_treshold">Temperature Treshold</string>
+    <string name="date_measurement_list">Date</string>
+    <string name="temp_measurement_list">Temp</string>
+    <string name="hum_measurement_list">Hum</string>
+    <string name="co2_measurement_list">Co2</string>
 </resources>

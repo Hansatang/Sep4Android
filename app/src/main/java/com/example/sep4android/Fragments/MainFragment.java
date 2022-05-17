@@ -30,7 +30,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   View view;
   FloatingActionButton fab;
   RecyclerView roomsRV;
-  MeasurementAdapter measurementAdapter;
   TextView textView;
   RoomAdapter roomAdapter;
 
@@ -46,7 +45,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     roomAdapter = new RoomAdapter(this);
     viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> setRooms(listObjects));
+    viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
     roomsRV.setAdapter(roomAdapter);
 
     return view;
