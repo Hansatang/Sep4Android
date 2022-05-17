@@ -54,9 +54,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
       String strDate = null;
       try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+
         Date date1 = dateFormat.parse(list.get(0).getDate());
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-mm-dd E hh:mm:ss");
+        System.out.println(date1);
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
         strDate = dateFormat2.format(date1);
+        System.out.println(strDate);
       } catch (ParseException e) {
         e.printStackTrace();
       }

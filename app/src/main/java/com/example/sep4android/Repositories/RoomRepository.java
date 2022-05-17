@@ -40,7 +40,7 @@ public class RoomRepository {
   public void getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
-    Call<List<Room>> call = databaseApi.getRoomByUserId(uid);
+    Call<List<Room>> call = databaseApi.getRoomByUserId("bV2AGysjE4SmuqMZ3TZG1IzLeMJ2");
     System.out.println("Call");
     call.enqueue(new Callback<List<Room>>() {
                    @EverythingIsNonNull
