@@ -37,6 +37,7 @@ public class RoomRepository {
     return rooms;
   }
 
+  //TODO change username to uid after work
   public void getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
