@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void checkUser() {
-
     if (user != null) {
       user.getIdToken(false).addOnSuccessListener(result -> {
         if (result.getSignInProvider().equals("google.com")) {
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
           System.out.println("User is signed in with Email");
         }
       });
+      System.out.println("HEJ "+user.getUid());
       String email = user.getEmail();
       String username = user.getDisplayName();
       UsernameInNavBar.setText(email);
@@ -142,13 +142,11 @@ public class MainActivity extends AppCompatActivity {
         Log.w("Token", "Fetching FCM registration token failed", task1.getException());
         return;
       }
-
       AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
         if (!task.isSuccessful()) {
           Log.w("Token", "Fetching FCM registration token failed", task.getException());
           return;
         }
-
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
       });
