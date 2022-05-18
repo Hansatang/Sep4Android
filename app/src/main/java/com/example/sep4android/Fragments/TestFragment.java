@@ -1,6 +1,5 @@
 package com.example.sep4android.Fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,7 +13,6 @@ import com.example.sep4android.R;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.charts.ValueLineChart;
-import org.eazegraph.lib.models.PieModel;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
@@ -34,7 +32,7 @@ public class TestFragment extends Fragment {
     }
 
     private void findViews() {
-        tvR = view.findViewById(R.id.tv0005);
+        tvR = view.findViewById(R.id.deviceNameText);
         tvPython = view.findViewById(R.id.tv0510);
         tvCPP = view.findViewById(R.id.tv1015);
         tvJava = view.findViewById(R.id.tv1520);
