@@ -42,7 +42,7 @@
             android:layout_weight="28"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:text="Date                  "
+            android:text="@string/date_measurement_list"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -52,8 +52,7 @@
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:gravity="right"
-            android:text="Temp           "
+            android:text="@string/temp_measurement_list"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -63,8 +62,7 @@
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:gravity="right"
-            android:text="Hum              "
+            android:text="@string/hum_measurement_list"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -74,8 +72,7 @@
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:gravity="right"
-            android:text="Co2              "
+            android:text="@string/co2_measurement_list"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

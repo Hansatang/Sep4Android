@@ -38,7 +38,7 @@ public class RoomRepository {
   }
 
   //TODO change username to uid after work
-  public void getDatabaseRooms(String uid) {
+  public LiveData<List<Room>> getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
     Call<List<Room>> call = databaseApi.getRoomByUserId("bV2AGysjE4SmuqMZ3TZG1IzLeMJ2");
@@ -48,11 +48,10 @@ public class RoomRepository {
                    @Override
                    public void onResponse(Call<List<Room>> call, Response<List<Room>> response) {
                      if (response.isSuccessful()) {
-                       System.out.println("YAY");
                        System.out.println(response);
                        List<Room> rs = response.body();
-
                        rooms.setValue(rs);
+
                      }
                    }
 
@@ -61,10 +60,12 @@ public class RoomRepository {
                    public void onFailure(Call<List<Room>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
+                     rooms.setValue(null);
                      Log.i("Retrofit", "Something went wrong :(");
                    }
                  }
     );
+    return rooms;
   }
 
   public void addRoomToDatabase(String roomId, String name, String userUID) {
@@ -96,7 +97,7 @@ public class RoomRepository {
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 
-    UserToken userToken = new UserToken(uid,token);
+    UserToken userToken = new UserToken(uid, token);
     Call<Integer> call = databaseApi.setToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
@@ -122,7 +123,7 @@ public class RoomRepository {
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 
-    UserToken userToken = new UserToken(userUID,null);
+    UserToken userToken = new UserToken(userUID, null);
     Call<Integer> call = databaseApi.deleteToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull

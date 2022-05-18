@@ -1,63 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/header_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
-    android:orientation="horizontal"
-    android:weightSum="100"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/details">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dateId"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_weight="28"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="5dp"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:id="@+id/header_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details">
 
-    <TextView
-        android:id="@+id/temperatureId"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_weight="24"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="right|center_vertical"
-        android:paddingRight="5dp"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/dateId"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="28"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/humidityId"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_weight="24"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="right|center_vertical"
-        android:paddingRight="5dp"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/temperatureId"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="24"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/co2Id"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_weight="24"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="right|center_vertical"
-        android:paddingRight="5dp"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/humidityId"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="24"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/co2Id"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="24"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details">
+
+        <TextView
+            android:id="@+id/lolId"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="28"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:text="LOLO"
+
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inside_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 </LinearLayout>
