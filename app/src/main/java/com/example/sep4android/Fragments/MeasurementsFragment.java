@@ -41,13 +41,14 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
+
     findViews();
     measurementsRV.hasFixedSize();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     measurementAdapter = new MeasurementAdapter(this);
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
-    measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
 
     measurementsRV.setAdapter(measurementAdapter);
     setUpItemTouchHelper();
@@ -62,10 +63,13 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   private void initList(List<Room> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     Spinner spinner = view.findViewById(R.id.sp);
-    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
-    spinner.setAdapter(adapter);
+    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+    spinner.setAdapter(spinnerAdapter);
     spinner.setOnItemSelectedListener(this);
-    measurementViewModel.getMeasurementsRoom(listObjects.get(0).getRoomId());
+
+    // By default first room measurement are displayed
+    Room room = listObjects.get(0);
+    measurementViewModel.getMeasurementsRoom(room.getRoomId());
     measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), this::setRooms);
   }
 
@@ -77,16 +81,17 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
 
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
-
+  //Do nothing
   }
 
   private void setRooms(List<MeasurementsObject> listObjects) {
     measurementAdapter.update(listObjects);
+
   }
 
   @Override
   public void onListItemClick(MeasurementsObject clickedItemIndex) {
-    System.out.println("HEYO");
+    System.out.println("2");
   }
 
   private void setUpItemTouchHelper() {
@@ -117,8 +122,8 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
         DialogInterface.OnCancelListener cancelListener = (dialog) -> {
           int position = viewHolder.getAbsoluteAdapterPosition();
           MeasurementsObject card = measurementAdapter.getMeasurements().get(position);
-              undoSwipe(position);
-              Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+          undoSwipe(position);
+          Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
         };
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity())

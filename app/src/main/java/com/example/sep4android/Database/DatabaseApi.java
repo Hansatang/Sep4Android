@@ -17,32 +17,39 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DatabaseApi {
-    @POST("room/last/{userId}")
-    Call<List<Room>> getRoomByUserId(@Path("userId") String userId);
-    @POST("room/")
-    Call<Integer> addRoom(@Body Room object);
+  // TODO: 17/05/2022  Change to Get
+  @POST("room/last/{userId}")
+  Call<List<Room>> getRoomByUserId(@Path("userId") String userId);
 
-    // TODO: 10/05/2022  Change to roomId, and latest is stupid
-    @GET("measurement/{roomId}/")
-    Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
+  @POST("room/")
+  Call<Integer> addRoom(@Body Room object);
 
-    @POST("token/")
-    Call<Integer> setToken(@Body UserToken userToken);
+  // TODO: 10/05/2022  Change to roomId, and latest is stupid
+  @GET("measurement/{roomId}/")
+  Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
 
-    @PUT("token/")
-    Call<Integer> deleteToken(@Body UserToken userToken);
+  @POST("token/")
+  Call<Integer> setToken(@Body UserToken userToken);
 
-    @GET("api/random")
-    Call<UserObject> getUser();
-    @GET("latest/{userId}")
-    Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("userId") String userId);
-    @POST("api/random")
-    Call<UserObject> addUser(@Body UserObject object);
-    @POST()
-    Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
-    @DELETE("api/random")
-    Call<UserObject> deleteUser();
-    @DELETE("api/random")
-    Call<Room> deleteRoomData();
+  @PUT("token/")
+  Call<Integer> deleteToken(@Body UserToken userToken);
+
+  @GET("api/random")
+  Call<UserObject> getUser();
+
+  @GET("latest/{userId}")
+  Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("userId") String userId);
+
+  @POST("api/random")
+  Call<UserObject> addUser(@Body UserObject object);
+
+  @POST()
+  Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
+
+  @DELETE("api/random")
+  Call<UserObject> deleteUser();
+
+  @DELETE("api/random")
+  Call<Room> deleteRoomData();
 
 }

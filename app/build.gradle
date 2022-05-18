@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
 }
-
+//TODO make this into single project
 android {
     compileSdk 32
 

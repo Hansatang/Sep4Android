@@ -26,9 +26,9 @@ public class CreateRoomFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     System.out.println("Create Room View");
     view = inflater.inflate(R.layout.create_room_layout, container, false);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     findViews(view);
     setListenersToButtons();
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     return view;
   }
 
@@ -43,7 +43,7 @@ public class CreateRoomFragment extends Fragment {
 
   private void findViews(View view) {
     createRoomButton = view.findViewById(R.id.CreateRoom);
-    deviceText = view.findViewById(R.id.tv0005);
-    nameText = view.findViewById(R.id.tv0006);
+    deviceText = view.findViewById(R.id.deviceNameText);
+    nameText = view.findViewById(R.id.roomNameText);
   }
 }
