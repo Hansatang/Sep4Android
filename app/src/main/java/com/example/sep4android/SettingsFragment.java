@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.sep4android.ViewModels.UserViewModel;
+
 public class SettingsFragment extends Fragment {
     EditText oldPassword;
     EditText newPassword;
@@ -51,8 +53,8 @@ public class SettingsFragment extends Fragment {
                     if (!oldPassword.getText().toString().equals("") &&
                     newPassword.getText().toString().equals(repeatNewPass.getText().toString()))
                     {
-                        Navigation.findNavController(view).navigate(R.id.action_Home_to_Login);
-                        viewModel.changePassword(repeatNewPass.getText().toString());
+//                        Navigation.findNavController(view).navigate(R.id.action_Home_to_Login);
+//                        viewModel.changePassword(repeatNewPass.getText().toString());
                     }
                     else
                         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
