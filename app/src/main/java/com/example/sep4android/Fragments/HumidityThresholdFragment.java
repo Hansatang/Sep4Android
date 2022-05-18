@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.sep4android.Adapters.HumidityThresholdAdapter;
+import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.Room;
 import com.example.sep4android.R;
@@ -46,7 +47,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
         viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
 
-        humidityThresholdList = view.findViewById(R.id.humidity_threshold_list);
+        humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
         humidityThresholdList.hasFixedSize();
         humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
@@ -62,8 +63,8 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
             mCountryList.add(object.getRoomId());
         }
         Spinner spinner = view.findViewById(R.id.sp_humidity);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
-        //SpinnerRoomAdapter adapter = new SpinnerRoomAdapter(requireActivity(),android.R.layout.simple_spinner_item, mCountryList);
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
+        SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
         adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
