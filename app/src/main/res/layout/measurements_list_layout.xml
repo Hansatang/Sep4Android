@@ -76,8 +76,15 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details">
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inside_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/lolId"
@@ -88,17 +95,9 @@
             android:fontFamily="sans-serif-light"
             android:gravity="left|center_vertical"
             android:paddingLeft="5dp"
-            android:text="LOLO"
+            android:text="Outer"
 
             android:textColor="@color/white"
             android:textSize="18sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/inside_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

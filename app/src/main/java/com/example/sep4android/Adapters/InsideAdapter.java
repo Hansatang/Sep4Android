@@ -19,30 +19,53 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder> {
   private Context ctx;
-  public ArrayList<MeasurementsObject> objects;
+  public List<MeasurementsObject> objects;
 
 
-  public InsideAdapter(ArrayList<MeasurementsObject> arrayList) {
+  public InsideAdapter() {
+    System.out.println("created Inside adapter");
+    objects = new ArrayList<>();
+  }
+
+  public void update(List<MeasurementsObject> list) {
+    System.out.println("Update call elo " + list.size());
+    ArrayList<MeasurementsObject> arrayList = new ArrayList<>();
+    arrayList.add(new MeasurementsObject("1234567", "12123", 12.00, 3, 20, 20));
+    arrayList.add(new MeasurementsObject("1234567", "12123", 22.00, 23, 40, 440));
     objects = arrayList;
+    System.out.println(objects.size());
+    notifyDataSetChanged();
   }
 
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     ctx = parent.getContext();
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.measurements_list_layout, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
     return new ViewHolder(view);
+  }
+
+  @Override
+  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    super.onAttachedToRecyclerView(recyclerView);
+    ctx = recyclerView.getContext();
+  }
+
+  @Override
+  public int getItemViewType(int position){
+    return position; // Return any variable as long as it's not a constant value
   }
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
     MeasurementsObject currentItem = objects.get(position);
     System.out.println("Room: " + currentItem.getRoomId());
-    holder.dateId.setText(getFormattedDate(currentItem));
+   // holder.dateId.setText(getFormattedDate(currentItem));
 
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     holder.humidityId.setText(ctx.getString(R.string.bind_holder_hum, currentItem.getHumidity()));
@@ -70,7 +93,7 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-    LinearLayout details;
+
     TextView dateId;
     TextView temperatureId;
     TextView humidityId;
@@ -82,7 +105,6 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
       temperatureId = itemView.findViewById(R.id.temperatureId);
       humidityId = itemView.findViewById(R.id.humidityId);
       co2Id = itemView.findViewById(R.id.co2Id);
-      details = itemView.findViewById(R.id.details);
     }
   }
 }

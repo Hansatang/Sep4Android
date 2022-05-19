@@ -2,7 +2,6 @@ package com.example.sep4android.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -20,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.sep4android.Adapters.InsideAdapter;
 import com.example.sep4android.Adapters.MeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.MeasurementsObject;
@@ -45,7 +45,6 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
 
     findViews();
-    measurementsRV.hasFixedSize();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     measurementAdapter = new MeasurementAdapter(this);
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
@@ -63,6 +62,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   private void initList(List<Room> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     Spinner spinner = view.findViewById(R.id.sp);
+
     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     spinner.setAdapter(spinnerAdapter);
     spinner.setOnItemSelectedListener(this);
@@ -76,12 +76,13 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     Room room = (Room) adapterView.getItemAtPosition(i);
+
     measurementViewModel.getMeasurementsRoom(room.getRoomId());
   }
 
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
-  //Do nothing
+    //Do nothing
   }
 
   private void setRooms(List<MeasurementsObject> listObjects) {
@@ -89,9 +90,12 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
 
   }
 
+
   @Override
-  public void onListItemClick(MeasurementsObject clickedItemIndex) {
-    System.out.println("2");
+  public void onListItemClick(MeasurementsObject clickedItemIndex, InsideAdapter insideAdapter) {
+    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), list -> {
+      insideAdapter.update(list);
+    });
   }
 
   private void setUpItemTouchHelper() {
