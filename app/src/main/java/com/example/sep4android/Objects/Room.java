@@ -8,73 +8,73 @@ import java.util.List;
 
 public class Room {
 
-    @SerializedName("roomId")
-    @Expose
-    private String RoomId;
+  @SerializedName("roomId")
+  @Expose
+  private String RoomId;
 
-    @SerializedName("name")
-    @Expose
-    private String name;
+  @SerializedName("name")
+  @Expose
+  private String name;
 
-    @SerializedName("userId")
-    @Expose
-    private String UserId;
+  @SerializedName("userId")
+  @Expose
+  private String UserId;
 
-    @SerializedName("registrationDate")
-    @Expose
-    private String RegistrationDate;
+  @SerializedName("registrationDate")
+  @Expose
+  private String RegistrationDate;
 
-    @SerializedName("measurements")
-    @Expose
-    private List<MeasurementsObject> Measurements;
+  @SerializedName("measurements")
+  @Expose
+  private List<MeasurementsObject> Measurements;
 
 
+  public String getRoomId() {
+    return RoomId;
+  }
 
-    public String getRoomId() {
-        return RoomId;
-    }
+  public void setRoomId(String roomId) {
+    RoomId = roomId;
+  }
 
-    public void setRoomId(String roomId) {
-        RoomId = roomId;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getUserId() {
+    return UserId;
+  }
 
-    public String getUserId() {
-        return UserId;
-    }
+  public void setUserId(String userId) {
+    UserId = userId;
+  }
 
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
+  public String getRegistrationDate() {
+    return RegistrationDate;
+  }
 
-    public String getRegistrationDate() {
-        return RegistrationDate;
-    }
+  public void setRegistrationDate(String registrationDate) {
+    RegistrationDate = registrationDate;
+  }
 
-    public void setRegistrationDate(String registrationDate) {
-        RegistrationDate = registrationDate;
-    }
+  public Room(String roomId, String name, String userId, String registrationDate, List<MeasurementsObject> measurements) {
+    RoomId = roomId;
+    this.name = name;
+    UserId = userId;
+    RegistrationDate = registrationDate;
+    Measurements = measurements;
+  }
 
-    public Room(String roomId, String name, String userId, String registrationDate, List<MeasurementsObject> measurements) {
-        RoomId = roomId;
-        this.name = name;
-        UserId = userId;
-        RegistrationDate = registrationDate;
-        Measurements = measurements;
-    }
+  public List<MeasurementsObject> getMeasurements() {
+    return Measurements;
+  }
 
-    public List<MeasurementsObject> getMeasurements() {
-        return Measurements;
-    }
+  public void setMeasurements(List<MeasurementsObject> measurements) {
+    Measurements = measurements;
+  }
 
-    public void setMeasurements(List<MeasurementsObject> measurements) {
-        Measurements = measurements;
-    }
 }

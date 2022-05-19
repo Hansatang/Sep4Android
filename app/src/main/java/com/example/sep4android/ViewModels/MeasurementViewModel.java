@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.sep4android.Objects.MeasurementObject;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Repositories.MeasurementRepository;
 
 import java.util.List;
@@ -18,11 +18,11 @@ public class MeasurementViewModel extends AndroidViewModel {
     repository = MeasurementRepository.getInstance(app);
   }
 
-  public LiveData<List<MeasurementObject>> getMeasurements() {
+  public LiveData<List<MeasurementsObject>> getMeasurements() {
     return repository.getMeasurements();
   }
 
-  public void getLatestMeasurementsFromRepo(String userId) {
-    repository.getLatest(userId);
+  public void getMeasurementsRoom(String roomId) {
+    repository.getMeasurementRoom(roomId);
   }
 }

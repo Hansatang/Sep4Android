@@ -10,13 +10,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/humidity_thresholds"
-        android:textSize="34sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Select your room:"
         android:textSize="20sp" />
@@ -27,7 +20,7 @@
         android:background="#FFFF">
 
         <Spinner
-            android:id="@+id/sp_humidity"
+            android:id="@+id/sp_temperature"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:backgroundTint="@color/green_700"
@@ -39,7 +32,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_marginTop="10dp"
-        android:id="@+id/humidity_threshold_list"
+        android:id="@+id/temperature_threshold_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/grey"
@@ -49,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/sp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/header"
+            android:id="@+id/header_temperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -94,11 +87,11 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/humidity_threshold_rv"
+            android:id="@+id/temperature_threshold_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/header">
+            app:layout_constraintTop_toBottomOf="@id/header_temperature">
 
         </androidx.recyclerview.widget.RecyclerView>
 

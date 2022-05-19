@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tv0005"
+                        android:id="@+id/deviceNameText"
                         android:layout_width="match_parent"
                         android:layout_height="75dp"
                         android:layout_alignParentEnd="true"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tv0006"
+                        android:id="@+id/roomNameText"
                         android:layout_width="match_parent"
                         android:layout_height="75dp"
                         android:layout_alignParentEnd="true"

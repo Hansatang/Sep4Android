@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/green_700"
-    android:orientation="vertical"
-    tools:context="com.example.sep4android.MainActivity">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFF">
-
-        <Spinner
-            android:id="@+id/sp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/green_700"
-            android:contentDescription="Spinner"
-            android:dropDownVerticalOffset="0dp"
-            android:overlapAnchor="false"
-            android:spinnerMode="dropdown" />
-    </RelativeLayout>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_linearLayout"
@@ -37,65 +18,87 @@
         app:layout_constraintTop_toBottomOf="@+id/details">
 
         <TextView
+            android:id="@+id/dateId"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_weight="28"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:text="@string/date_measurement_list"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/temperatureId"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:text="@string/temp_measurement_list"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/humidityId"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:text="@string/hum_measurement_list"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/co2Id"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_weight="24"
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
-            android:text="@string/co2_measurement_list"
+            android:gravity="right|center_vertical"
+            android:paddingRight="5dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/measurement_linearLayout"
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details">
 
+        <TextView
+            android:id="@+id/lolId"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="28"
+            android:background="@drawable/border"
+            android:fontFamily="sans-serif-light"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:text="LOLO"
+
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/measurement_rv"
+            android:id="@+id/inside_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
-
 </LinearLayout>
