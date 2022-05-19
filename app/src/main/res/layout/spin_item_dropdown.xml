@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <CheckedTextView
-        android:id="@+id/text1"
+        android:id="@+id/spinnerItemName"
         style="?android:attr/spinnerDropDownItemStyle"
         android:layout_width="match_parent"
         android:layout_height="75dp"

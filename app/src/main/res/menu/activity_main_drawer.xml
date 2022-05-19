@@ -20,6 +20,10 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Humidity Thresholds" />
         <item
+            android:id="@+id/TemperatureThreshold"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Temperature Thresholds" />
+        <item
             android:id="@+id/Test"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Test" />

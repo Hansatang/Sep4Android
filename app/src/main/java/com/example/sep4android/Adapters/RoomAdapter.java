@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.MeasurementsObject;
@@ -31,13 +33,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
   public void update(List<Room> list) {
     System.out.println("Update call " + list.size());
-    if (list != null) {
-      objects = list;
-      notifyDataSetChanged();
-    }
+    objects = list;
+    notifyDataSetChanged();
   }
 
 
+  @NonNull
   public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
@@ -48,27 +49,31 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
     System.out.println("Room: " + objects.get(position).getRoomId());
     viewHolder.name.setText("Room: " + objects.get(position).getName());
-
     List<MeasurementsObject> list = objects.get(position).getMeasurements();
     if (!list.isEmpty()) {
-      String strDate = null;
-      try {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-
-        Date date1 = dateFormat.parse(list.get(0).getDate());
-        System.out.println(date1);
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
-        strDate = dateFormat2.format(date1);
-        System.out.println(strDate);
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      viewHolder.date.setText(strDate + "");
+      viewHolder.date.setText(getFormattedDate(list));
       viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
       viewHolder.humidity.setText(list.get(0).getHumidity() + "");
       viewHolder.co2.setText(list.get(0).getCo2() + "");
     }
 
+  }
+
+  @Nullable
+  private String getFormattedDate(List<MeasurementsObject> list) {
+    String strDate = null;
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+
+      Date date1 = dateFormat.parse(list.get(0).getDate());
+      System.out.println(date1);
+      DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
+      strDate = dateFormat2.format(date1);
+      System.out.println(strDate);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return strDate;
   }
 
 

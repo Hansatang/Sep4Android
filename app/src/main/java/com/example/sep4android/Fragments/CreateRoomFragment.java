@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,24 +27,38 @@ public class CreateRoomFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     System.out.println("Create Room View");
     view = inflater.inflate(R.layout.create_room_layout, container, false);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     findViews(view);
     setListenersToButtons();
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     return view;
   }
 
   private void setListenersToButtons() {
     createRoomButton.setOnClickListener(view -> {
-          viewModel.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-          NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-          navController.popBackStack();
+          viewModel.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
+              FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::moveToMainView);
+
         }
     );
   }
 
+
+
+  private void moveToMainView(Object creationResult) {
+
+    Boolean bool = (Boolean) creationResult;
+    if (bool) {
+
+      NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+      navController.popBackStack();
+      viewModel.setResult();
+    }
+  }
+
+
   private void findViews(View view) {
     createRoomButton = view.findViewById(R.id.CreateRoom);
-    deviceText = view.findViewById(R.id.tv0005);
-    nameText = view.findViewById(R.id.tv0006);
+    deviceText = view.findViewById(R.id.deviceNameText);
+    nameText = view.findViewById(R.id.roomNameText);
   }
 }

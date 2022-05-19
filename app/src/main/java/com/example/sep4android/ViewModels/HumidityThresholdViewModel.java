@@ -24,12 +24,12 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         return repository.getHumidityThresholds();
     }
 
-    public void getRoomFromRepo(String uid) {
-        repository.getDBSThresholds(uid);
-    }
-
-    public void addThresholdToDatabase(String thresholdHumidityId, String roomId){
-        repository.addThresholdToDBS(thresholdHumidityId, roomId);
-    }
+//    public void getRoomFromRepo(String uid) {
+//        repository.getDBSThresholds(uid);
+//    }
+//
+//    public void addThresholdToDatabase(String thresholdHumidityId, String roomId){
+//        repository.addThresholdToDBS(thresholdHumidityId, roomId);
+//    }
 
 }

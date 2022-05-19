@@ -22,9 +22,11 @@ import retrofit2.internal.EverythingIsNonNull;
 public class RoomRepository {
   private static RoomRepository instance;
   private final MutableLiveData<List<Room>> rooms;
+  private final MutableLiveData<Boolean> creationResult;
 
   private RoomRepository(Application application) {
     rooms = new MutableLiveData<>();
+    creationResult = new MutableLiveData<>();
   }
 
   public static synchronized RoomRepository getInstance(Application application) {
@@ -37,22 +39,22 @@ public class RoomRepository {
     return rooms;
   }
 
+
   //TODO change username to uid after work
-  public void getDatabaseRooms(String uid) {
+  public LiveData<List<Room>> getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
-    Call<List<Room>> call = databaseApi.getRoomByUserId("bV2AGysjE4SmuqMZ3TZG1IzLeMJ2");
+    Call<List<Room>> call = databaseApi.getRoomByUserId(uid);
     System.out.println("Call");
     call.enqueue(new Callback<List<Room>>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<List<Room>> call, Response<List<Room>> response) {
                      if (response.isSuccessful()) {
-                       System.out.println("YAY");
                        System.out.println(response);
                        List<Room> rs = response.body();
-
                        rooms.setValue(rs);
+
                      }
                    }
 
@@ -61,42 +63,48 @@ public class RoomRepository {
                    public void onFailure(Call<List<Room>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
-                     Log.i("Retrofit", "Something went wrong :(");
+                     rooms.setValue(null);
+                     Log.i("Retrofit", "Something went wrong Room:(");
                    }
                  }
     );
+    return rooms;
   }
 
-  public void addRoomToDatabase(String roomId, String name, String userUID) {
+  public LiveData<Boolean> addRoomToDatabase(String roomId, String name, String userUID) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Room roomToCreate = new Room(roomId, name, userUID, null, null);
     Call<Integer> call = databaseApi.addRoom(roomToCreate);
     System.out.println("Post");
     call.enqueue(new Callback<Integer>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
+                   @EverythingIsNonNull
+                   @Override
+                   public void onResponse(Call<Integer> call, Response<Integer> response) {
+                     System.out.println(response);
+                     if (response.isSuccessful()) {
+                       System.out.println("Complete");
+                       creationResult.setValue(true);
+                     }
+                   }
 
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<Integer> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
-      }
-    });
+                   @EverythingIsNonNull
+                   @Override
+                   public void onFailure(Call<Integer> call, Throwable t) {
+                     System.out.println(t);
+                     System.out.println(t.getMessage());
+                     rooms.setValue(null);
+                     Log.i("Retrofit", "Something went wrong :(");
+                   }
+                 }
+    );
+    return creationResult;
   }
 
   public void setNewToken(String uid, String token) {
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 
-    UserToken userToken = new UserToken(uid,token);
+    UserToken userToken = new UserToken(uid, token);
     Call<Integer> call = databaseApi.setToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
@@ -111,9 +119,10 @@ public class RoomRepository {
       @EverythingIsNonNull
       @Override
       public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println("SetNew Fail");
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went wrong Token:(");
       }
     });
   }
@@ -122,7 +131,7 @@ public class RoomRepository {
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 
-    UserToken userToken = new UserToken(userUID,null);
+    UserToken userToken = new UserToken(userUID, null);
     Call<Integer> call = databaseApi.deleteToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
@@ -139,9 +148,13 @@ public class RoomRepository {
       public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went wrong delete Token:(");
       }
     });
+  }
+
+  public void setResult() {
+    creationResult.setValue(false);
   }
 }
 

@@ -14,11 +14,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sep4android.Adapters.MeasurementAdapter;
-import com.example.sep4android.Objects.MeasurementsObject;
-import com.example.sep4android.R;
 import com.example.sep4android.Adapters.RoomAdapter;
 import com.example.sep4android.Objects.Room;
+import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,23 +28,21 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   View view;
   FloatingActionButton fab;
   RecyclerView roomsRV;
-  MeasurementAdapter measurementAdapter;
   TextView textView;
   RoomAdapter roomAdapter;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     System.out.println("MainView");
     view = inflater.inflate(R.layout.main_layout, container, false);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::setRooms);
+
     findViews(view);
     setListenersToButtons();
     roomsRV.hasFixedSize();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     roomAdapter = new RoomAdapter(this);
-    viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> setRooms(listObjects));
+    //viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
     roomsRV.setAdapter(roomAdapter);
 
     return view;
@@ -72,8 +68,11 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
 
+  //TODO CHANGE string to resource string everywhere
   private void setRooms(List<Room> listObjects) {
-    textView.setText("Active Rooms: " + listObjects.size());
-    roomAdapter.update(listObjects);
+    if (listObjects != null) {
+      textView.setText("Active Rooms: " + listObjects.size());
+      roomAdapter.update(listObjects);
+    }
   }
 }

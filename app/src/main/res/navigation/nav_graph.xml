@@ -41,4 +41,10 @@
         android:id="@+id/HumidityThreshold"
         android:name="com.example.sep4android.Fragments.HumidityThresholdFragment"
         android:label="Humidity Threshold List"/>
+
+    <fragment
+        android:id="@+id/TemperatureThreshold"
+        android:name="com.example.sep4android.Fragments.TemperatureThresholdFragment"
+        android:label="Temperature Threshold List"/>
+
 </navigation>

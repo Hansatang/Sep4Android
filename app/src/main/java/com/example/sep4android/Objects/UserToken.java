@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class UserToken {
-  @SerializedName("uID")
+  @SerializedName("uid")
   @Expose
   private String uId;
 
