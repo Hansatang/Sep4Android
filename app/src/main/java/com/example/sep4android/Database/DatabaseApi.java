@@ -37,13 +37,16 @@ public interface DatabaseApi {
   @GET("api/random")
   Call<UserObject> getUser();
 
-  @GET("latest/{userId}")
-  Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("userId") String userId);
+  @GET("humiditythresholds/{roomId}")
+  Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
+
+  @GET("all/humiditythresholds/")
+  Call<List<HumidityThresholdObject>> getAllHumidityThresholds();
 
   @POST("api/random")
   Call<UserObject> addUser(@Body UserObject object);
 
-  @POST()
+  @POST("new/humiditythresholds/")
   Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
 
   @DELETE("api/random")
@@ -51,5 +54,11 @@ public interface DatabaseApi {
 
   @DELETE("api/random")
   Call<Room> deleteRoomData();
+
+  @DELETE("humidityThresholds/{id}")
+  Call<HumidityThresholdObject> deleteHumidityThreshold(@Path("id") String id);
+
+  @DELETE("removal/humiditythresholds")
+  Call<HumidityThresholdObject> deleteAllHumidityThreshold();
 
 }
