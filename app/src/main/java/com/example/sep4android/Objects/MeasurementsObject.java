@@ -17,24 +17,46 @@ public class MeasurementsObject {
   @Expose
   private double temperature;
 
+  @SerializedName("temperatureExceeded")
+  @Expose
+  private Boolean temperatureExceeded;
+
   @SerializedName("humidity")
   @Expose
   private double humidity;
+
+  @SerializedName("humidityExceeded")
+  @Expose
+  private Boolean humidityExceeded;
 
   @SerializedName("co2")
   @Expose
   private double co2;
 
+  @SerializedName("co2Exceeded")
+  @Expose
+  private Boolean co2Exceeded;
+
+
   @SerializedName("id")
   @Expose
   private int id;
 
-  public MeasurementsObject(String date, String roomId, double temperature, double humidity, double co2, int id) {
+
+
+
+  public MeasurementsObject(String date, String roomId, double temperature,
+                            Boolean temperatureExceeded, double humidity,
+                            Boolean humidityExceeded, double co2,
+                            Boolean co2Exceeded, int id) {
     this.date = date;
-    RoomId = roomId;
+    this.RoomId = roomId;
     this.temperature = temperature;
+    this.temperatureExceeded = temperatureExceeded;
     this.humidity = humidity;
+    this.humidityExceeded = humidityExceeded;
     this.co2 = co2;
+    this.co2Exceeded = co2Exceeded;
     this.id = id;
   }
 
@@ -84,5 +106,29 @@ public class MeasurementsObject {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public Boolean isTemperatureExceeded() {
+    return temperatureExceeded;
+  }
+
+  public void setTemperatureExceeded(Boolean temperatureExceeded) {
+    this.temperatureExceeded = temperatureExceeded;
+  }
+
+  public Boolean isHumidityExceeded() {
+    return humidityExceeded;
+  }
+
+  public void setHumidityExceeded(Boolean humidityExceeded) {
+    this.humidityExceeded = humidityExceeded;
+  }
+
+  public Boolean isCo2Exceeded() {
+    return co2Exceeded;
+  }
+
+  public void setCo2Exceeded(Boolean co2Exceeded) {
+    this.co2Exceeded = co2Exceeded;
   }
 }

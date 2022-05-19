@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
@@ -64,21 +63,21 @@ public class RCMService extends FirebaseMessagingService {
     // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
     // [END_EXCLUDE]
 
+    Log.d(TAG, "From: " + remoteMessage.getFrom());
     if (AppStatusChecker.isActivityVisible()) {
-      System.out.println("foreground");
       if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+       // scheduleJob();
         RoomRepository repository = RoomRepository.getInstance(this.getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("key_1"), false);
+        //TODO if method for datagram
+        if (remoteMessage.getData().get("exceeded") != null){
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
+        }
       }
     } else {
-      sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("key_1"), true);
-      System.out.println("Back");
+      sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
     }
 
-    // TODO(developer): Handle FCM messages here.
-    // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-    Log.d(TAG, "From: " + remoteMessage.getFrom());
 
     // Check if message contains a data payload.
     if (remoteMessage.getData().size() > 0) {
@@ -103,10 +102,6 @@ public class RCMService extends FirebaseMessagingService {
   @Override
   public void onNewToken(String token) {
     Log.d(TAG, "Refreshed token: " + token);
-
-    // If you want to send messages to this application instance or
-    // manage this apps subscriptions on the server side, send the
-    // FCM registration token to your app server.
     sendRegistrationToServer(token);
   }
   // [END on_new_token]
@@ -115,11 +110,9 @@ public class RCMService extends FirebaseMessagingService {
    * Schedule async work using WorkManager.
    */
   private void scheduleJob() {
-    // [START dispatch_job]
-    OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(MyWorker.class)
+    OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(DataMiner.class)
         .build();
     WorkManager.getInstance(this).beginWith(work).enqueue();
-    // [END dispatch_job]
   }
 
   /**
@@ -139,10 +132,10 @@ public class RCMService extends FirebaseMessagingService {
    */
   private void sendRegistrationToServer(String token) {
     RoomRepository repository = RoomRepository.getInstance(this.getApplication());
-    FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if (user != null) {
       user.getIdToken(false).addOnSuccessListener(result -> {
-        repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(),token);
+        repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(), token);
       });
     }
 

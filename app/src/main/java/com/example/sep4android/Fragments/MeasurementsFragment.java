@@ -2,7 +2,6 @@ package com.example.sep4android.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -20,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.sep4android.Adapters.InsideAdapter;
 import com.example.sep4android.Adapters.MeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.MeasurementsObject;
@@ -28,6 +28,9 @@ import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.MeasurementViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +48,12 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
 
     findViews();
-    measurementsRV.hasFixedSize();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     measurementAdapter = new MeasurementAdapter(this);
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
 
     measurementsRV.setAdapter(measurementAdapter);
+
     setUpItemTouchHelper();
     return view;
   }
@@ -63,35 +66,45 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   private void initList(List<Room> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     Spinner spinner = view.findViewById(R.id.sp);
+
     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     spinner.setAdapter(spinnerAdapter);
     spinner.setOnItemSelectedListener(this);
 
     // By default first room measurement are displayed
-    Room room = listObjects.get(0);
-    measurementViewModel.getMeasurementsRoom(room.getRoomId());
-    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), this::setRooms);
+    ArrayList<String> weekNames = new ArrayList<>();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    LocalDateTime now = LocalDateTime.now();
+    System.out.println(dtf.format(now));
+    weekNames.add(dtf.format(now));
+    for (int i = 1; i < 7; i++) {
+      weekNames.add(dtf.format(now.plusDays(i)));
+    }
+    setRooms(weekNames);
   }
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     Room room = (Room) adapterView.getItemAtPosition(i);
+
     measurementViewModel.getMeasurementsRoom(room.getRoomId());
   }
 
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
-  //Do nothing
+    //Do nothing
   }
 
-  private void setRooms(List<MeasurementsObject> listObjects) {
+  private void setRooms(ArrayList<String> listObjects) {
     measurementAdapter.update(listObjects);
-
   }
+
 
   @Override
-  public void onListItemClick(MeasurementsObject clickedItemIndex) {
-    System.out.println("2");
+  public void onListItemClick(String clickedItemIndex, InsideAdapter insideAdapter) {
+    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), list -> {
+      insideAdapter.update(list);
+    });
   }
 
   private void setUpItemTouchHelper() {
@@ -106,7 +119,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
           int position = viewHolder.getAbsoluteAdapterPosition();
-          MeasurementsObject card = measurementAdapter.getMeasurements().get(position);
+
           switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
               Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
@@ -121,7 +134,6 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
 
         DialogInterface.OnCancelListener cancelListener = (dialog) -> {
           int position = viewHolder.getAbsoluteAdapterPosition();
-          MeasurementsObject card = measurementAdapter.getMeasurements().get(position);
           undoSwipe(position);
           Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
         };

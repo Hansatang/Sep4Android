@@ -10,12 +10,9 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
@@ -27,23 +24,19 @@ public class LoginActivity extends AppCompatActivity {
   EditText PasswordField;
   Button toRegisterButton;
 
-  ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+  ActivityResultLauncher<Intent> loginResultLauncher = registerForActivityResult(
       new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
-          FirebaseMessaging.getInstance().getToken()
-              .addOnCompleteListener(new OnCompleteListener<String>() {
-                @Override
-                public void onComplete(@NonNull Task<String> task) {
-                  if (!task.isSuccessful()) {
-                    Log.w("Token", "Fetching FCM registration token failed", task.getException());
-                    return;
-                  }
-                  // Get new FCM registration token
-                  String token = task.getResult();
-                  Log.w("Token", token, task.getException());
-                  goToMainActivity();
-                }
-              });
+          FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+              Log.w("Token", "Fetching FCM registration token failed", task.getException());
+              return;
+            }
+            // Get new FCM registration token
+            String token = task.getResult();
+            Log.w("Token", token, task.getException());
+            goToMainActivity();
+          });
         } else
           Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
       });
@@ -87,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         .setLogo(R.drawable.ic_launcher_foreground)
         .build();
 
-    activityResultLauncher.launch(signInIntent);
+    loginResultLauncher.launch(signInIntent);
   }
 
   @Override
