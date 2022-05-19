@@ -1,6 +1,5 @@
 package com.example.sep4android.Adapters;
 
-import android.media.MediaDrm;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
