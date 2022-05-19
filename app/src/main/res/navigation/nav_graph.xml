@@ -46,4 +46,5 @@
         android:id="@+id/TemperatureThreshold"
         android:name="com.example.sep4android.Fragments.TemperatureThresholdFragment"
         android:label="Temperature Threshold List"/>
+
 </navigation>

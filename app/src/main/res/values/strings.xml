@@ -30,7 +30,6 @@
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
     <string name="temperature">Temperature</string>
-    <string name="select_threshold">Select Threshold</string>
     <string name="select_start_time">Select Start Time</string>
     <string name="select_end_time">Select End Time</string>
     <string name="temperature_threshold">Temperature Threshold</string>
@@ -48,4 +47,10 @@
     <string name="start_value">Start value</string>
     <string name="end_value">End Value</string>
     <string name="humidity_thresholds">Humidity Thresholds</string>
+    <string name="add_new_threshold">Add new threshold</string>
+    <string name="select_your_room">Select your room:</string>
+    <string name="spinner">Spinner</string>
+    <string name="select_start_value">Select Start Value</string>
+    <string name="select_end_value">Select End Value</string>
+    <string name="add">add</string>
 </resources>

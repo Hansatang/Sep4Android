@@ -46,6 +46,7 @@
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.136" />
         <entry key="..\:/Users/krzys/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2851851851851852" />
+        <entry key="app/src/main/res/layout/add_new_threshold_popup.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.2851851851851852" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.2851851851851852" />
         <entry key="app/src/main/res/layout/create_room_layout.xml" value="0.3098958333333333" />
@@ -54,9 +55,12 @@
         <entry key="app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_measurements_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_pie.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_pop_window.xml" value="0.232421875" />
         <entry key="app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/fragment_temperature_threshold_list.xml" value="0.30885416666666665" />
+        <entry key="app/src/main/res/layout/main_layout.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.2851851851851852" />
+        <entry key="app/src/main/res/layout/room_list_layout.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/room_spinner_layout.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/settings_layout.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/spin_item.xml" value="0.15520833333333334" />
