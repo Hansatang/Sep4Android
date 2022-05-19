@@ -11,6 +11,7 @@ import com.example.sep4android.Repositories.RoomRepository;
 import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel {
+
   private RoomRepository repository;
 
   public RoomViewModel(Application app) {
@@ -26,12 +27,18 @@ public class RoomViewModel extends AndroidViewModel {
     return repository.getDatabaseRooms(uid);
   }
 
-  public void addRoomToDatabase(String roomId, String name, String userUID) {
-    repository.addRoomToDatabase(roomId, name, userUID);
+  public LiveData<Boolean> addRoomToDatabase(String roomId, String name, String userUID) {
+    return repository.addRoomToDatabase(roomId, name, userUID);
   }
+
+
 
   public void deleteToken(String userUID) {
     repository.deleteToken(userUID);
+  }
+
+  public void setResult() {
+    repository.setResult();
   }
 }
 

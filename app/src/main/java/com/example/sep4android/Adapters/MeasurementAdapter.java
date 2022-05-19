@@ -1,6 +1,5 @@
 package com.example.sep4android.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,11 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,13 +21,13 @@ import java.util.List;
 public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
   final private MeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
-  private ArrayList<String> measurementsObjects;
+  private ArrayList<String> daysList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
 
 
   public MeasurementAdapter(MeasurementAdapter.OnListItemClickListener listener) {
-    measurementsObjects = new ArrayList<>();
+    daysList = new ArrayList<>();
     clickListener = listener;
     mExpandedPosition = -1;
     previousExpandedPosition = -1;
@@ -38,13 +35,13 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void update(ArrayList<String> list) {
     System.out.println("Update call " + list.size());
-    measurementsObjects = list;
+    daysList = list;
     notifyDataSetChanged();
   }
 
 
   public ArrayList<String> getMeasurements() {
-    return measurementsObjects;
+    return daysList;
   }
 
   @Override
@@ -69,7 +66,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position) {
     System.out.println("NormalOnBind");
-    String currentItem = measurementsObjects.get(position);
+    String currentItem = daysList.get(position);
     viewHolder.dateId.setText(currentItem);
     viewHolder.dateId.setTextColor(Color.RED);
     setChildViewHolderAndAdapter(viewHolder);
@@ -78,7 +75,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
     System.out.println("PayloadOnBind");
-    String currentItem = measurementsObjects.get(position);
+    String currentItem = daysList.get(position);
     if (payloads != null) {
       viewHolder.details.setVisibility(View.GONE);
     }
@@ -108,7 +105,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             viewHolder.details.setVisibility(View.GONE);
             previousExpandedPosition = -1;
           }
-          clickListener.onListItemClick(measurementsObjects.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
+          clickListener.onListItemClick(daysList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
         }
     );
   }
@@ -153,7 +150,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
 
   public int getItemCount() {
-    return measurementsObjects.size();
+    return daysList.size();
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {

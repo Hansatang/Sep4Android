@@ -1,6 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,9 +66,17 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
     holder.dateId.setText(getFormattedDate(currentItem));
 
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
+    if (currentItem.isTemperatureExceeded()) {
+      holder.temperatureId.setTextColor(Color.RED);
+    }
     holder.humidityId.setText(ctx.getString(R.string.bind_holder_hum, currentItem.getHumidity()));
+    if (currentItem.isHumidityExceeded()) {
+      holder.humidityId.setTextColor(Color.RED);
+    }
     holder.co2Id.setText(ctx.getString(R.string.bind_holder_co2, currentItem.getCo2()));
-
+    if (currentItem.isCo2Exceeded()) {
+      holder.co2Id.setTextColor(Color.RED);
+    }
   }
 
   @Nullable
