@@ -29,6 +29,7 @@ public class MeasurementsObject {
   @Expose
   private int id;
 
+
   public MeasurementsObject(String date, String roomId, double temperature, double humidity, double co2, int id) {
     this.date = date;
     RoomId = roomId;

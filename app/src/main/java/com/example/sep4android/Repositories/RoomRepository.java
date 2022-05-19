@@ -61,7 +61,7 @@ public class RoomRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      rooms.setValue(null);
-                     Log.i("Retrofit", "Something went wrong :(");
+                     Log.i("Retrofit", "Something went wrong Room:(");
                    }
                  }
     );
@@ -112,9 +112,10 @@ public class RoomRepository {
       @EverythingIsNonNull
       @Override
       public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println("SetNew Fail");
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went wrong Token:(");
       }
     });
   }
@@ -140,7 +141,7 @@ public class RoomRepository {
       public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went wrong delete Token:(");
       }
     });
   }

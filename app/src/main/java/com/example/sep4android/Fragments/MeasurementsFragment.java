@@ -28,6 +28,9 @@ import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.MeasurementViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
 
     measurementsRV.setAdapter(measurementAdapter);
+
     setUpItemTouchHelper();
     return view;
   }
@@ -68,9 +72,15 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     spinner.setOnItemSelectedListener(this);
 
     // By default first room measurement are displayed
-    Room room = listObjects.get(0);
-    measurementViewModel.getMeasurementsRoom(room.getRoomId());
-    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), this::setRooms);
+    ArrayList<String> weekNames = new ArrayList<>();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    LocalDateTime now = LocalDateTime.now();
+    System.out.println(dtf.format(now));
+    weekNames.add(dtf.format(now));
+    for (int i = 1; i < 7; i++) {
+      weekNames.add(dtf.format(now.plusDays(i)));
+    }
+    setRooms(weekNames);
   }
 
   @Override
@@ -85,14 +95,13 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     //Do nothing
   }
 
-  private void setRooms(List<MeasurementsObject> listObjects) {
+  private void setRooms(ArrayList<String> listObjects) {
     measurementAdapter.update(listObjects);
-
   }
 
 
   @Override
-  public void onListItemClick(MeasurementsObject clickedItemIndex, InsideAdapter insideAdapter) {
+  public void onListItemClick(String clickedItemIndex, InsideAdapter insideAdapter) {
     measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), list -> {
       insideAdapter.update(list);
     });
@@ -110,7 +119,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
           int position = viewHolder.getAbsoluteAdapterPosition();
-          MeasurementsObject card = measurementAdapter.getMeasurements().get(position);
+
           switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
               Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
@@ -125,7 +134,6 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
 
         DialogInterface.OnCancelListener cancelListener = (dialog) -> {
           int position = viewHolder.getAbsoluteAdapterPosition();
-          MeasurementsObject card = measurementAdapter.getMeasurements().get(position);
           undoSwipe(position);
           Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
         };

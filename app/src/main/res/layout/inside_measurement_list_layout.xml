@@ -6,22 +6,6 @@
     android:visibility="visible"
     android:orientation="vertical">
 
-
-
-    <TextView
-        android:id="@+id/lolId"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_weight="28"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="5dp"
-        android:text="Dork"
-
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
     <LinearLayout
         android:id="@+id/header_linearLayout"
         android:layout_width="match_parent"

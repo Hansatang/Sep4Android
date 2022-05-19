@@ -66,14 +66,16 @@ public class RCMService extends FirebaseMessagingService {
     Log.d(TAG, "From: " + remoteMessage.getFrom());
     if (AppStatusChecker.isActivityVisible()) {
       if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-        scheduleJob();
+       // scheduleJob();
         RoomRepository repository = RoomRepository.getInstance(this.getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
         //TODO if method for datagram
-        sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("key_1"), false);
+        if (remoteMessage.getData().get("exceeded") != null){
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
+        }
       }
     } else {
-      sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("key_1"), true);
+      sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
     }
 
 

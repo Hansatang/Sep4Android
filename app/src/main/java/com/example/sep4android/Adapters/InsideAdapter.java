@@ -34,10 +34,8 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
 
   public void update(List<MeasurementsObject> list) {
     System.out.println("Update call elo " + list.size());
-    ArrayList<MeasurementsObject> arrayList = new ArrayList<>();
-    arrayList.add(new MeasurementsObject("1234567", "12123", 12.00, 3, 20, 20));
-    arrayList.add(new MeasurementsObject("1234567", "12123", 22.00, 23, 40, 440));
-    objects = arrayList;
+
+    objects = list;
     System.out.println(objects.size());
     notifyDataSetChanged();
   }
@@ -45,7 +43,6 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    ctx = parent.getContext();
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
     return new ViewHolder(view);
   }
@@ -57,7 +54,7 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   }
 
   @Override
-  public int getItemViewType(int position){
+  public int getItemViewType(int position) {
     return position; // Return any variable as long as it's not a constant value
   }
 
@@ -65,7 +62,7 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   public void onBindViewHolder(ViewHolder holder, int position) {
     MeasurementsObject currentItem = objects.get(position);
     System.out.println("Room: " + currentItem.getRoomId());
-   // holder.dateId.setText(getFormattedDate(currentItem));
+    holder.dateId.setText(getFormattedDate(currentItem));
 
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     holder.humidityId.setText(ctx.getString(R.string.bind_holder_hum, currentItem.getHumidity()));
@@ -98,6 +95,7 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
     TextView temperatureId;
     TextView humidityId;
     TextView co2Id;
+
 
     ViewHolder(View itemView) {
       super(itemView);
