@@ -60,14 +60,10 @@ public class SettingsFragment extends Fragment {
         }
     );
     deleteDataButton.setOnClickListener(
-        view -> {
-         changeTheme();
-        }
+        view -> changeTheme()
     );
     deleteAccountButton.setOnClickListener(
-        view -> {
-          viewModel.deleteAccount();
-        }
+        view -> viewModel.deleteAccount()
     );
 
   }
@@ -81,19 +77,14 @@ public class SettingsFragment extends Fragment {
     SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
     final SharedPreferences.Editor editor = sharedPreferences.edit();
     final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
-    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-    editor.putBoolean("isDarkModeOn", false);
-    editor.apply();
 
     if (isDarkModeOn) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
       editor.putBoolean("isDarkModeOn", false);
-      editor.apply();
-
     } else {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
       editor.putBoolean("isDarkModeOn", true);
-      editor.apply();
     }
+    editor.apply();
   }
 }

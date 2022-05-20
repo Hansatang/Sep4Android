@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.example.sep4android.Adapters.InsideAdapter;
-import com.example.sep4android.Adapters.MeasurementAdapter;
+import com.example.sep4android.Adapters.ChildMeasurementAdapter;
+import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.Room;
 import com.example.sep4android.R;
@@ -26,12 +26,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener, MeasurementAdapter.OnListItemClickListener {
+public class MeasurementsFragment extends Fragment implements AdapterView.OnItemSelectedListener, ParentMeasurementAdapter.OnListItemClickListener {
   View view;
   RoomViewModel viewModel;
   RecyclerView measurementsRV;
   MeasurementViewModel measurementViewModel;
-  MeasurementAdapter measurementAdapter;
+  ParentMeasurementAdapter parentMeasurementAdapter;
   Spinner spinner;
 
   @Override
@@ -39,15 +39,11 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     measurementViewModel = new ViewModelProvider(requireActivity()).get(MeasurementViewModel.class);
-
     findViews();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-    measurementAdapter = new MeasurementAdapter(this);
+    parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
-
-    measurementsRV.setAdapter(measurementAdapter);
-
-    //setUpItemTouchHelper();
+    measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
   }
 
@@ -63,6 +59,10 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
     spinner.setAdapter(spinnerAdapter);
     spinner.setOnItemSelectedListener(this);
 
+    setDateTimesForParentMeasurementAdapter();
+  }
+
+  private void setDateTimesForParentMeasurementAdapter() {
     ArrayList<LocalDateTime> weekNames = new ArrayList<>();
     LocalDateTime now = LocalDateTime.now();
     weekNames.add(now);
@@ -75,13 +75,7 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     Room room = (Room) adapterView.getItemAtPosition(i);
-    ArrayList<LocalDateTime> weekNames = new ArrayList<>();
-    LocalDateTime now = LocalDateTime.now();
-    weekNames.add(now);
-    for (int j = 1; j < 7; j++) {
-      weekNames.add(now.plusDays(j));
-    }
-    setRooms(weekNames);
+    setDateTimesForParentMeasurementAdapter();
     measurementViewModel.getMeasurementsRoom(room.getRoomId());
   }
 
@@ -91,19 +85,17 @@ public class MeasurementsFragment extends Fragment implements AdapterView.OnItem
   }
 
   private void setRooms(ArrayList<LocalDateTime> listObjects) {
-    measurementAdapter.update(listObjects);
+    parentMeasurementAdapter.updateListAndNotify(listObjects);
   }
 
 
   @Override
-  public void onListItemClick(LocalDateTime clickedItem, InsideAdapter insideAdapter) {
+  public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
     Room room = (Room) spinner.getSelectedItem();
-    System.out.println("Room "+room.getName());
+    System.out.println("Room " + room.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
-    System.out.println("Time "+dtf.format(clickedItem));
-    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), list -> {
-      insideAdapter.update(list);
-    });
+    System.out.println("Time " + dtf.format(clickedItem));
+    measurementViewModel.getMeasurements().observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
 //  private void setUpItemTouchHelper() {

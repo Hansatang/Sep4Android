@@ -39,6 +39,9 @@ public class RoomRepository {
     return rooms;
   }
 
+  public void setResult() {
+    creationResult.setValue(false);
+  }
 
   //TODO change username to uid after work
   public LiveData<List<Room>> getDatabaseRooms(String uid) {
@@ -98,63 +101,6 @@ public class RoomRepository {
                  }
     );
     return creationResult;
-  }
-
-  public void setNewToken(String uid, String token) {
-    System.out.println("SetNew");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-
-    UserToken userToken = new UserToken(uid, token);
-    Call<Integer> call = databaseApi.setToken(userToken);
-    call.enqueue(new Callback<Integer>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<Integer> call, Throwable t) {
-        System.out.println("SetNew Fail");
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong Token:(");
-      }
-    });
-  }
-
-  public void deleteToken(String userUID) {
-    System.out.println("SetNew");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-
-    UserToken userToken = new UserToken(userUID, null);
-    Call<Integer> call = databaseApi.deleteToken(userToken);
-    call.enqueue(new Callback<Integer>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<Integer> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong delete Token:(");
-      }
-    });
-  }
-
-  public void setResult() {
-    creationResult.setValue(false);
   }
 }
 

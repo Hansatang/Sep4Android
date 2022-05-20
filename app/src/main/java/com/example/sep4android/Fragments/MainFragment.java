@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -27,9 +26,9 @@ import java.util.List;
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
   RoomViewModel viewModel;
   View view;
-  FloatingActionButton fab;
+  FloatingActionButton fabCreateRoom;
   RecyclerView roomsRV;
-  TextView textView;
+  TextView activeRoomCount;
   RoomAdapter roomAdapter;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,13 +47,13 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
   private void findViews(View view) {
-    fab = view.findViewById(R.id.fab);
+    fabCreateRoom = view.findViewById(R.id.fabCreateRoom);
     roomsRV = view.findViewById(R.id.room_rv);
-    textView = view.findViewById(R.id.textView2);
+    activeRoomCount = view.findViewById(R.id.activeRoomCount);
   }
 
   private void setListenersToButtons() {
-    fab.setOnClickListener(view -> {
+    fabCreateRoom.setOnClickListener(view -> {
           NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
           navController.navigate(R.id.CreateRoom);
         }
@@ -70,8 +69,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   //TODO CHANGE string to resource string everywhere
   private void setRooms(List<Room> listObjects) {
     if (listObjects != null) {
-      textView.setText("Active Rooms: " + listObjects.size());
-      roomAdapter.update(listObjects);
+      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count, listObjects.size()));
+      roomAdapter.updateListAndNotify(listObjects);
     }
   }
 }

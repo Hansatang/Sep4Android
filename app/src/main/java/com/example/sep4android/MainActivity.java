@@ -46,10 +46,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     user = FirebaseAuth.getInstance().getCurrentUser();
     if (user == null) {
-      startActivity(new Intent(this, LoginActivity.class));
+      startActivity(new Intent(this, SignUpActivity.class));
       finish();
     } else {
-
       setContentView(R.layout.activity_main);
       createNotificationChannel();
       roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
@@ -82,11 +81,8 @@ public class MainActivity extends AppCompatActivity {
           System.out.println("User is signed in with Email");
         }
       });
-      System.out.println("HEJ "+user.getUid());
-      String email = user.getEmail();
-      String username = user.getDisplayName();
-      UsernameInNavBar.setText(email);
-      EmailInNavBar.setText(username);
+      UsernameInNavBar.setText(user.getEmail());
+      EmailInNavBar.setText(user.getDisplayName());
     }
   }
 
@@ -121,10 +117,8 @@ public class MainActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (item.getItemId() == findViewById(R.id.LogOutItem).getId()) {
       onLogOut();
-    }
-    if (item.getItemId() == toolbar.getMenu().findItem(R.id.more).getItemId()) {
-      NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
-          navController);
+    } else if (item.getItemId() == toolbar.getMenu().findItem(R.id.more).getItemId()) {
+      NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController);
     }
     return super.onOptionsItemSelected(item);
   }
@@ -136,18 +130,18 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onLogOut() {
-    roomViewModel.deleteToken(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(task1 -> {
-      if (!task1.isSuccessful()) {
-        Log.w("Token", "Fetching FCM registration token failed", task1.getException());
+    roomViewModel.deleteToken(user.getUid());
+    FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(deleteTokenTask -> {
+      if (!deleteTokenTask.isSuccessful()) {
+        Log.w("Token", "Fetching FCM registration token failed", deleteTokenTask.getException());
         return;
       }
-      AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
-        if (!task.isSuccessful()) {
-          Log.w("Token", "Fetching FCM registration token failed", task.getException());
+      AuthUI.getInstance().signOut(this).addOnCompleteListener(logOutTask -> {
+        if (!logOutTask.isSuccessful()) {
+          Log.w("Token", "Fetching FCM registration token failed", logOutTask.getException());
           return;
         }
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
         finish();
       });
     });

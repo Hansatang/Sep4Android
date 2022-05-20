@@ -19,9 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends AppCompatActivity {
-  EditText UsernameField;
-  EditText PasswordField;
+public class SignUpActivity extends AppCompatActivity {
   Button toRegisterButton;
 
   ActivityResultLauncher<Intent> loginResultLauncher = registerForActivityResult(
@@ -53,16 +51,12 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void findViews() {
-    UsernameField = findViewById(R.id.UsernameField);
-    PasswordField = findViewById(R.id.PasswordField);
     toRegisterButton = findViewById(R.id.toRegisterView);
   }
 
   private void setListenersToButtons() {
-    toRegisterButton.setOnClickListener(
-        view -> signIn());
+    toRegisterButton.setOnClickListener(view -> signIn());
   }
-
 
   private void goToMainActivity() {
     startActivity(new Intent(this, MainActivity.class));

@@ -32,7 +32,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     clickListener = listener;
   }
 
-  public void update(List<Room> list) {
+  public void updateListAndNotify(List<Room> list) {
     System.out.println("Update call " + list.size());
     objects = list;
     notifyDataSetChanged();
@@ -50,6 +50,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
     System.out.println("Room: " + objects.get(position).getRoomId());
     viewHolder.name.setText("Room: " + objects.get(position).getName());
+
     List<MeasurementsObject> list = objects.get(position).getMeasurements();
     if (!list.isEmpty()) {
       viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());

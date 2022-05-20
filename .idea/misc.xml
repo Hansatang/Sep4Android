@@ -18,6 +18,7 @@
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.136" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable/background.xml" value="0.136" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable/border.xml" value="0.254" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable/border_red.xml" value="0.2635" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable/fab_border.xml" value="0.254" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.136" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/content_main.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/create_room_layout.xml" value="0.5" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_history.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_item.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_measurements_list.xml" value="0.22" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_my_rooms.xml" value="0.27291666666666664" />
@@ -33,7 +35,7 @@
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_test.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/inside_measurement_list_layout.xml" value="0.25" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/login_fragment.xml" value="0.12552083333333333" />
-        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/login_layout.xml" value="0.1" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/login_layout.xml" value="0.22" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/main_layout.xml" value="0.22" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/main_view_layout.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/measurement_item.xml" value="0.12552083333333333" />

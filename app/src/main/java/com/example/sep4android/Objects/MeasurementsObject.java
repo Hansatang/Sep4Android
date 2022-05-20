@@ -43,8 +43,6 @@ public class MeasurementsObject {
   private int id;
 
 
-
-
   public MeasurementsObject(String date, String roomId, double temperature,
                             Boolean temperatureExceeded, double humidity,
                             Boolean humidityExceeded, double co2,

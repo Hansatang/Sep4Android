@@ -56,10 +56,10 @@ public class SpinnerAdapter extends ArrayAdapter<Room> {
 
     Room room = data.get(position);
 
-    TextView romName = row.findViewById(R.id.spinnerItemName);
+    TextView roomName = row.findViewById(R.id.spinnerItemName);
 
-    if(romName != null){
-      romName.setText(room.getName());
+    if(roomName != null){
+      roomName.setText(room.getName());
     }
     return row;
   }

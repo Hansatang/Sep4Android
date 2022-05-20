@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,21 +22,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder> {
+public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ViewHolder> {
   private Context ctx;
   public List<MeasurementsObject> objects;
 
-
-  public InsideAdapter() {
-    System.out.println("created Inside adapter");
+  public ChildMeasurementAdapter() {
     objects = new ArrayList<>();
   }
 
-  public void update(List<MeasurementsObject> list) {
+  public void updateListAndNotify(List<MeasurementsObject> list) {
     System.out.println("Update call elo " + list.size());
-
     objects = list;
-    System.out.println(objects.size());
     notifyDataSetChanged();
   }
 
@@ -62,9 +57,7 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
     MeasurementsObject currentItem = objects.get(position);
-    System.out.println("Room: " + currentItem.getRoomId());
     holder.dateId.setText(getFormattedDate(currentItem));
-
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     if (currentItem.isTemperatureExceeded()) {
       holder.temperatureId.setTextColor(Color.RED);
@@ -99,12 +92,10 @@ public class InsideAdapter extends RecyclerView.Adapter<InsideAdapter.ViewHolder
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-
     TextView dateId;
     TextView temperatureId;
     TextView humidityId;
     TextView co2Id;
-
 
     ViewHolder(View itemView) {
       super(itemView);
