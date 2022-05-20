@@ -15,13 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.R;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
   final private MeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
-  private ArrayList<String> daysList;
+  private ArrayList<LocalDateTime> daysList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
 
@@ -33,14 +35,17 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
     previousExpandedPosition = -1;
   }
 
-  public void update(ArrayList<String> list) {
+  public void update(ArrayList<LocalDateTime> list) {
     System.out.println("Update call " + list.size());
+    daysList = new ArrayList<>();
+    mExpandedPosition = -1;
+    previousExpandedPosition = -1;
     daysList = list;
     notifyDataSetChanged();
   }
 
 
-  public ArrayList<String> getMeasurements() {
+  public ArrayList<LocalDateTime> getMeasurements() {
     return daysList;
   }
 
@@ -66,8 +71,9 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position) {
     System.out.println("NormalOnBind");
-    String currentItem = daysList.get(position);
-    viewHolder.dateId.setText(currentItem);
+    LocalDateTime currentItem = daysList.get(position);
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    viewHolder.dateId.setText(dtf.format(currentItem));
     viewHolder.dateId.setTextColor(Color.RED);
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
@@ -75,11 +81,12 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
   public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
     System.out.println("PayloadOnBind");
-    String currentItem = daysList.get(position);
+    LocalDateTime currentItem = daysList.get(position);
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    viewHolder.dateId.setText(dtf.format(currentItem));
     if (payloads != null) {
       viewHolder.details.setVisibility(View.GONE);
     }
-    viewHolder.dateId.setText(currentItem);
 
     viewHolder.dateId.setTextColor(Color.RED);
 
@@ -115,17 +122,32 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
     viewHolder.recyclerView.setLayoutManager(layoutManager);
     viewHolder.recyclerView.setHasFixedSize(true);
     InsideAdapter childRecyclerViewAdapter = new InsideAdapter();
-
     viewHolder.recyclerView.setAdapter(childRecyclerViewAdapter);
+
     RecyclerView.OnItemTouchListener mScrollTouchListener = new RecyclerView.OnItemTouchListener() {
+      float mLastY;
+
       @Override
       public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        int action = e.getAction();
-        switch (action) {
+        switch (e.getAction()) {
+          case MotionEvent.ACTION_DOWN:
+            mLastY = e.getY();
+            break;
+          case MotionEvent.ACTION_CANCEL:
+          case MotionEvent.ACTION_UP:
+            break;
           case MotionEvent.ACTION_MOVE:
-            rv.getParent().requestDisallowInterceptTouchEvent(true);
+            float y = e.getY();
+
+            if (mLastY > y) {
+              rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(1));
+            }
+            if (mLastY < y) {
+              rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(-1));
+            }
             break;
         }
+
         return false;
       }
 
@@ -138,6 +160,8 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
       }
+
+
     };
 
     viewHolder.recyclerView.addOnItemTouchListener(mScrollTouchListener);
@@ -145,7 +169,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
 
   public interface OnListItemClickListener {
-    void onListItemClick(String clickedItemIndex, InsideAdapter viewHolder);
+    void onListItemClick(LocalDateTime clickedItemIndex, InsideAdapter viewHolder);
   }
 
 

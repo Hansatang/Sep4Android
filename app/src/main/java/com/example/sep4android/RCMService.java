@@ -70,7 +70,7 @@ public class RCMService extends FirebaseMessagingService {
         RoomRepository repository = RoomRepository.getInstance(this.getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
         //TODO if method for datagram
-        if (remoteMessage.getData().get("exceeded") != null){
+        if (remoteMessage.getData().get("exceeded").contains("true")){
           sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
         }
       }

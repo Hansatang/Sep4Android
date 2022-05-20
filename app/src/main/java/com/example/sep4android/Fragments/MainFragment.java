@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -36,13 +37,11 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     view = inflater.inflate(R.layout.main_layout, container, false);
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::setRooms);
-
     findViews(view);
     setListenersToButtons();
     roomsRV.hasFixedSize();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
-    //viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
     roomsRV.setAdapter(roomAdapter);
 
     return view;
