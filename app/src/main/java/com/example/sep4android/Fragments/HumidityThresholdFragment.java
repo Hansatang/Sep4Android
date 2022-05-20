@@ -72,7 +72,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        humidityThresholdViewModel.getThresholdFromRepo(((Room)spinner.getSelectedItem()).getRoomId());
+        humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
         humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
     }
 
