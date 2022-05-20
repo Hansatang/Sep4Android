@@ -1,5 +1,6 @@
 package com.example.sep4android.Fragments;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -14,10 +15,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.sep4android.Adapters.SpinnerAdapter;
@@ -29,6 +33,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TemperatureThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -40,8 +45,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     private Context context;
     private Spinner spinner;
     private FloatingActionButton fab;
-    private EditText startTime, endTime, startValue, endValue;
+    private Button startTime, endTime;
+    private NumberPicker startValue, endValue;
 
+    int hour, minute;
 
     public TemperatureThresholdFragment() {
     }
@@ -100,7 +107,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.fragment_add_new_threshold_temperature, null);
+        View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -117,7 +124,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
             }
         });
         
-        findViews();
+        findViews(popupView);
 
         popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,12 +133,49 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
                 Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
             }
         });
+
+        startTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view, startTime);
+            }
+        });
+
+        endTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view, endTime);
+            }
+        });
     }
 
-    private void findViews() {
-        startTime = view.findViewById(R.id.select_start_time);
-        endTime = view.findViewById(R.id.select_end_time);
-        startValue = view.findViewById(R.id.select_start_value);
-        endValue = view.findViewById(R.id.select_end_value);
+    private void findViews(View popupView) {
+        startTime = popupView.findViewById(R.id.select_start_time);
+        endTime = popupView.findViewById(R.id.select_end_time);
+        startValue = popupView.findViewById(R.id.select_start_value);
+        startValue.setMinValue(0);
+        startValue.setMaxValue(35);
+        endValue = popupView.findViewById(R.id.select_end_value);
+        endValue.setMinValue(0);
+        endValue.setMaxValue(35);
+    }
+
+    public void popTimePicker(View view, Button button)
+    {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+            {
+                hour = selectedHour;
+                minute = selectedMinute;
+                button.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
+            }
+        };
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
     }
 }

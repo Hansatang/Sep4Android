@@ -53,4 +53,5 @@
     <string name="select_start_value">Select Start Value</string>
     <string name="select_end_value">Select End Value</string>
     <string name="add">add</string>
+    <string name="select">Select</string>
 </resources>
