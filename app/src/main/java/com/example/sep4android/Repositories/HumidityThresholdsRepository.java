@@ -43,7 +43,8 @@ public class HumidityThresholdsRepository {
     public void getHumidityThresholds(String roomId)
     {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds(roomId);
+        // TODO: 20.05.2022 change hardcoded values
+        Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds("0004A30B00219CAC");
         System.out.println("Call");
         call.enqueue(new Callback<List<HumidityThresholdObject>>() {
             @EverythingIsNonNull

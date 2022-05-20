@@ -30,6 +30,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
     private View view;
     private RoomViewModel viewModel;
+    private HumidityThresholdViewModel humidityThresholdViewModel;
     private ArrayList<String> mCountryList;
     private RecyclerView humidityThresholdList;
     private HumidityThresholdAdapter humidityThresholdAdapter;
@@ -41,6 +42,8 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        humidityThresholdViewModel = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
 
         context = container.getContext();
         view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
@@ -69,11 +72,19 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        humidityThresholdViewModel.getThresholdFromRepo(((Room)spinner.getSelectedItem()).getRoomId());
+        humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         System.out.println(adapterView.getItemAtPosition(i).toString());
+        // TODO: 20.05.2022 uncomment and change null to object id 
+        //humidityThresholdViewModel.getThresholdFromRepo(null);
+    }
+
+    private void updateList(List<HumidityThresholdObject> humidityThresholdObjects) {
+        humidityThresholdAdapter.update(humidityThresholdObjects);
     }
 
     @Override

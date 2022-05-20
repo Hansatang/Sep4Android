@@ -18,7 +18,7 @@ import java.util.List;
 
 public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThresholdAdapter.ViewHolder>{
 
-    private ArrayList<HumidityThresholdObject> thresholdObjects;
+    private List<HumidityThresholdObject> thresholdObjects;
     private List<Room> rooms;
 
     public HumidityThresholdAdapter(){
@@ -27,7 +27,7 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
     }
 
 
-    public void update(ArrayList<HumidityThresholdObject> list) {
+    public void update(List<HumidityThresholdObject> list) {
         System.out.println("Update call " + list.size());
         if (list != null) {
             thresholdObjects = list;
@@ -40,7 +40,7 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.fragment_humidity_threshold_list, parent, false);
+        view = inflater.inflate(R.layout.fragment_humidity_threshold_item, parent, false);
         return new HumidityThresholdAdapter.ViewHolder(view);
     }
 
