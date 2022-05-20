@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,19 +35,15 @@ public class CreateRoomFragment extends Fragment {
   private void setListenersToButtons() {
     createRoomButton.setOnClickListener(view -> {
           viewModel.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
-              FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::moveToMainView);
-
+              FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
         }
     );
   }
 
 
-
-  private void moveToMainView(Object creationResult) {
-
+  private void NavigateToMainFragment(Object creationResult) {
     Boolean bool = (Boolean) creationResult;
     if (bool) {
-
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
       viewModel.setResult();

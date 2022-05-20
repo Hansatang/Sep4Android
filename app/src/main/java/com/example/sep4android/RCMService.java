@@ -29,6 +29,7 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.sep4android.Repositories.RoomRepository;
+import com.example.sep4android.Repositories.TokenRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -47,48 +48,23 @@ public class RCMService extends FirebaseMessagingService {
 
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
-    // [START_EXCLUDE]
-    // There are two types of messages data messages and notification messages. Data messages
-    // are handled
-    // here in onMessageReceived whether the app is in the foreground or background. Data
-    // messages are the type
-    // traditionally used with GCM. Notification messages are only received here in
-    // onMessageReceived when the app
-    // is in the foreground. When the app is in the background an automatically generated
-    // notification is displayed.
-    // When the user taps on the notification they are returned to the app. Messages
-    // containing both notification
-    // and data payloads are treated as notification messages. The Firebase console always
-    // sends notification
-    // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
-    // [END_EXCLUDE]
-
     Log.d(TAG, "From: " + remoteMessage.getFrom());
-    if (AppStatusChecker.isActivityVisible()) {
-      if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-       // scheduleJob();
-        RoomRepository repository = RoomRepository.getInstance(this.getApplication());
-        repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        //TODO if method for datagram
-        if (remoteMessage.getData().get("exceeded") != null){
-          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
-        }
-      }
-    } else {
-      sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
-    }
-
-
-    // Check if message contains a data payload.
     if (remoteMessage.getData().size() > 0) {
-      System.out.println("DataLoad");
-      Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-      System.out.println(remoteMessage.getData().get("title"));
+      if (AppStatusChecker.isActivityVisible()) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+          RoomRepository repository = RoomRepository.getInstance(this.getApplication());
+          repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
+          //TODO if method for datagram
+          if (remoteMessage.getData().get("exceeded").contains("true")) {
+            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
+          }
+        }
+      } else {
+        sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
+      }
     }
   }
 
-
-  // [START on_new_token]
 
   /**
    * There are two scenarios when onNewToken is called:
@@ -104,7 +80,7 @@ public class RCMService extends FirebaseMessagingService {
     Log.d(TAG, "Refreshed token: " + token);
     sendRegistrationToServer(token);
   }
-  // [END on_new_token]
+
 
   /**
    * Schedule async work using WorkManager.
@@ -131,15 +107,14 @@ public class RCMService extends FirebaseMessagingService {
    * @param token The new token.
    */
   private void sendRegistrationToServer(String token) {
-    RoomRepository repository = RoomRepository.getInstance(this.getApplication());
+    TokenRepository repository = TokenRepository.getInstance(this.getApplication());
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if (user != null) {
       user.getIdToken(false).addOnSuccessListener(result -> {
-        repository.setNewToken(FirebaseAuth.getInstance().getCurrentUser().getUid(), token);
+        repository.setNewToken(user.getUid(), token);
       });
     }
 
-    // TODO: Implement this method to send token to your app server.
   }
 
   /**
@@ -151,31 +126,21 @@ public class RCMService extends FirebaseMessagingService {
     String channelId = getString(R.string.default_notification_channel_id);
     Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     NotificationCompat.Builder notificationBuilder;
+    notificationBuilder = new NotificationCompat.Builder(this, channelId)
+        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setContentTitle(messageBody).setContentText(content)
+        .setAutoCancel(true)
+        .setSound(defaultSoundUri);
     if (openOnCLick) {
       Intent intent = new Intent(this, MainActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
           PendingIntent.FLAG_ONE_SHOT);
 
-      notificationBuilder = new NotificationCompat.Builder(this, channelId)
-          .setSmallIcon(R.drawable.ic_launcher_foreground)
-          .setContentTitle(messageBody)
-          .setContentText(content)
-          .setAutoCancel(true)
-          .setSound(defaultSoundUri)
-          .setContentIntent(pendingIntent);
-    } else {
-      notificationBuilder = new NotificationCompat.Builder(this, channelId)
-          .setSmallIcon(R.drawable.ic_launcher_foreground)
-          .setContentTitle(messageBody)
-          .setContentText(content)
-          .setAutoCancel(true)
-          .setSound(defaultSoundUri);
+      notificationBuilder.setContentIntent(pendingIntent);
     }
 
-
-    NotificationManager notificationManager =
-        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
     NotificationChannel channel = new NotificationChannel(channelId,
         "Channel human readable title",

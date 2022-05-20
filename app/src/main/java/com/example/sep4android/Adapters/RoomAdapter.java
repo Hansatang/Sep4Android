@@ -1,5 +1,6 @@
 package com.example.sep4android.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     clickListener = listener;
   }
 
-  public void update(List<Room> list) {
+  public void updateListAndNotify(List<Room> list) {
     System.out.println("Update call " + list.size());
     objects = list;
     notifyDataSetChanged();
@@ -49,14 +50,23 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
     System.out.println("Room: " + objects.get(position).getRoomId());
     viewHolder.name.setText("Room: " + objects.get(position).getName());
+
     List<MeasurementsObject> list = objects.get(position).getMeasurements();
     if (!list.isEmpty()) {
-      viewHolder.date.setText(getFormattedDate(list));
       viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
+      if (list.get(0).isTemperatureExceeded()) {
+        viewHolder.temperature.setTextColor(Color.RED);
+      }
       viewHolder.humidity.setText(list.get(0).getHumidity() + "");
+      if (list.get(0).isHumidityExceeded()) {
+        viewHolder.humidity.setTextColor(Color.RED);
+      }
       viewHolder.co2.setText(list.get(0).getCo2() + "");
+      if (list.get(0).isCo2Exceeded()) {
+        viewHolder.co2.setTextColor(Color.RED);
+      }
+      viewHolder.date.setText(getFormattedDate(list));
     }
-
   }
 
   @Nullable

@@ -15,33 +15,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.R;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.ViewHolder> {
-  final private MeasurementAdapter.OnListItemClickListener clickListener;
+public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
+  final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
-  private ArrayList<String> daysList;
+  private ArrayList<LocalDateTime> dateTimeList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
 
 
-  public MeasurementAdapter(MeasurementAdapter.OnListItemClickListener listener) {
-    daysList = new ArrayList<>();
+  public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
+    dateTimeList = new ArrayList<>();
     clickListener = listener;
     mExpandedPosition = -1;
     previousExpandedPosition = -1;
   }
 
-  public void update(ArrayList<String> list) {
+  public void updateListAndNotify(ArrayList<LocalDateTime> list) {
     System.out.println("Update call " + list.size());
-    daysList = list;
+    dateTimeList = new ArrayList<>();
+    mExpandedPosition = -1;
+    previousExpandedPosition = -1;
+    dateTimeList = list;
     notifyDataSetChanged();
   }
 
 
-  public ArrayList<String> getMeasurements() {
-    return daysList;
+  public ArrayList<LocalDateTime> getDateTimeList() {
+    return dateTimeList;
   }
 
   @Override
@@ -50,7 +55,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
   }
 
   @NonNull
-  public MeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public ParentMeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     System.out.println("View holder creation");
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
@@ -64,27 +69,26 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
     ctx = recyclerView.getContext();
   }
 
-  public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position) {
+  public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position) {
     System.out.println("NormalOnBind");
-    String currentItem = daysList.get(position);
-    viewHolder.dateId.setText(currentItem);
+    LocalDateTime currentItem = dateTimeList.get(position);
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    viewHolder.dateId.setText(dtf.format(currentItem));
     viewHolder.dateId.setTextColor(Color.RED);
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
   }
 
-  public void onBindViewHolder(MeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
+  public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
     System.out.println("PayloadOnBind");
-    String currentItem = daysList.get(position);
+    LocalDateTime currentItem = dateTimeList.get(position);
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
+    viewHolder.dateId.setText(dtf.format(currentItem));
     if (payloads != null) {
       viewHolder.details.setVisibility(View.GONE);
     }
-    viewHolder.dateId.setText(currentItem);
-
     viewHolder.dateId.setTextColor(Color.RED);
-
     setChildViewHolderAndAdapter(viewHolder);
-
     addExpandabilityToViewHolder(viewHolder);
 
   }
@@ -105,7 +109,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             viewHolder.details.setVisibility(View.GONE);
             previousExpandedPosition = -1;
           }
-          clickListener.onListItemClick(daysList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
+          clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
         }
     );
   }
@@ -114,18 +118,32 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
     viewHolder.recyclerView.setLayoutManager(layoutManager);
     viewHolder.recyclerView.setHasFixedSize(true);
-    InsideAdapter childRecyclerViewAdapter = new InsideAdapter();
-
+    ChildMeasurementAdapter childRecyclerViewAdapter = new ChildMeasurementAdapter();
     viewHolder.recyclerView.setAdapter(childRecyclerViewAdapter);
-    RecyclerView.OnItemTouchListener mScrollTouchListener = new RecyclerView.OnItemTouchListener() {
+    viewHolder.recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+      float mLastY;
+
       @Override
       public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        int action = e.getAction();
-        switch (action) {
+        switch (e.getAction()) {
+          case MotionEvent.ACTION_DOWN:
+            mLastY = e.getY();
+            break;
+          case MotionEvent.ACTION_CANCEL:
+          case MotionEvent.ACTION_UP:
+            break;
           case MotionEvent.ACTION_MOVE:
-            rv.getParent().requestDisallowInterceptTouchEvent(true);
+            float y = e.getY();
+
+            if (mLastY > y) {
+              rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(1));
+            }
+            if (mLastY < y) {
+              rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(-1));
+            }
             break;
         }
+
         return false;
       }
 
@@ -138,19 +156,18 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
       }
-    };
 
-    viewHolder.recyclerView.addOnItemTouchListener(mScrollTouchListener);
+
+    });
   }
 
 
   public interface OnListItemClickListener {
-    void onListItemClick(String clickedItemIndex, InsideAdapter viewHolder);
+    void onListItemClick(LocalDateTime clickedItemIndex, ChildMeasurementAdapter viewHolder);
   }
 
-
   public int getItemCount() {
-    return daysList.size();
+    return dateTimeList.size();
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -171,9 +188,9 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
       details = itemView.findViewById(R.id.details);
     }
 
-    public InsideAdapter getInsideAdapter() {
+    public ChildMeasurementAdapter getInsideAdapter() {
 
-      return (InsideAdapter) recyclerView.getAdapter();
+      return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
   }
 }
