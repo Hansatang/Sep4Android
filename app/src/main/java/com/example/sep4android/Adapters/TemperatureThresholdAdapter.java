@@ -16,10 +16,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TemperatureThresholdAdapter extends RecyclerView.Adapter<TemperatureThresholdAdapter.ViewHolder>{
 
+
     private ArrayList<TemperatureThresholdObject> thresholdObjects;
+    private List<Room> rooms;
 
     public TemperatureThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
@@ -45,12 +48,10 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (holder.room.getRoomId().equals(thresholdObjects.get(position).getRoomId())){
             holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
             holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
             holder.startTime.setText(thresholdObjects.get(position).getStartTime());
             holder.endTime.setText(thresholdObjects.get(position).getEndTime());
-        }
 
     }
 
@@ -59,6 +60,11 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
         return thresholdObjects.size();
     }
 
+    public interface OnListItemClickListener {
+        void onListItemClick(Room clickedItemIndex);
+    }
+
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
 
@@ -66,9 +72,6 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
         EditText endValue;
         EditText startTime;
         EditText endTime;
-        Spinner spinner;
-        Room room;
-        FloatingActionButton actionButton;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -76,9 +79,9 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
             endValue = itemView.findViewById(R.id.temperature_threshold_end_value_holder);
             startTime = itemView.findViewById(R.id.temperature_threshold_start_time_holder);
             endTime = itemView.findViewById(R.id.temperature_threshold_end_time_holder);
-            spinner = itemView.findViewById(R.id.sp_temperature);
-            room = (Room) spinner.getSelectedItem();
-            actionButton = itemView.findViewById(R.id.fab_add_new_threshold_temperature);
+        }
+
+        public void onClick(View view){
         }
     }
 }

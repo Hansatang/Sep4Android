@@ -14,13 +14,16 @@ import com.example.sep4android.Objects.Room;
 import com.example.sep4android.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThresholdAdapter.ViewHolder>{
 
     private ArrayList<HumidityThresholdObject> thresholdObjects;
+    private List<Room> rooms;
 
     public HumidityThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
+
     }
 
 
@@ -43,18 +46,21 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (holder.room.getRoomId().equals(thresholdObjects.get(position).getRoomId()))
-        {
+
             holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
             holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
             holder.startTime.setText(thresholdObjects.get(position).getStartTime());
             holder.endTime.setText(thresholdObjects.get(position).getEndTime());
-        }
     }
 
     @Override
     public int getItemCount() {
         return thresholdObjects.size();
+    }
+
+
+    public interface OnListItemClickListener {
+        void onListItemClick(Room clickedItemIndex);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -63,8 +69,6 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
         EditText endValue;
         EditText startTime;
         EditText endTime;
-        Spinner spinner;
-        Room room;
 
 
         ViewHolder(View itemView){
@@ -73,8 +77,7 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
             endValue = itemView.findViewById(R.id.humidity_threshold_end_value_holder);
             startTime = itemView.findViewById(R.id.humidity_threshold_start_time_holder);
             endTime = itemView.findViewById(R.id.humidity_threshold_end_time_holder);
-            spinner = itemView.findViewById(R.id.sp_humidity);
-            room = (Room)spinner.getSelectedItem();
         }
+
     }
 }
