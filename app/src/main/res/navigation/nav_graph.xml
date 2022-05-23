@@ -28,8 +28,8 @@
         android:label="Settings"/>
 
     <fragment
-        android:id="@+id/Measurements"
-        android:name="com.example.sep4android.Fragments.MeasurementsFragment"
+        android:id="@+id/Archive"
+        android:name="com.example.sep4android.Fragments.ArchiveFragment"
         android:label="Measurements"/>
 
     <fragment

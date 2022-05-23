@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="?colorOnPrimary"
+    android:orientation="vertical"
+    android:id="@+id/containerChild">
 
     <LinearLayout
         android:id="@+id/header_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/black"
+        android:background="?colorOnPrimary"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,10 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/border"
-            android:fontFamily="sans-serif-light"
             android:gravity="left|center_vertical"
             android:paddingLeft="5dp"
-            android:textColor="@color/white"
+            android:textColor="?colorPrimaryVariant"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -34,12 +35,9 @@
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="355dp"
-        android:background="@color/black"
+        android:background="@color/teal_200"
         android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:visibility="gone"  >
 
 
         <androidx.recyclerview.widget.RecyclerView

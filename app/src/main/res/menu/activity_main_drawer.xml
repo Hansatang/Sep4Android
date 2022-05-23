@@ -12,9 +12,9 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Settings" />
         <item
-            android:id="@+id/Measurements"
+            android:id="@+id/Archive"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Measurements" />
+            android:title="Archive" />
         <item
             android:id="@+id/HumidityThreshold"
             android:icon="@drawable/ic_launcher_foreground"

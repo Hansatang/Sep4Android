@@ -32,15 +32,26 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   public void updateListAndNotify(List<MeasurementsObject> list) {
     System.out.println("Update call elo " + list.size());
-    objects = list;
+    if (!list.isEmpty()) {
+      objects = list;
+    }
+    else {
+      objects = new ArrayList<>();
+    }
     notifyDataSetChanged();
   }
 
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    System.out.println("Created child");
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
     return new ViewHolder(view);
+  }
+
+  @Override
+  public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+    super.onViewDetachedFromWindow(holder);
   }
 
   @Override
@@ -70,6 +81,9 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     if (currentItem.isCo2Exceeded()) {
       holder.co2Id.setTextColor(Color.RED);
     }
+    holder.itemView.setOnClickListener(v -> {
+      System.out.println(holder.dateId.getText().toString());
+    });
   }
 
   @Nullable

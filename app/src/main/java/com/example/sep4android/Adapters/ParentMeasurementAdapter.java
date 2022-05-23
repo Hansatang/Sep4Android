@@ -1,7 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +26,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private ArrayList<LocalDateTime> dateTimeList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
+  private Parcelable recyclerViewState;
 
 
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
@@ -74,24 +75,48 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
-    viewHolder.dateId.setTextColor(Color.RED);
+
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
+    if (viewHolder.details.getVisibility() == View.VISIBLE) {
+      // clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
+    }
   }
 
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
-    System.out.println("PayloadOnBind");
+    System.out.println("PayloadOnBind " + position);
+
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
-    if (payloads != null) {
-      viewHolder.details.setVisibility(View.GONE);
-    }
-    viewHolder.dateId.setTextColor(Color.RED);
+
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
+    if (viewHolder.details.getVisibility() == View.VISIBLE) {
+      //clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
+    }
+  }
+
+  @Override
+  public void onViewAttachedToWindow(@NonNull ViewHolder viewHolder) {
+    if (viewHolder.details.getVisibility() == View.VISIBLE) {
+      viewHolder.details.setVisibility(View.GONE);
+      ViewGroup.LayoutParams layoutParams = viewHolder.containerChild.getLayoutParams();
+      layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+      layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+      viewHolder.containerChild.setLayoutParams(layoutParams);
+      previousExpandedPosition = -1;
+    }
+    super.onViewAttachedToWindow(viewHolder);
 
   }
+
+  @Override
+  public void onViewDetachedFromWindow(@NonNull ViewHolder viewHolder) {
+    System.out.println("Detach");
+    super.onViewDetachedFromWindow(viewHolder);
+  }
+
 
   private void addExpandabilityToViewHolder(ViewHolder viewHolder) {
     final boolean isExpanded = viewHolder.getBindingAdapterPosition() == mExpandedPosition;
@@ -115,6 +140,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   private void setChildViewHolderAndAdapter(ViewHolder viewHolder) {
+
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
     viewHolder.recyclerView.setLayoutManager(layoutManager);
     viewHolder.recyclerView.setHasFixedSize(true);
@@ -143,21 +169,16 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             }
             break;
         }
-
         return false;
       }
 
       @Override
       public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
       }
 
       @Override
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
       }
-
-
     });
   }
 
@@ -172,6 +193,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
     LinearLayout details;
+    LinearLayout containerChild;
     TextView dateId;
     TextView temperatureId;
     TextView humidityId;
@@ -180,6 +202,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
     ViewHolder(View itemView) {
       super(itemView);
+      containerChild = itemView.findViewById(R.id.containerChild);
       recyclerView = itemView.findViewById(R.id.inside_rv);
       dateId = itemView.findViewById(R.id.dateId);
       temperatureId = itemView.findViewById(R.id.temperatureId);
@@ -192,5 +215,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
       return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
+
+
   }
 }
