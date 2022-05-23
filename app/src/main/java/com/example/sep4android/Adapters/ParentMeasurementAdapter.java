@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+//Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
 public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
   final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
@@ -191,6 +192,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     return dateTimeList.size();
   }
 
+  //View Holder for Views with nested Recycler View of measurements
   public static class ViewHolder extends RecyclerView.ViewHolder {
     LinearLayout details;
     LinearLayout containerChild;
@@ -215,7 +217,5 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
       return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
-
-
   }
 }

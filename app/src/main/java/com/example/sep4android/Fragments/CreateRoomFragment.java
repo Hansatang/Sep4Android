@@ -16,6 +16,7 @@ import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
+//Fragment for Creating new Rooms
 public class CreateRoomFragment extends Fragment {
   View view;
   RoomViewModel viewModel;

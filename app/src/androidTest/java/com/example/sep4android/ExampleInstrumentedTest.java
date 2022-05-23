@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -71,6 +73,7 @@ public class ExampleInstrumentedTest {
     ViewInteraction recyclerView = onView(allOf(withId(R.id.measurement_rv),
         childAtPosition(withId(R.id.measurement_linearLayout), 0)));
     recyclerView.perform(actionOnItemAtPosition(0, click()));
+
   }
 
 

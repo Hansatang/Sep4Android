@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+//Adapter for creating Current Measurements Card Views in MainFragment
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   final private RoomAdapter.OnListItemClickListener clickListener;
   private List<Room> objects;
@@ -56,22 +57,19 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
       viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
       if (list.get(0).isTemperatureExceeded()) {
         viewHolder.temperature.setTextColor(Color.RED);
-      }
-      else {
+      } else {
         viewHolder.temperature.setTextColor(Color.BLACK);
       }
       viewHolder.humidity.setText(list.get(0).getHumidity() + "");
       if (list.get(0).isHumidityExceeded()) {
         viewHolder.humidity.setTextColor(Color.RED);
-      }
-      else {
+      } else {
         viewHolder.humidity.setTextColor(Color.BLACK);
       }
       viewHolder.co2.setText(list.get(0).getCo2() + "");
       if (list.get(0).isCo2Exceeded()) {
         viewHolder.co2.setTextColor(Color.RED);
-      }
-      else {
+      } else {
         viewHolder.co2.setTextColor(Color.BLACK);
       }
       viewHolder.date.setText(getFormattedDate(list));
@@ -105,6 +103,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     return objects.size();
   }
 
+  //View Holder for Current Measurements Cards
   class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView name;
     TextView date;

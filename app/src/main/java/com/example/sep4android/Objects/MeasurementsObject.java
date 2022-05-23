@@ -37,7 +37,6 @@ public class MeasurementsObject {
   @Expose
   private Boolean co2Exceeded;
 
-
   @SerializedName("id")
   @Expose
   private int id;

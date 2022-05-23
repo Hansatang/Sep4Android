@@ -22,9 +22,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
 public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ViewHolder> {
   private Context ctx;
   public List<MeasurementsObject> objects;
+
 
   public ChildMeasurementAdapter() {
     objects = new ArrayList<>();
@@ -105,6 +107,8 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     return objects.size();
   }
 
+
+  //View Holder used to create Views in this adapter
   static class ViewHolder extends RecyclerView.ViewHolder {
     TextView dateId;
     TextView temperatureId;
