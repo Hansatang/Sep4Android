@@ -3,6 +3,7 @@ package com.example.sep4android.Database;
 import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.Objects.UserObject;
 import com.example.sep4android.Objects.UserToken;
 
@@ -43,11 +44,20 @@ public interface DatabaseApi {
   @GET("all/humiditythresholds/")
   Call<List<HumidityThresholdObject>> getAllHumidityThresholds();
 
+  @GET("temperatureThresholds/{roomId}")
+  Call<List<TemperatureThresholdObject>> getTemperatureThresholds(@Path("roomId") String roomId);
+
+  @GET("all/temperatureThresholds/")
+  Call<List<TemperatureThresholdObject>> getAllTemperatureThresholds();
+
   @POST("api/random")
   Call<UserObject> addUser(@Body UserObject object);
 
-  @POST("new/humiditythresholds/")
+  @POST("humidityThresholds/")
   Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
+
+  @POST("temperatureThresholds/")
+  Call<TemperatureThresholdObject> addTemperatureThreshold(@Body TemperatureThresholdObject object);
 
   @DELETE("api/random")
   Call<UserObject> deleteUser();
@@ -58,7 +68,13 @@ public interface DatabaseApi {
   @DELETE("humidityThresholds/{id}")
   Call<HumidityThresholdObject> deleteHumidityThreshold(@Path("id") String id);
 
-  @DELETE("removal/humiditythresholds")
+  @DELETE("humidityThresholds/all/")
   Call<HumidityThresholdObject> deleteAllHumidityThreshold();
+
+  @DELETE("temperatureThresholds/{id}")
+  Call<TemperatureThresholdObject> deleteTemperatureThreshold(@Path("id") String id);
+
+  @DELETE("temperatureThresholds/all/")
+  Call<TemperatureThresholdObject> deleteAllTemperatureThreshold();
 
 }
