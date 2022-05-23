@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.Home, R.id.Test, R.id.Measurements)
+        R.id.Home, R.id.Test, R.id.Archive)
         .setOpenableLayout(drawerLayout).build();
   }
 

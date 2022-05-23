@@ -57,13 +57,22 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
       if (list.get(0).isTemperatureExceeded()) {
         viewHolder.temperature.setTextColor(Color.RED);
       }
+      else {
+        viewHolder.temperature.setTextColor(Color.BLACK);
+      }
       viewHolder.humidity.setText(list.get(0).getHumidity() + "");
       if (list.get(0).isHumidityExceeded()) {
         viewHolder.humidity.setTextColor(Color.RED);
       }
+      else {
+        viewHolder.humidity.setTextColor(Color.BLACK);
+      }
       viewHolder.co2.setText(list.get(0).getCo2() + "");
       if (list.get(0).isCo2Exceeded()) {
         viewHolder.co2.setTextColor(Color.RED);
+      }
+      else {
+        viewHolder.co2.setTextColor(Color.BLACK);
       }
       viewHolder.date.setText(getFormattedDate(list));
     }

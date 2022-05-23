@@ -5,8 +5,9 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/green_700"
+    android:textColor="?colorPrimaryVariant"
     android:ellipsize="marquee"
-    android:background="#FFFF"
+    android:textSize="27sp"
+    android:background="?colorSecondary"
     android:textColorHint="@color/black"
     android:textAlignment="inherit"/>

@@ -13,8 +13,8 @@ import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel {
 
-  private RoomRepository roomRepository;
-  private TokenRepository tokenRepository;
+  private final RoomRepository roomRepository;
+  private final TokenRepository tokenRepository;
 
   public RoomViewModel(Application app) {
     super(app);

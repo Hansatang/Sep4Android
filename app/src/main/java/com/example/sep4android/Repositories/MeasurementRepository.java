@@ -20,9 +20,11 @@ import retrofit2.internal.EverythingIsNonNull;
 public class MeasurementRepository {
   private static MeasurementRepository instance;
   private final MutableLiveData<List<MeasurementsObject>> measurements;
+  private final MutableLiveData<String> status;
 
   private MeasurementRepository(Application application) {
     measurements = new MutableLiveData<>();
+    status = new MutableLiveData<>();
   }
 
   public static synchronized MeasurementRepository getInstance(Application application) {
@@ -48,6 +50,7 @@ public class MeasurementRepository {
                        System.out.println(response.body());
                        List<MeasurementsObject> rs = response.body();
                        System.out.println(rs.size());
+                       status.setValue("Online");
                        measurements.setValue(rs);
                      }
                    }
@@ -55,6 +58,7 @@ public class MeasurementRepository {
                    @EverythingIsNonNull
                    @Override
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
+                     status.setValue("Offline");
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
@@ -63,4 +67,7 @@ public class MeasurementRepository {
     );
   }
 
+  public LiveData<String> getStatus() {
+    return status;
+  }
 }
