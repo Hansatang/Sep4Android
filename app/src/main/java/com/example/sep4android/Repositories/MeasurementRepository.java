@@ -9,6 +9,7 @@ import androidx.lifecycle.Transformations;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.MeasurementsObject;
 
 import java.text.DateFormat;
@@ -26,12 +27,14 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class MeasurementRepository {
+  private final ArchiveRepository repository;
   private static MeasurementRepository instance;
   private final MutableLiveData<List<MeasurementsObject>> measurements;
   private final MutableLiveData<List<MeasurementsObject>> measurementsByDate;
   private final MutableLiveData<String> status;
 
   private MeasurementRepository(Application application) {
+    repository = ArchiveRepository.getInstance(application);
     measurements = new MutableLiveData<>();
     measurementsByDate = new MutableLiveData<>();
     status = new MutableLiveData<>();
@@ -62,6 +65,7 @@ public class MeasurementRepository {
                        System.out.println(rs.size());
                        status.setValue("Online");
                        measurements.setValue(rs);
+                       repository.insertAll(measurements.getValue().toArray(new MeasurementsObject[0]));
                      }
                    }
 
@@ -119,6 +123,7 @@ public class MeasurementRepository {
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
                      status.setValue("Offline");
                      System.out.println(t);
+
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
                    }
