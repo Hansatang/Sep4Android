@@ -117,7 +117,6 @@ public class HumidityThresholdsRepository {
   }
 
   public void deleteHumidityThreshold(int thresholdHumidityId) {
-    System.out.println("-------------------"+thresholdHumidityId);
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteHumidityThreshold(thresholdHumidityId);
     System.out.println("POST");

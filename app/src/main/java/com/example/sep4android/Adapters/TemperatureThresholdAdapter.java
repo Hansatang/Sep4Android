@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.Room;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.R;
@@ -50,8 +51,8 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
             holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
-        holder.startTime.setText(thresholdObjects.get(position).getStartTime());
-        holder.endTime.setText(thresholdObjects.get(position).getEndTime());
+            holder.startTime.setText(thresholdObjects.get(position).getStartTime());
+            holder.endTime.setText(thresholdObjects.get(position).getEndTime());
     }
 
     @Override
@@ -61,6 +62,10 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
 
     public interface OnListItemClickListener {
         void onListItemClick(Room clickedItemIndex);
+    }
+
+    public List<TemperatureThresholdObject> getThresholds() {
+        return thresholdObjects;
     }
 
 
@@ -78,9 +83,6 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
             endValue = itemView.findViewById(R.id.temperature_threshold_end_value_holder);
             startTime = itemView.findViewById(R.id.temperature_threshold_start_time_holder);
             endTime = itemView.findViewById(R.id.temperature_threshold_end_time_holder);
-        }
-
-        public void onClick(View view){
         }
     }
 }

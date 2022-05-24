@@ -76,7 +76,7 @@ public interface DatabaseApi {
   Call<HumidityThresholdObject> deleteAllHumidityThreshold();
 
   @DELETE("temperatureThresholds/{id}")
-  Call<TemperatureThresholdObject> deleteTemperatureThreshold(@Path("id") String id);
+  Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
 
   @DELETE("temperatureThresholds/all/")
   Call<TemperatureThresholdObject> deleteAllTemperatureThreshold();

@@ -52,7 +52,6 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     private HumidityThresholdAdapter humidityThresholdAdapter;
     private Context context;
     private Spinner spinner;
-
     private FloatingActionButton fab;
     private Button startTime, endTime;
     private NumberPicker startValue, endValue;
@@ -201,7 +200,6 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         timePickerDialog.show();
     }
 
-    // TODO: 24.05.2022 test
 
     private void setUpItemTouchHelper() {
         ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -216,7 +214,6 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     int position = viewHolder.getAbsoluteAdapterPosition();
                     HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
-                    System.out.println("----------------------------------"+humidityThresholdObject.getEndTime());
 
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:

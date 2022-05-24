@@ -88,6 +88,8 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
             }
         });
 
+        setUpItemTouchHelper();
+
         return view;
     }
 
@@ -115,6 +117,8 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         System.out.println(adapterView.getItemAtPosition(i).toString());
+        // TODO: 20.05.2022 uncomment and change null to object id
+        //humidityThresholdViewModel.getThresholdFromRepo(null);
     }
 
     @Override
@@ -201,7 +205,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     // TODO: 24.05.2022 test
 
     private void setUpItemTouchHelper() {
-        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -212,10 +216,13 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     int position = viewHolder.getAbsoluteAdapterPosition();
+                    TemperatureThresholdObject temperatureThresholdObject = temperatureThresholdAdapter.getThresholds().get(position);
 
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            temperatureThresholdViewModel.deleteTemperatureThreshold(temperatureThresholdObject.getThresholdHumidityId());
+                            temperatureThresholdViewModel.getTemperatureThresholds(((Room)spinner.getSelectedItem()).getRoomId());
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
