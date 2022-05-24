@@ -39,6 +39,16 @@ public class HumidityThresholdObject {
         this.minValue = minValue;
     }
 
+    public HumidityThresholdObject(String roomId, String startTime,
+                                   String endTime, double maxValue, double minValue) {
+        this.thresholdHumidityId = thresholdHumidityId;
+        this.roomId = roomId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+    }
+
     public int getThresholdHumidityId() {
         return thresholdHumidityId;
     }

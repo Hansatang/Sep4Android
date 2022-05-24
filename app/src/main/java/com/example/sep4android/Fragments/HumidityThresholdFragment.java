@@ -150,8 +150,16 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 19.05.2022 Call method from view model with the 4 fields and room id from spinner
-                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                System.out.println("-------------------------------------------------------");
+                System.out.println(((Room)spinner.getSelectedItem()).getRoomId());
+                System.out.println(startTime.getText().toString());
+                System.out.println(endTime.getText().toString());
+                System.out.println(startValue.getValue());
+                System.out.println(endValue.getValue());
+                humidityThresholdViewModel.addThresholdToDatabase(((Room)spinner.getSelectedItem()).getRoomId(),
+                       startTime.getText().toString(), endTime.getText().toString(), startValue.getValue(), endValue.getValue());
+                Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
             }
         });
 

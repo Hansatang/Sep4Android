@@ -91,9 +91,9 @@ public class HumidityThresholdsRepository {
     });
   }
 
-  public void addHumidityThreshold(int thresholdHumidityId, String roomId, String startTime, String endTime, double maxValue, double minValue) {
+  public void addHumidityThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    HumidityThresholdObject thresholdToCreate = new HumidityThresholdObject(thresholdHumidityId, roomId, startTime, endTime, maxValue, minValue);
+    HumidityThresholdObject thresholdToCreate = new HumidityThresholdObject(roomId, startTime, endTime, maxValue, minValue);
     Call<HumidityThresholdObject> call = databaseApi.addHumidityThreshold(thresholdToCreate);
     System.out.println("POST");
     call.enqueue(new Callback<HumidityThresholdObject>() {
