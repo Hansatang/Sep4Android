@@ -106,7 +106,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     System.out.println("Room " + room.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     System.out.println("Time " + dtf.format(clickedItem));
-
     archiveViewModel.getMeasurementsByDate(clickedItem, room.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
