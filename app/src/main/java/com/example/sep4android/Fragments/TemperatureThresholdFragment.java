@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
@@ -31,10 +30,9 @@ import android.widget.Toast;
 
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Adapters.TemperatureThresholdAdapter;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.R;
-import com.example.sep4android.ViewModels.HumidityThresholdViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.example.sep4android.ViewModels.TemperatureThresholdViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -93,9 +91,9 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
         return view;
     }
 
-    private void initList(List<Room> listObjects) {
+    private void initList(List<RoomObject> listObjects) {
         mCountryList = new ArrayList<>();
-        for (Room object : listObjects) {
+        for (RoomObject object : listObjects) {
             mCountryList.add(object.getRoomId());
         }
         spinner = view.findViewById(R.id.sp_temperature);
@@ -222,7 +220,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
                         case DialogInterface.BUTTON_POSITIVE:
                             Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
                             temperatureThresholdViewModel.deleteTemperatureThreshold(temperatureThresholdObject.getThresholdHumidityId());
-                            temperatureThresholdViewModel.getTemperatureThresholds(((Room)spinner.getSelectedItem()).getRoomId());
+                            temperatureThresholdViewModel.getTemperatureThresholds(((RoomObject)spinner.getSelectedItem()).getRoomId());
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:

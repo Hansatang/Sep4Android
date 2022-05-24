@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Room {
+public class RoomObject {
 
   @SerializedName("roomId")
   @Expose
@@ -61,7 +61,7 @@ public class Room {
     RegistrationDate = registrationDate;
   }
 
-  public Room(String roomId, String name, String userId, String registrationDate, List<MeasurementsObject> measurements) {
+  public RoomObject(String roomId, String name, String userId, String registrationDate, List<MeasurementsObject> measurements) {
     RoomId = roomId;
     this.name = name;
     UserId = userId;

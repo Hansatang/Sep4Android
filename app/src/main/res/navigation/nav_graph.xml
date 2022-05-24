@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/CreateRoom"
         android:name="com.example.sep4android.Fragments.CreateRoomFragment"
-        android:label="Add new room"/>
+        android:label="Add new roomObject"/>
 
     <fragment
         android:id="@+id/HumidityThreshold"

@@ -15,11 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.RoomAdapter;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -61,13 +60,13 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
   @Override
-  public void onListItemClick(Room clickedItemIndex) {
+  public void onListItemClick(RoomObject clickedItemIndex) {
     Toast.makeText(getContext(), "Room: " + clickedItemIndex.getRoomId(), Toast.LENGTH_SHORT).show();
   }
 
 
   //TODO CHANGE string to resource string everywhere
-  private void setRooms(List<Room> listObjects) {
+  private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
       activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count, listObjects.size()));
       roomAdapter.updateListAndNotify(listObjects);

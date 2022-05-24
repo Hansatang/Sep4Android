@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -32,7 +31,7 @@ import android.widget.Toast;
 import com.example.sep4android.Adapters.HumidityThresholdAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.HumidityThresholdObject;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.HumidityThresholdViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
@@ -84,9 +83,9 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         return view;
     }
 
-    private void initList(List<Room> listObjects) {
+    private void initList(List<RoomObject> listObjects) {
         mCountryList = new ArrayList<>();
-        for (Room object : listObjects) {
+        for (RoomObject object : listObjects) {
             mCountryList.add(object.getRoomId());
         }
         spinner = view.findViewById(R.id.sp_humidity);
@@ -151,12 +150,12 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
             @Override
             public void onClick(View view) {
                 System.out.println("-------------------------------------------------------");
-                System.out.println(((Room)spinner.getSelectedItem()).getRoomId());
+                System.out.println(((RoomObject)spinner.getSelectedItem()).getRoomId());
                 System.out.println(startTime.getText().toString());
                 System.out.println(endTime.getText().toString());
                 System.out.println(startValue.getValue());
                 System.out.println(endValue.getValue());
-                humidityThresholdViewModel.addThresholdToDatabase(((Room)spinner.getSelectedItem()).getRoomId(),
+                humidityThresholdViewModel.addThresholdToDatabase(((RoomObject)spinner.getSelectedItem()).getRoomId(),
                        startTime.getText().toString(), endTime.getText().toString(), startValue.getValue(), endValue.getValue());
                 Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
                 popupWindow.dismiss();
@@ -227,7 +226,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
                         case DialogInterface.BUTTON_POSITIVE:
                             Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
                             humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
-                            humidityThresholdViewModel.getThresholdFromRepo(((Room)spinner.getSelectedItem()).getRoomId());
+                            humidityThresholdViewModel.getThresholdFromRepo(((RoomObject)spinner.getSelectedItem()).getRoomId());
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:

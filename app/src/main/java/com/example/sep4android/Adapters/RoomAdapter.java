@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.MeasurementsObject;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
 import java.text.DateFormat;
@@ -21,19 +21,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 //Adapter for creating Current Measurements Card Views in MainFragment
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   final private RoomAdapter.OnListItemClickListener clickListener;
-  private List<Room> objects;
+  private List<RoomObject> objects;
 
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
     objects = new ArrayList<>();
     clickListener = listener;
   }
 
-  public void updateListAndNotify(List<Room> list) {
+  public void updateListAndNotify(List<RoomObject> list) {
     System.out.println("Update call " + list.size());
     objects = list;
     notifyDataSetChanged();
@@ -95,7 +94,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
 
   public interface OnListItemClickListener {
-    void onListItemClick(Room clickedItemIndex);
+    void onListItemClick(RoomObject clickedItemIndex);
   }
 
 

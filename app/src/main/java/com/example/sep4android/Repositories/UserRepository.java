@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.UserObject;
 
 import retrofit2.Call;
@@ -85,18 +85,18 @@ public class UserRepository {
 
     public void deleteRoomData(int id) {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        Call<Room> call = databaseApi.deleteRoomData();
+        Call<RoomObject> call = databaseApi.deleteRoomData();
         System.out.println("Call");
-        call.enqueue(new Callback<Room>() {
+        call.enqueue(new Callback<RoomObject>() {
             @Override
-            public void onResponse(Call<Room> call, Response<Room> response) {
+            public void onResponse(Call<RoomObject> call, Response<RoomObject> response) {
                 if (response.isSuccessful()) {
                     //NOT FINISHED YET
                 }
             }
 
             @Override
-            public void onFailure(Call<Room> call, Throwable t) {
+            public void onFailure(Call<RoomObject> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
                 Log.i("Retrofit", "Something went wrong :(");

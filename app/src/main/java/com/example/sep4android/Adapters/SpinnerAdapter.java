@@ -7,18 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
 import java.util.ArrayList;
 
 //Custom Adapter for creating and populating spinners
-public class SpinnerAdapter extends ArrayAdapter<Room> {
+public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
 
   private Context context;
-  ArrayList<Room> data = new ArrayList<>();
+  ArrayList<RoomObject> data = new ArrayList<>();
 
-  public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<Room> objects) {
+  public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> objects) {
     super(context, textViewResourceId, objects);
     this.context = context;
     data = objects;
@@ -55,12 +55,12 @@ public class SpinnerAdapter extends ArrayAdapter<Room> {
       row = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
     }
 
-    Room room = data.get(position);
+    RoomObject roomObject = data.get(position);
 
     TextView roomName = row.findViewById(R.id.spinnerItemName);
 
     if(roomName != null){
-      roomName.setText(room.getName());
+      roomName.setText(roomObject.getName());
     }
     return row;
   }
