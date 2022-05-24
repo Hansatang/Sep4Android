@@ -5,14 +5,12 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.MeasurementsObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -123,7 +121,7 @@ public class MeasurementRepository {
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
                      status.setValue("Offline");
                      System.out.println(t);
-
+                     repository.getMeasurementByID(roomId, date).getValue();
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
                    }

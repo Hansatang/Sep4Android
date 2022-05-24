@@ -38,6 +38,10 @@ public class ArchiveRepository {
     executorService.execute(() -> roomDao.insertAll(measurementsObjects));
   }
 
+  public LiveData<List<MeasurementsObject>> getMeasurementByID(String id, String date){
+    return roomDao.getArchiveById(id, date);
+  }
+
   public void deleteAll() {
     executorService.execute(roomDao::deleteAll);
   }
