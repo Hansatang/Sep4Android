@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.LocalDatabase.ArchiveRepository;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
@@ -19,11 +21,13 @@ import retrofit2.internal.EverythingIsNonNull;
 
 
 public class RoomRepository {
+  private final ArchiveRepository repository;
   private static RoomRepository instance;
   private final MutableLiveData<List<RoomObject>> rooms;
   private final MutableLiveData<Boolean> creationResult;
 
   private RoomRepository(Application application) {
+    repository = ArchiveRepository.getInstance(application);
     rooms = new MutableLiveData<>();
     creationResult = new MutableLiveData<>();
   }
@@ -45,7 +49,6 @@ public class RoomRepository {
   //TODO change username to uid after work
   public LiveData<List<RoomObject>> getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-      System.out.println("-----------------------------------");
     System.out.println(uid);
     Call<List<RoomObject>> call = databaseApi.getRoomByUserId(uid);
     System.out.println("Call");
@@ -57,6 +60,7 @@ public class RoomRepository {
                        System.out.println(response);
                        List<RoomObject> rs = response.body();
                        rooms.setValue(rs);
+                       repository.insertAllRooms(rooms.getValue().toArray(new RoomObject[0]));
                      }
                    }
 

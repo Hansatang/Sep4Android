@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.sep4android.Objects.MeasurementsObject;
+import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -34,10 +35,19 @@ public class ArchiveRepository {
     return listLiveData;
   }
 
-  public void insertAll(MeasurementsObject[] measurementsObjects) {
-    executorService.execute(() -> roomDao.insertAll(measurementsObjects));
+  public void insertAllMeasurements(MeasurementsObject[] measurementsObjects) {
+    System.out.println("DelCreMeasurement");
+    executorService.execute(() -> roomDao.deleteAndCreateMeasurements(measurementsObjects));
   }
 
+  public void insertAllRooms(RoomObject[] roomObjects) {
+    System.out.println("DelCreRooms");
+    executorService.execute(() -> roomDao.deleteAndCreateRooms(roomObjects));
+  }
+
+  public void deleteAllMeasurement() {
+    executorService.execute(roomDao::deleteAllMeasurement);
+  }
   public LiveData<List<MeasurementsObject>> getMeasurementByID(String id, String date){
     return roomDao.getArchiveById(id, date);
   }

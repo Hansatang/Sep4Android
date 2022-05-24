@@ -63,7 +63,7 @@ public class MeasurementRepository {
                        System.out.println(rs.size());
                        status.setValue("Online");
                        measurements.setValue(rs);
-                       repository.insertAll(measurements.getValue().toArray(new MeasurementsObject[0]));
+                       repository.insertAllMeasurements(measurements.getValue().toArray(new MeasurementsObject[0]));
                      }
                    }
 
