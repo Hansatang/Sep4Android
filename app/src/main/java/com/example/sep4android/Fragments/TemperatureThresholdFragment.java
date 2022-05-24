@@ -1,11 +1,16 @@
 package com.example.sep4android.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -177,5 +182,57 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
+    }
+
+    // TODO: 24.05.2022 test
+
+    private void setUpItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    int position = viewHolder.getAbsoluteAdapterPosition();
+
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            undoSwipe(position);
+                            Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                };
+
+                DialogInterface.OnCancelListener cancelListener = (dialog) -> {
+                    int position = viewHolder.getAbsoluteAdapterPosition();
+                    undoSwipe(position);
+                    Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+                };
+
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setMessage("Are you sure you want to delete?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
+        itemTouchHelper.attachToRecyclerView(temperatureThresholdList);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void undoSwipe(int position) {
+        temperatureThresholdAdapter.notifyDataSetChanged();
+        temperatureThresholdList.scrollToPosition(position);
     }
 }
