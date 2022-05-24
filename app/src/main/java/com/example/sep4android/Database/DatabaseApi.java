@@ -29,6 +29,10 @@ public interface DatabaseApi {
   @GET("measurement/{roomId}/")
   Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
 
+  // TODO: 10/05/2022  Change to roomId, and latest is stupid
+  @GET("measurement/{date}/{roomId}/")
+  Call<List<MeasurementsObject>> getMeasurementsByDate(@Path("roomId") String roomId, @Path("date") String date);
+
   @POST("token/")
   Call<Integer> setToken(@Body UserToken userToken);
 

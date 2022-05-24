@@ -54,7 +54,6 @@ public class RCMService extends FirebaseMessagingService {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
           RoomRepository repository = RoomRepository.getInstance(this.getApplication());
           repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
-          //TODO if method for datagram
           if (remoteMessage.getData().get("exceeded").contains("true")) {
             sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
           }
@@ -120,31 +119,28 @@ public class RCMService extends FirebaseMessagingService {
   /**
    * Create and show a simple notification containing the received FCM message.
    *
-   * @param messageBody FCM message body received.
+   * @param title FCM message body received.
    */
-  private void sendNotification(String messageBody, String content, boolean openOnCLick) {
+  private void sendNotification(String title, String content, boolean openOnCLick) {
     String channelId = getString(R.string.default_notification_channel_id);
     Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     NotificationCompat.Builder notificationBuilder;
-    notificationBuilder = new NotificationCompat.Builder(this, channelId)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
-        .setContentTitle(messageBody).setContentText(content)
-        .setAutoCancel(true)
+    notificationBuilder = new NotificationCompat.Builder(
+        this, channelId).
+        setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setContentTitle(title)
+        .setContentText(content).setAutoCancel(true)
         .setSound(defaultSoundUri);
     if (openOnCLick) {
       Intent intent = new Intent(this, MainActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-          PendingIntent.FLAG_ONE_SHOT);
-
+      PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
       notificationBuilder.setContentIntent(pendingIntent);
     }
 
     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-    NotificationChannel channel = new NotificationChannel(channelId,
-        "Channel human readable title",
-        NotificationManager.IMPORTANCE_HIGH);
+    NotificationChannel channel = new NotificationChannel
+        (channelId, "Channel human readable title", NotificationManager.IMPORTANCE_HIGH);
     notificationManager.createNotificationChannel(channel);
 
     notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());

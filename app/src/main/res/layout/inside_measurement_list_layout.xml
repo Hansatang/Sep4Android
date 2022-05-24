@@ -23,14 +23,13 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="28"
-
             android:background="@drawable/border"
             android:fontFamily="sans-serif-light"
             android:gravity="left|center_vertical"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="?colorSecondary"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/temperatureId"
@@ -43,7 +42,7 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="?colorSecondary"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/humidityId"
@@ -56,7 +55,7 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="?colorSecondary"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/co2Id"
@@ -69,7 +68,7 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="?colorSecondary"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 </LinearLayout>

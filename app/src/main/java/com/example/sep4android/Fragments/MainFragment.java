@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
+//Fragment for viewing Current Measurement Cards
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
   RoomViewModel viewModel;
   View view;
@@ -38,11 +39,9 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::setRooms);
     findViews(view);
     setListenersToButtons();
-    roomsRV.hasFixedSize();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
     roomsRV.setAdapter(roomAdapter);
-
     return view;
   }
 

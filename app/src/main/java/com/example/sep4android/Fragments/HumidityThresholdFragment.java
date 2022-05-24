@@ -1,10 +1,15 @@
 package com.example.sep4android.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sep4android.Adapters.HumidityThresholdAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
@@ -50,6 +56,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
         viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
 
+
         humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
         humidityThresholdList.hasFixedSize();
         humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -66,7 +73,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
             mCountryList.add(object.getRoomId());
         }
         Spinner spinner = view.findViewById(R.id.sp_humidity);
-       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
+        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
         SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
         adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
         spinner.setAdapter(adapter);
@@ -90,5 +97,57 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    // TODO: 24.05.2022 test
+
+    private void setUpItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    int position = viewHolder.getAbsoluteAdapterPosition();
+
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            undoSwipe(position);
+                            Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                };
+
+                DialogInterface.OnCancelListener cancelListener = (dialog) -> {
+                    int position = viewHolder.getAbsoluteAdapterPosition();
+                    undoSwipe(position);
+                    Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+                };
+
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setMessage("Are you sure you want to delete?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
+        itemTouchHelper.attachToRecyclerView(humidityThresholdList);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void undoSwipe(int position) {
+        humidityThresholdAdapter.notifyDataSetChanged();
+        humidityThresholdList.scrollToPosition(position);
     }
 }

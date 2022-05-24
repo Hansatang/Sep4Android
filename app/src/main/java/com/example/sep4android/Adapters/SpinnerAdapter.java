@@ -12,6 +12,7 @@ import com.example.sep4android.R;
 
 import java.util.ArrayList;
 
+//Custom Adapter for creating and populating spinners
 public class SpinnerAdapter extends ArrayAdapter<Room> {
 
   private Context context;

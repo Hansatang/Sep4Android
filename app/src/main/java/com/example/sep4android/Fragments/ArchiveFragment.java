@@ -27,7 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArchiveFragment extends Fragment implements AdapterView.OnItemSelectedListener, ParentMeasurementAdapter.OnListItemClickListener {
+//Fragment for viewing archived measurements
+public class ArchiveFragment extends Fragment implements ParentMeasurementAdapter.OnListItemClickListener {
   View view;
   RoomViewModel viewModel;
   RecyclerView measurementsRV;
@@ -62,9 +63,24 @@ public class ArchiveFragment extends Fragment implements AdapterView.OnItemSelec
   private void initList(List<Room> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     spinner = view.findViewById(R.id.sp);
+
     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     spinner.setAdapter(spinnerAdapter);
-    spinner.setOnItemSelectedListener(this);
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        System.out.println("Selected");
+        Room room = (Room) adapterView.getItemAtPosition(i);
+        setDateTimesForParentMeasurementAdapter();
+        archiveViewModel.getMeasurementsRoom(room.getRoomId());
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+        //Do nothing
+      }
+    });
+
     setDateTimesForParentMeasurementAdapter();
   }
 
@@ -79,17 +95,6 @@ public class ArchiveFragment extends Fragment implements AdapterView.OnItemSelec
     setRooms(weekNames);
   }
 
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-    Room room = (Room) adapterView.getItemAtPosition(i);
-    setDateTimesForParentMeasurementAdapter();
-    archiveViewModel.getMeasurementsRoom(room.getRoomId());
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-    //Do nothing
-  }
 
   private void setRooms(ArrayList<LocalDateTime> listObjects) {
     parentMeasurementAdapter.updateListAndNotify(listObjects);
@@ -102,7 +107,7 @@ public class ArchiveFragment extends Fragment implements AdapterView.OnItemSelec
     System.out.println("Room " + room.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     System.out.println("Time " + dtf.format(clickedItem));
-    archiveViewModel.getMeasurements().observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveViewModel.getMeasurementsByDate(clickedItem, room.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
 //  private void setUpItemTouchHelper() {

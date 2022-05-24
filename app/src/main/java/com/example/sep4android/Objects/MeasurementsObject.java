@@ -1,43 +1,57 @@
 package com.example.sep4android.Objects;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "archivedMeasurements")
 public class MeasurementsObject {
 
+  @ColumnInfo(name = "date")
   @SerializedName("date")
   @Expose
   private String date;
 
+  @ColumnInfo(name = "roomId")
   @SerializedName("roomId")
   @Expose
-  private String RoomId;
+  private String roomId;
 
+  @ColumnInfo(name = "temperature")
   @SerializedName("temperature")
   @Expose
   private double temperature;
 
+  @ColumnInfo(name = "temperatureExceeded")
   @SerializedName("temperatureExceeded")
   @Expose
   private Boolean temperatureExceeded;
 
+  @ColumnInfo(name = "humidity")
   @SerializedName("humidity")
   @Expose
   private double humidity;
 
+  @ColumnInfo(name = "humidityExceeded")
   @SerializedName("humidityExceeded")
   @Expose
   private Boolean humidityExceeded;
 
+  @ColumnInfo(name = "co2")
   @SerializedName("co2")
   @Expose
   private double co2;
 
+  @ColumnInfo(name = "co2Exceeded")
   @SerializedName("co2Exceeded")
   @Expose
   private Boolean co2Exceeded;
 
-
+  @PrimaryKey
+  @ColumnInfo(name = "id")
   @SerializedName("id")
   @Expose
   private int id;
@@ -48,7 +62,7 @@ public class MeasurementsObject {
                             Boolean humidityExceeded, double co2,
                             Boolean co2Exceeded, int id) {
     this.date = date;
-    this.RoomId = roomId;
+    this.roomId = roomId;
     this.temperature = temperature;
     this.temperatureExceeded = temperatureExceeded;
     this.humidity = humidity;
@@ -67,11 +81,11 @@ public class MeasurementsObject {
   }
 
   public String getRoomId() {
-    return RoomId;
+    return roomId;
   }
 
   public void setRoomId(String roomId) {
-    RoomId = roomId;
+    this.roomId = roomId;
   }
 
   public double getTemperature() {

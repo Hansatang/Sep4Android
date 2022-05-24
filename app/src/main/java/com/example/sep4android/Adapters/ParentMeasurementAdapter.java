@@ -1,6 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,13 +21,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+//Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
 public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
   final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
   private ArrayList<LocalDateTime> dateTimeList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
-  private Parcelable recyclerViewState;
 
 
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
@@ -169,16 +170,21 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             }
             break;
         }
+
         return false;
       }
 
       @Override
       public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
       }
 
       @Override
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
       }
+
+
     });
   }
 
@@ -191,6 +197,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     return dateTimeList.size();
   }
 
+  //View Holder for Views with nested Recycler View of measurements
   public static class ViewHolder extends RecyclerView.ViewHolder {
     LinearLayout details;
     LinearLayout containerChild;
@@ -215,7 +222,5 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
       return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
-
-
   }
 }
