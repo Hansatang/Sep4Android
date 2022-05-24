@@ -14,19 +14,23 @@ import java.util.List;
 @Dao
 public abstract class RoomDao {
 
-  @Transaction
-  public void deleteAndCreate(MeasurementsObject... measurementsObjects) {
-    deleteAll();
-    insertAll(measurementsObjects);
-  }
+    @Transaction
+    public void deleteAndCreate(MeasurementsObject... measurementsObjects) {
+        deleteAll();
+        insertAll(measurementsObjects);
+    }
 
-  @Query("DELETE FROM archivedMeasurements")
-  public abstract void deleteAll();
+    @Query("DELETE FROM archivedMeasurements")
+    public abstract void deleteAll();
 
-  @Query("SELECT * FROM archivedMeasurements ORDER BY date DESC")
-  public abstract LiveData<List<MeasurementsObject>> getAllArchive();
+    @Query("SELECT * FROM archivedMeasurements ORDER BY date DESC")
+    public abstract LiveData<List<MeasurementsObject>> getAllArchive();
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void insertAll(MeasurementsObject... measurementsObjects);
+    @Query("SELECT * FROM archivedMeasurements WHERE roomId = :id AND date LIKE :date  ")
+    public abstract LiveData<List<MeasurementsObject>> getArchiveById(String id, String date);
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertAll(MeasurementsObject... measurementsObjects);
 
 }

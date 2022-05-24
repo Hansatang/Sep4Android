@@ -1,6 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +28,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private ArrayList<LocalDateTime> dateTimeList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
-  private Parcelable recyclerViewState;
 
 
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
@@ -170,16 +170,21 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             }
             break;
         }
+
         return false;
       }
 
       @Override
       public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
       }
 
       @Override
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
       }
+
+
     });
   }
 

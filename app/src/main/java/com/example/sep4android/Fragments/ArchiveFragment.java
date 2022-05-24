@@ -63,6 +63,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private void initList(List<Room> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     spinner = view.findViewById(R.id.sp);
+
     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     spinner.setAdapter(spinnerAdapter);
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
