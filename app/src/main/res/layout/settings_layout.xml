@@ -146,7 +146,7 @@
         android:layout_height="36dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="270dp"
-        android:text="Change the them from dark to light and back"
+        android:text="Change the theme from dark to light and back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

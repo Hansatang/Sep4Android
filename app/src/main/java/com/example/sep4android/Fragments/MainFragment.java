@@ -36,7 +36,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     System.out.println("MainView");
     view = inflater.inflate(R.layout.main_layout, container, false);
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-    viewModel.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::setRooms);
+    // TODO: 24.05.2022 change this hard code back 
+    viewModel.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73").observe(getViewLifecycleOwner(), this::setRooms);
     findViews(view);
     setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));

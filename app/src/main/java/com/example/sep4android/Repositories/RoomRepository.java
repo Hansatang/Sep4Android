@@ -46,6 +46,7 @@ public class RoomRepository {
   //TODO change username to uid after work
   public LiveData<List<Room>> getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+      System.out.println("-----------------------------------");
     System.out.println(uid);
     Call<List<Room>> call = databaseApi.getRoomByUserId(uid);
     System.out.println("Call");
@@ -57,7 +58,6 @@ public class RoomRepository {
                        System.out.println(response);
                        List<Room> rs = response.body();
                        rooms.setValue(rs);
-
                      }
                    }
 

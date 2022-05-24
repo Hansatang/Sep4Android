@@ -2,6 +2,7 @@ package com.example.sep4android.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,12 +14,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.sep4android.Adapters.HumidityThresholdAdapter;
@@ -28,9 +36,11 @@ import com.example.sep4android.Objects.Room;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.HumidityThresholdViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HumidityThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -41,6 +51,12 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     private RecyclerView humidityThresholdList;
     private HumidityThresholdAdapter humidityThresholdAdapter;
     private Context context;
+
+    private FloatingActionButton fab;
+    private Button startTime, endTime;
+    private NumberPicker startValue, endValue;
+
+    int hour, minute;
 
 
     public HumidityThresholdFragment() {
@@ -81,6 +97,14 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
         humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
         humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
+
+        fab = view.findViewById(R.id.fab_add_new_threshold_humidity);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onButtonShowPopupWindowClick();
+            }
+        });
     }
 
     @Override
@@ -97,6 +121,82 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void onButtonShowPopupWindowClick() {
+
+        LayoutInflater inflater = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+
+        findViews(popupView);
+
+        popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: 19.05.2022 Call method from view model with the 4 fields and room id from spinner
+                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        startTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view, startTime);
+            }
+        });
+
+        endTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view, endTime);
+            }
+        });
+    }
+
+    private void findViews(View popupView) {
+        startTime = popupView.findViewById(R.id.select_start_time);
+        endTime = popupView.findViewById(R.id.select_end_time);
+        startValue = popupView.findViewById(R.id.select_start_value);
+        startValue.setMinValue(0);
+        startValue.setMaxValue(35);
+        endValue = popupView.findViewById(R.id.select_end_value);
+        endValue.setMinValue(0);
+        endValue.setMaxValue(35);
+    }
+
+    public void popTimePicker(View view, Button button)
+    {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+            {
+                hour = selectedHour;
+                minute = selectedMinute;
+                button.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
+            }
+        };
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
     }
 
     // TODO: 24.05.2022 test
