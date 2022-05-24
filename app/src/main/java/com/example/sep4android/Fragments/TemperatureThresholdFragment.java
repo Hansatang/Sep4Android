@@ -32,8 +32,11 @@ import android.widget.Toast;
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Adapters.TemperatureThresholdAdapter;
 import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.R;
+import com.example.sep4android.ViewModels.HumidityThresholdViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
+import com.example.sep4android.ViewModels.TemperatureThresholdViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     private FloatingActionButton fab;
     private Button startTime, endTime;
     private NumberPicker startValue, endValue;
+    private TemperatureThresholdViewModel temperatureThresholdViewModel;
 
     int hour, minute;
 
@@ -72,6 +76,8 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
         temperatureThresholdAdapter = new TemperatureThresholdAdapter();
         temperatureThresholdList.setAdapter(temperatureThresholdAdapter);
+
+        temperatureThresholdViewModel = new ViewModelProvider(requireActivity()).get(TemperatureThresholdViewModel.class);
 
         fab = view.findViewById(R.id.fab_add_new_threshold_temperature);
 
@@ -96,6 +102,14 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
         adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
+        temperatureThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
+        temperatureThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
+
+    }
+
+    private void updateList(List<TemperatureThresholdObject> temperatureThresholdObjects) {
+        temperatureThresholdAdapter.update(temperatureThresholdObjects);
     }
 
     @Override

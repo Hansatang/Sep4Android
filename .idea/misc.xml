@@ -62,6 +62,7 @@
         <entry key="app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_measurements_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_pie.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/fragment_temperature_threshold_list.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.2851851851851852" />
         <entry key="app/src/main/res/layout/room_spinner_layout.xml" value="0.3098958333333333" />

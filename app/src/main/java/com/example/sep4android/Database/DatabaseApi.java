@@ -70,7 +70,7 @@ public interface DatabaseApi {
   Call<Room> deleteRoomData();
 
   @DELETE("humidityThresholds/{id}")
-  Call<HumidityThresholdObject> deleteHumidityThreshold(@Path("id") String id);
+  Call<Integer> deleteHumidityThreshold(@Path("id") int id);
 
   @DELETE("humidityThresholds/all/")
   Call<HumidityThresholdObject> deleteAllHumidityThreshold();

@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class HumidityThresholdObject {
 
-    @SerializedName("thresholdHumidityId")
+    @SerializedName("id")
     @Expose
-    private String thresholdHumidityId;
+    private int thresholdHumidityId;
 
     @SerializedName("roomId")
     @Expose
@@ -21,15 +21,15 @@ public class HumidityThresholdObject {
     @Expose
     private String endTime;
 
-    @SerializedName("maxValue")
+    @SerializedName("max")
     @Expose
     private double maxValue;
 
-    @SerializedName("minValue")
+    @SerializedName("min")
     @Expose
     private double minValue;
 
-    public HumidityThresholdObject(String thresholdHumidityId, String roomId, String startTime,
+    public HumidityThresholdObject(int thresholdHumidityId, String roomId, String startTime,
                                    String endTime, double maxValue, double minValue) {
         this.thresholdHumidityId = thresholdHumidityId;
         this.roomId = roomId;
@@ -39,11 +39,11 @@ public class HumidityThresholdObject {
         this.minValue = minValue;
     }
 
-    public String getThresholdHumidityId() {
+    public int getThresholdHumidityId() {
         return thresholdHumidityId;
     }
 
-    public void setThresholdHumidityId(String thresholdHumidityId) {
+    public void setThresholdHumidityId(int thresholdHumidityId) {
         this.thresholdHumidityId = thresholdHumidityId;
     }
 

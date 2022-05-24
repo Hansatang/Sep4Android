@@ -21,7 +21,7 @@ import java.util.List;
 public class TemperatureThresholdAdapter extends RecyclerView.Adapter<TemperatureThresholdAdapter.ViewHolder>{
 
 
-    private ArrayList<TemperatureThresholdObject> thresholdObjects;
+    private List<TemperatureThresholdObject> thresholdObjects;
     private List<Room> rooms;
 
     public TemperatureThresholdAdapter(){
@@ -29,7 +29,7 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
     }
 
 
-    public void update(ArrayList<TemperatureThresholdObject> list){
+    public void update(List<TemperatureThresholdObject> list){
         System.out.println("Update call "+ list.size());
         if (list != null){
             thresholdObjects = list;
@@ -42,7 +42,7 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.fragment_temperature_threshold_list, parent, false);
+        view = inflater.inflate(R.layout.fragment_temperature_threshold_item, parent, false);
         return new TemperatureThresholdAdapter.ViewHolder(view);
     }
 
@@ -50,9 +50,8 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
             holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
-            holder.startTime.setText(thresholdObjects.get(position).getStartTime());
-            holder.endTime.setText(thresholdObjects.get(position).getEndTime());
-
+        holder.startTime.setText(thresholdObjects.get(position).getStartTime());
+        holder.endTime.setText(thresholdObjects.get(position).getEndTime());
     }
 
     @Override

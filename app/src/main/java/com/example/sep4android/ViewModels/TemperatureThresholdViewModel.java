@@ -44,4 +44,8 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
     public void deleteAllTemperatureThresholds(){
         repository.deleteAllTemperatureThreshold();
     }
+
+    public void getThresholdFromRepo(String roomId) {
+        repository.getTemperatureThresholds(roomId);
+    }
 }

@@ -23,7 +23,6 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
 
     public HumidityThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
-
     }
 
 
@@ -46,7 +45,6 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
             holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
             holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
             holder.startTime.setText(thresholdObjects.get(position).getStartTime());
@@ -56,6 +54,10 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
     @Override
     public int getItemCount() {
         return thresholdObjects.size();
+    }
+
+    public List<HumidityThresholdObject> getThresholds() {
+        return thresholdObjects;
     }
 
 

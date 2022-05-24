@@ -33,12 +33,12 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         repository.getAllHumidityThresholds();
     }
 
-    public void addThresholdToDatabase(String thresholdHumidityId, String roomId, String startTime, String endTime, double maxValue, double minValue){
+    public void addThresholdToDatabase(int thresholdHumidityId, String roomId, String startTime, String endTime, double maxValue, double minValue){
         repository.addHumidityThreshold(thresholdHumidityId, roomId, startTime, endTime, maxValue, minValue);
     }
 
 
-    public void deleteThreshold(String thresholdId){
+    public void deleteThreshold(int thresholdId){
         repository.deleteHumidityThreshold(thresholdId);
     }
 

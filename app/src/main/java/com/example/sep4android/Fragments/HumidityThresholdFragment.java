@@ -51,6 +51,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     private RecyclerView humidityThresholdList;
     private HumidityThresholdAdapter humidityThresholdAdapter;
     private Context context;
+    private Spinner spinner;
 
     private FloatingActionButton fab;
     private Button startTime, endTime;
@@ -72,13 +73,14 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
         viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
 
-
         humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
         humidityThresholdList.hasFixedSize();
         humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         humidityThresholdAdapter = new HumidityThresholdAdapter();
         humidityThresholdList.setAdapter(humidityThresholdAdapter);
+
+        setUpItemTouchHelper();
 
         return view;
     }
@@ -88,7 +90,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         for (Room object : listObjects) {
             mCountryList.add(object.getRoomId());
         }
-        Spinner spinner = view.findViewById(R.id.sp_humidity);
+        spinner = view.findViewById(R.id.sp_humidity);
         // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
         SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
         adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
@@ -202,7 +204,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     // TODO: 24.05.2022 test
 
     private void setUpItemTouchHelper() {
-        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -213,10 +215,14 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     int position = viewHolder.getAbsoluteAdapterPosition();
+                    HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
+                    System.out.println("----------------------------------"+humidityThresholdObject.getEndTime());
 
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
+                            humidityThresholdViewModel.getThresholdFromRepo(((Room)spinner.getSelectedItem()).getRoomId());
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
