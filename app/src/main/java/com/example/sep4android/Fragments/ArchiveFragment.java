@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
@@ -60,7 +60,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     statusTextView = view.findViewById(R.id.statusTextView);
   }
 
-  private void initList(List<Room> listObjects) {
+  private void initList(List<RoomObject> listObjects) {
     System.out.println("Amounts " + listObjects.size());
     spinner = view.findViewById(R.id.sp);
     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
@@ -69,9 +69,9 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         System.out.println("Selected");
-        Room room = (Room) adapterView.getItemAtPosition(i);
+        RoomObject roomObject = (RoomObject) adapterView.getItemAtPosition(i);
         setDateTimesForParentMeasurementAdapter();
-        archiveViewModel.getMeasurementsRoom(room.getRoomId());
+        archiveViewModel.getMeasurementsRoom(roomObject.getRoomId());
       }
 
       @Override
@@ -102,11 +102,11 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
 
   @Override
   public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
-    Room room = (Room) spinner.getSelectedItem();
-    System.out.println("Room " + room.getName());
+    RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
+    System.out.println("Room " + roomObject.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     System.out.println("Time " + dtf.format(clickedItem));
-    archiveViewModel.getMeasurementsByDate(clickedItem, room.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveViewModel.getMeasurementsByDate(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
 //  private void setUpItemTouchHelper() {

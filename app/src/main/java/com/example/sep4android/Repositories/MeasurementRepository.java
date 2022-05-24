@@ -5,14 +5,12 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.MeasurementsObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -65,7 +63,7 @@ public class MeasurementRepository {
                        System.out.println(rs.size());
                        status.setValue("Online");
                        measurements.setValue(rs);
-                       repository.insertAll(measurements.getValue().toArray(new MeasurementsObject[0]));
+                       repository.insertAllMeasurements(measurements.getValue().toArray(new MeasurementsObject[0]));
                      }
                    }
 

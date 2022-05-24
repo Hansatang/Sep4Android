@@ -27,7 +27,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private ArrayList<LocalDateTime> dateTimeList;
   private int mExpandedPosition;
   private int previousExpandedPosition;
-  private Parcelable recyclerViewState;
 
 
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {

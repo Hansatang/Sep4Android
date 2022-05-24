@@ -2,7 +2,7 @@ package com.example.sep4android.Database;
 
 import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.MeasurementsObject;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.Objects.UserObject;
 import com.example.sep4android.Objects.UserToken;
@@ -20,10 +20,10 @@ import retrofit2.http.Path;
 public interface DatabaseApi {
   // TODO: 17/05/2022  Change to Get
   @POST("room/last/{userId}")
-  Call<List<Room>> getRoomByUserId(@Path("userId") String userId);
+  Call<List<RoomObject>> getRoomByUserId(@Path("userId") String userId);
 
   @POST("room/")
-  Call<Integer> addRoom(@Body Room object);
+  Call<Integer> addRoom(@Body RoomObject object);
 
   // TODO: 10/05/2022  Change to roomId, and latest is stupid
   @GET("measurement/{roomId}/")
@@ -67,7 +67,7 @@ public interface DatabaseApi {
   Call<UserObject> deleteUser();
 
   @DELETE("api/random")
-  Call<Room> deleteRoomData();
+  Call<RoomObject> deleteRoomData();
 
   @DELETE("humidityThresholds/{id}")
   Call<HumidityThresholdObject> deleteHumidityThreshold(@Path("id") String id);

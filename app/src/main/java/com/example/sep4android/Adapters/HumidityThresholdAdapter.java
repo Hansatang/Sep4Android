@@ -4,13 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.HumidityThresholdObject;
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.List;
 public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThresholdAdapter.ViewHolder>{
 
     private List<HumidityThresholdObject> thresholdObjects;
-    private List<Room> rooms;
+    private List<RoomObject> roomObjects;
 
     public HumidityThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
@@ -60,7 +59,7 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
 
 
     public interface OnListItemClickListener {
-        void onListItemClick(Room clickedItemIndex);
+        void onListItemClick(RoomObject clickedItemIndex);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

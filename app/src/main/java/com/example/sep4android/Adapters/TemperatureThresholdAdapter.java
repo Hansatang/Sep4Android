@@ -4,17 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sep4android.Objects.Room;
+import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
 
 
     private ArrayList<TemperatureThresholdObject> thresholdObjects;
-    private List<Room> rooms;
+    private List<RoomObject> roomObjects;
 
     public TemperatureThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
@@ -61,7 +58,7 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
     }
 
     public interface OnListItemClickListener {
-        void onListItemClick(Room clickedItemIndex);
+        void onListItemClick(RoomObject clickedItemIndex);
     }
 
 

@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.sep4android.Objects.MeasurementsObject;
+import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
 
@@ -15,18 +16,30 @@ import java.util.List;
 public abstract class RoomDao {
 
   @Transaction
-  public void deleteAndCreate(MeasurementsObject... measurementsObjects) {
-    deleteAll();
-    insertAll(measurementsObjects);
+  public void deleteAndCreateMeasurements(MeasurementsObject... measurementsObjects) {
+    deleteAllMeasurement();
+    insertAllMeasurement(measurementsObjects);
+  }
+
+  @Transaction
+  public void deleteAndCreateRooms(RoomObject... roomObjects) {
+    deleteAllRooms();
+    insertAllRooms(roomObjects);
   }
 
   @Query("DELETE FROM archivedMeasurements")
-  public abstract void deleteAll();
+  public abstract void deleteAllMeasurement();
+
+  @Query("DELETE FROM archivedRooms")
+  public abstract void deleteAllRooms();
 
   @Query("SELECT * FROM archivedMeasurements ORDER BY date DESC")
   public abstract LiveData<List<MeasurementsObject>> getAllArchive();
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void insertAll(MeasurementsObject... measurementsObjects);
+  public abstract void insertAllMeasurement(MeasurementsObject... measurementsObjects);
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  public abstract void insertAllRooms(RoomObject... measurementsObjects);
 
 }
