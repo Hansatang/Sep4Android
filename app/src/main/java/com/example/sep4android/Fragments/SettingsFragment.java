@@ -28,6 +28,7 @@ public class SettingsFragment extends Fragment {
   Button savePasswordButton;
   Button deleteDataButton;
   Button deleteAccountButton;
+  Button changeThemeButton;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     System.out.println("Settings page");
@@ -44,6 +45,7 @@ public class SettingsFragment extends Fragment {
     savePasswordButton = view.findViewById(R.id.savePassButton);
     deleteAccountButton = view.findViewById(R.id.deleteAccountButton);
     deleteDataButton = view.findViewById(R.id.deleteDataButton);
+    changeThemeButton = view.findViewById(R.id.changeThemeButton);
   }
 
   private void setListenersToButtons() {
@@ -59,7 +61,7 @@ public class SettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
         }
     );
-    deleteDataButton.setOnClickListener(
+    changeThemeButton.setOnClickListener(
         view -> changeTheme()
     );
     deleteAccountButton.setOnClickListener(
