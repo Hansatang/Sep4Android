@@ -63,5 +63,9 @@ public class ArchiveRepository {
     return roomDao.getArchiveById(id, date);
   }
 
+  public LiveData<RoomObject> getRoomById(String roomId){
+    return roomDao.getRoomById(roomId);
+  }
+
 
 }

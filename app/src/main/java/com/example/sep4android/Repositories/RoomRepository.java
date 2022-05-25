@@ -69,6 +69,7 @@ public class RoomRepository {
                    public void onFailure(Call<List<RoomObject>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
+                     repository.getRoomById(uid).getValue();
                      rooms.setValue(null);
                      Log.i("Retrofit", "Something went wrong Room:(");
                    }
