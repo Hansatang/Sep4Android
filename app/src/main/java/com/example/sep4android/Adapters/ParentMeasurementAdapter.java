@@ -129,7 +129,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
           if (viewHolder.details.getVisibility() == View.GONE) {
             viewHolder.details.setVisibility(View.VISIBLE);
-            notifyItemChanged(previousExpandedPosition, 2);
+            notifyItemChanged(previousExpandedPosition, 0);
             previousExpandedPosition = viewHolder.getBindingAdapterPosition();
           } else {
             viewHolder.details.setVisibility(View.GONE);
