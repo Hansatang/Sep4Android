@@ -51,7 +51,7 @@ public class RoomRepository {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
     Call<List<RoomObject>> call = databaseApi.getRoomByUserId(uid);
-    System.out.println("Call");
+    System.out.println("Call hello");
     call.enqueue(new Callback<List<RoomObject>>() {
                    @EverythingIsNonNull
                    @Override

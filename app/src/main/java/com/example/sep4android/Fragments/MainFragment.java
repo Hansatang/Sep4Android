@@ -68,8 +68,18 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   //TODO CHANGE string to resource string everywhere
   private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
-      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count, listObjects.size()));
+      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count_online, listObjects.size()));
       roomAdapter.updateListAndNotify(listObjects);
+    } else {
+      //viewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::setRoomsLocally);
+    }
+  }
+
+  private void setRoomsLocally(List<RoomObject> roomObjects) {
+    if (roomObjects != null) {
+      System.out.println("LOL");
+      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count_offline, roomObjects.size()));
+      roomAdapter.updateListAndNotify(roomObjects);
     }
   }
 }
