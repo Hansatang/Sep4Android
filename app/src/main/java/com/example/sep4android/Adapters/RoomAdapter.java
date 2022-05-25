@@ -25,19 +25,22 @@ import java.util.Locale;
 //Adapter for creating Current Measurements Card Views in MainFragment
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   final private RoomAdapter.OnListItemClickListener clickListener;
-  private List<RoomObject> objects;
+  private List<RoomObject> roomObjectList;
 
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
-    objects = new ArrayList<>();
+    roomObjectList = new ArrayList<>();
     clickListener = listener;
   }
 
   public void updateListAndNotify(List<RoomObject> list) {
     System.out.println("Update call " + list.size());
-    objects = list;
+    roomObjectList = list;
     notifyDataSetChanged();
   }
 
+  public List<RoomObject> getRoomObjectList() {
+    return roomObjectList;
+  }
 
   @NonNull
   public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,10 +51,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
-    System.out.println("Room: " + objects.get(position).getRoomId());
-    viewHolder.name.setText("Room: " + objects.get(position).getName());
+    System.out.println("Room: " + roomObjectList.get(position).getRoomId());
+    viewHolder.name.setText("Room: " + roomObjectList.get(position).getName());
 
-    List<MeasurementsObject> list = objects.get(position).getMeasurements();
+    List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();
     if (list !=null) {
       if (!list.isEmpty()) {
         viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
@@ -101,7 +104,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
 
   public int getItemCount() {
-    return objects.size();
+    return roomObjectList.size();
   }
 
   //View Holder for Current Measurements Cards
@@ -124,7 +127,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onClick(View view) {
-      clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
+      clickListener.onListItemClick(roomObjectList.get(getBindingAdapterPosition()));
     }
   }
 }
