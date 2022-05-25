@@ -17,10 +17,12 @@ import android.widget.TextView;
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
 import com.example.sep4android.ViewModels.RoomViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,15 +42,20 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-    archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
+    createViewModels();
     findViews();
     archiveViewModel.getStatus().observe(getViewLifecycleOwner(), this::setStatus);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
+    archiveViewModel.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
+  }
+
+  private void createViewModels() {
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
   }
 
   private void setStatus(String s) {
@@ -61,34 +68,62 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   }
 
   private void initList(List<RoomObject> listObjects) {
-    System.out.println("Amounts " + listObjects.size());
-    spinner = view.findViewById(R.id.sp);
+    if (listObjects != null) {
+      System.out.println("Amounts " + listObjects.size());
+      spinner = view.findViewById(R.id.sp);
 
-    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
-    spinner.setAdapter(spinnerAdapter);
-    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("Selected");
-        RoomObject roomObject = (RoomObject) adapterView.getItemAtPosition(i);
-        setDateTimesForParentMeasurementAdapter();
-        archiveViewModel.getMeasurementsRoom(roomObject.getRoomId());
-      }
+      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+      spinner.setAdapter(spinnerAdapter);
+      spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+          System.out.println("Selected");
+          setDateTimesForParentMeasurementAdapter();
+        }
 
-      @Override
-      public void onNothingSelected(AdapterView<?> adapterView) {
-        //Do nothing
-      }
-    });
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+          //Do nothing
+        }
+      });
 
-    setDateTimesForParentMeasurementAdapter();
+      setDateTimesForParentMeasurementAdapter();
+    } else {
+      viewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initListLocal);
+    }
+  }
+
+  private void initListLocal(List<RoomObject> listObjects) {
+    if (listObjects != null) {
+      System.out.println("Amounts " + listObjects.size());
+      spinner = view.findViewById(R.id.sp);
+
+      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+      spinner.setAdapter(spinnerAdapter);
+      spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+          System.out.println("Selected");
+          setDateTimesForParentMeasurementAdapter();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+          //Do nothing
+        }
+      });
+
+      setDateTimesForParentMeasurementAdapter();
+    } else {
+      viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
+    }
   }
 
   private void setDateTimesForParentMeasurementAdapter() {
     ArrayList<LocalDateTime> weekNames = new ArrayList<>();
     LocalDateTime now = LocalDateTime.now();
 
-    for (int i = 12; i > 1; i--) {
+    for (int i = 7; i > 1; i--) {
       weekNames.add(now.plusDays(-i));
     }
     weekNames.add(now);
@@ -107,7 +142,22 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     System.out.println("Room " + roomObject.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     System.out.println("Time " + dtf.format(clickedItem));
-    archiveViewModel.getMeasurementsByDate(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveViewModel.getMeasurementsByDate(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), objects -> updateChildrenWithMeasurements(objects, childMeasurementAdapter, clickedItem));
+  }
+
+
+  private void updateChildrenWithMeasurements(List<MeasurementsObject> objects, ChildMeasurementAdapter childMeasurementAdapter, LocalDateTime clickedItem) {
+    if (objects != null) {
+      childMeasurementAdapter.updateListAndNotify(objects);
+    } else {
+      System.out.println("Get Local Meas");
+      viewModel.getMeasurementsLocal(clickedItem, ((RoomObject) spinner.getSelectedItem()).getRoomId()).observe(getViewLifecycleOwner(), resultObjects -> setRoomsLocally(resultObjects, childMeasurementAdapter));
+    }
+
+  }
+
+  private void setRoomsLocally(List<MeasurementsObject> roomObjects, ChildMeasurementAdapter childMeasurementAdapter) {
+    childMeasurementAdapter.updateListAndNotify(roomObjects);
   }
 
 //  private void setUpItemTouchHelper() {

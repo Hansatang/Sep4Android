@@ -38,6 +38,10 @@ public class ArchiveViewModel extends AndroidViewModel {
   }
 
   public void getMeasurementsRoom(String roomId) {
-    repository.getMeasurementRoom(roomId);
+    repository.getMeasurements(roomId);
+  }
+
+  public void getMeasurementsAllRoom(String userId) {
+    repository.getMeasurementsAllRooms(userId);
   }
 }

@@ -38,6 +38,14 @@ public class TemperatureThresholdObject {
         this.minValue = minValue;
     }
 
+    public TemperatureThresholdObject(String roomId, String startTime, String endTime, double maxValue, double minValue) {
+        this.roomId = roomId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+    }
+
 
     public int getThresholdHumidityId() {
         return thresholdHumidityId;

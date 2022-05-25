@@ -15,12 +15,14 @@ public class ArchiveRepository {
   private static ArchiveRepository instance;
   private final RoomDao roomDao;
   private final LiveData<List<MeasurementsObject>> listLiveData;
+  private final LiveData<List<RoomObject>> roomsData;
   private final ExecutorService executorService;
 
   private ArchiveRepository(Application application) {
     ArchiveDatabase database = ArchiveDatabase.getInstance(application);
     roomDao = database.roomDao();
-    listLiveData = roomDao.getAllArchive();
+    roomsData = roomDao.getAllArchiveRooms();
+    listLiveData = roomDao.getAllArchiveMeasurements();
     executorService = Executors.newFixedThreadPool(2);
   }
 
@@ -35,6 +37,10 @@ public class ArchiveRepository {
     return listLiveData;
   }
 
+  public LiveData<List<RoomObject>> getRoomsData() {
+    return roomsData;
+  }
+
   public void insertAllMeasurements(MeasurementsObject[] measurementsObjects) {
     System.out.println("DelCreMeasurement");
     executorService.execute(() -> roomDao.deleteAndCreateMeasurements(measurementsObjects));
@@ -43,6 +49,10 @@ public class ArchiveRepository {
   public void insertAllRooms(RoomObject[] roomObjects) {
     System.out.println("DelCreRooms");
     executorService.execute(() -> roomDao.deleteAndCreateRooms(roomObjects));
+  }
+
+  public LiveData<List<RoomObject>> getRooms() {
+    return roomDao.getAllArchiveRooms();
   }
 
   public void deleteAllMeasurement() {
@@ -56,5 +66,6 @@ public class ArchiveRepository {
   public LiveData<RoomObject> getRoomById(String roomId){
     return roomDao.getRoomById(roomId);
   }
+
 
 }

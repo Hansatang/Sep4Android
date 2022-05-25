@@ -48,7 +48,7 @@ public class MeasurementRepository {
     return measurements;
   }
 
-  public void getMeasurementRoom(String roomId) {
+  public void getMeasurements(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<MeasurementsObject>> call = databaseApi.getMeasurements(roomId);
     System.out.println("Call");
@@ -63,7 +63,37 @@ public class MeasurementRepository {
                        System.out.println(rs.size());
                        status.setValue("Online");
                        measurements.setValue(rs);
-                       repository.insertAllMeasurements(measurements.getValue().toArray(new MeasurementsObject[0]));
+                       //  repository.insertAllMeasurements(measurements.getValue().toArray(new MeasurementsObject[0]));
+                     }
+                   }
+
+                   @EverythingIsNonNull
+                   @Override
+                   public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
+                     status.setValue("Offline");
+                     System.out.println(t);
+                     System.out.println(t.getMessage());
+                     Log.i("Retrofit", "Something went wrong :(");
+                   }
+                 }
+    );
+  }
+
+  public void getMeasurementsAllRooms(String userId) {
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+    Call<List<MeasurementsObject>> call = databaseApi.getMeasurementsAllRooms(userId);
+    System.out.println("Call");
+    call.enqueue(new Callback<List<MeasurementsObject>>() {
+                   @EverythingIsNonNull
+                   @Override
+                   public void onResponse(Call<List<MeasurementsObject>> call, Response<List<MeasurementsObject>> response) {
+                     if (response.isSuccessful()) {
+                       System.out.println(response);
+                       System.out.println(response.body());
+                       List<MeasurementsObject> rs = response.body();
+                       System.out.println("Amount "+rs.size());
+                       status.setValue("Online");
+                       repository.insertAllMeasurements(rs.toArray(new MeasurementsObject[0]));
                      }
                    }
 
@@ -121,6 +151,7 @@ public class MeasurementRepository {
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
                      status.setValue("Offline");
                      System.out.println(t);
+                     measurementsByDate.setValue(null);
                      repository.getMeasurementByID(roomId, date).getValue();
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");

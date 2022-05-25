@@ -94,12 +94,12 @@ public class HumidityThresholdsRepository {
   public void addHumidityThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     HumidityThresholdObject thresholdToCreate = new HumidityThresholdObject(roomId, startTime, endTime, maxValue, minValue);
-    Call<HumidityThresholdObject> call = databaseApi.addHumidityThreshold(thresholdToCreate);
+    Call<Integer> call = databaseApi.addHumidityThreshold(thresholdToCreate);
     System.out.println("POST");
-    call.enqueue(new Callback<HumidityThresholdObject>() {
+    call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
-      public void onResponse(Call<HumidityThresholdObject> call, Response<HumidityThresholdObject> response) {
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
         System.out.println(response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
@@ -108,7 +108,7 @@ public class HumidityThresholdsRepository {
 
       @EverythingIsNonNull
       @Override
-      public void onFailure(Call<HumidityThresholdObject> call, Throwable t) {
+      public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
         Log.i("Retrofit", "Something went wrong :(");
