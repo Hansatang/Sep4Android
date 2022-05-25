@@ -102,12 +102,12 @@ public class TemperatureThresholdRepositories {
     {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
         TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(roomId, startTime, endTime, maxValue, minValue);
-        Call<TemperatureThresholdObject> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
+        Call<Integer> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
         System.out.println("POST");
-        call.enqueue(new Callback<TemperatureThresholdObject>() {
+        call.enqueue(new Callback<Integer>() {
             @EverythingIsNonNull
             @Override
-            public void onResponse(Call<TemperatureThresholdObject> call, Response<TemperatureThresholdObject> response) {
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
                 System.out.println(response);
                 if (response.isSuccessful()) {
                     System.out.println("Complete");
@@ -116,7 +116,7 @@ public class TemperatureThresholdRepositories {
 
             @EverythingIsNonNull
             @Override
-            public void onFailure(Call<TemperatureThresholdObject> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
                 Log.i("Retrofit", "Something went wrong :(");

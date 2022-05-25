@@ -62,10 +62,10 @@ public interface DatabaseApi {
   Call<UserObject> addUser(@Body UserObject object);
 
   @POST("humidityThresholds/")
-  Call<HumidityThresholdObject> addHumidityThreshold(@Body HumidityThresholdObject object);
+  Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
   @POST("temperatureThresholds/")
-  Call<TemperatureThresholdObject> addTemperatureThreshold(@Body TemperatureThresholdObject object);
+  Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
 
   @DELETE("api/random")
   Call<UserObject> deleteUser();
