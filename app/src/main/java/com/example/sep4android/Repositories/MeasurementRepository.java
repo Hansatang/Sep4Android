@@ -14,7 +14,6 @@ import com.example.sep4android.Objects.MeasurementsObject;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,15 +26,15 @@ import retrofit2.internal.EverythingIsNonNull;
 public class MeasurementRepository {
   private final ArchiveRepository repository;
   private static MeasurementRepository instance;
-  private final MutableLiveData<List<MeasurementsObject>> measurements;
-  private final MutableLiveData<List<MeasurementsObject>> measurementsByDate;
-  private final MutableLiveData<String> status;
+  private final MutableLiveData<List<MeasurementsObject>> roomMeasurementsLiveData;
+  private final MutableLiveData<List<MeasurementsObject>> measurementsByDateLiveData;
+  private final MutableLiveData<String> statusLiveData;
 
   private MeasurementRepository(Application application) {
     repository = ArchiveRepository.getInstance(application);
-    measurements = new MutableLiveData<>();
-    measurementsByDate = new MutableLiveData<>();
-    status = new MutableLiveData<>();
+    roomMeasurementsLiveData = new MutableLiveData<>();
+    measurementsByDateLiveData = new MutableLiveData<>();
+    statusLiveData = new MutableLiveData<>();
   }
 
   public static synchronized MeasurementRepository getInstance(Application application) {
@@ -44,9 +43,18 @@ public class MeasurementRepository {
     return instance;
   }
 
-  public LiveData<List<MeasurementsObject>> getMeasurements() {
-    return measurements;
+  public LiveData<List<MeasurementsObject>> getRoomMeasurementsLiveData() {
+    return roomMeasurementsLiveData;
   }
+
+  public MutableLiveData<List<MeasurementsObject>> getMeasurementsByDateLiveData() {
+    return measurementsByDateLiveData;
+  }
+
+  public LiveData<String> getStatusLiveData() {
+    return statusLiveData;
+  }
+
 
   public void getMeasurements(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -61,16 +69,15 @@ public class MeasurementRepository {
                        System.out.println(response.body());
                        List<MeasurementsObject> rs = response.body();
                        System.out.println(rs.size());
-                       status.setValue("Online");
-                       measurements.setValue(rs);
-                       //  repository.insertAllMeasurements(measurements.getValue().toArray(new MeasurementsObject[0]));
+                       statusLiveData.setValue("Online");
+                       roomMeasurementsLiveData.setValue(rs);
                      }
                    }
 
                    @EverythingIsNonNull
                    @Override
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
-                     status.setValue("Offline");
+                     statusLiveData.setValue("Offline");
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
@@ -91,8 +98,8 @@ public class MeasurementRepository {
                        System.out.println(response);
                        System.out.println(response.body());
                        List<MeasurementsObject> rs = response.body();
-                       System.out.println("Amount "+rs.size());
-                       status.setValue("Online");
+                       System.out.println("Amount " + rs.size());
+                       statusLiveData.setValue("Online");
                        repository.insertAllMeasurements(rs.toArray(new MeasurementsObject[0]));
                      }
                    }
@@ -100,7 +107,7 @@ public class MeasurementRepository {
                    @EverythingIsNonNull
                    @Override
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
-                     status.setValue("Offline");
+                     statusLiveData.setValue("Offline");
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
@@ -109,23 +116,8 @@ public class MeasurementRepository {
     );
   }
 
-  public LiveData<String> getStatus() {
-    return status;
-  }
 
-  public LiveData<List<MeasurementsObject>> filter(String str) {
-    List<MeasurementsObject> result = new ArrayList<>();
-    for (MeasurementsObject mes : measurements.getValue()) {
-      if (mes.getTemperature() == 20.00) {
-        result.add(mes);
-      }
-    }
-    measurementsByDate.setValue(result);
-    return measurementsByDate;
-
-  }
-
-  public LiveData<List<MeasurementsObject>> getMeasurementsByDate(LocalDateTime clickedItem, String roomId) {
+  public void getMeasurementsByDate(LocalDateTime clickedItem, String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
     Date convertedDatetime = Date.from(clickedItem.atZone(ZoneId.systemDefault()).toInstant());
@@ -141,23 +133,22 @@ public class MeasurementRepository {
                        System.out.println(response.body());
                        List<MeasurementsObject> rs = response.body();
                        System.out.println(rs.size());
-                       status.setValue("Online");
-                       measurementsByDate.setValue(rs);
+                       statusLiveData.setValue("Online");
+                       measurementsByDateLiveData.setValue(rs);
                      }
                    }
 
                    @EverythingIsNonNull
                    @Override
                    public void onFailure(Call<List<MeasurementsObject>> call, Throwable t) {
-                     status.setValue("Offline");
+                     statusLiveData.setValue("Offline");
                      System.out.println(t);
-                     measurementsByDate.setValue(null);
+                     measurementsByDateLiveData.setValue(null);
                      repository.getMeasurementByID(roomId, date).getValue();
                      System.out.println(t.getMessage());
                      Log.i("Retrofit", "Something went wrong :(");
                    }
                  }
     );
-    return measurementsByDate;
   }
 }

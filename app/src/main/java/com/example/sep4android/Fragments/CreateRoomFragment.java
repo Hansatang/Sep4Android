@@ -30,13 +30,14 @@ public class CreateRoomFragment extends Fragment {
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     findViews(view);
     setListenersToButtons();
+    viewModel.getCreationResult().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
     return view;
   }
 
   private void setListenersToButtons() {
     createRoomButton.setOnClickListener(view -> {
           viewModel.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
-              FirebaseAuth.getInstance().getCurrentUser().getUid()).observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
+              FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
     );
   }

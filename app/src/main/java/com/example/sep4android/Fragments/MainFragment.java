@@ -47,7 +47,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     // TODO: 24.05.2022 change this hard code back 
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
     viewModel.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
-    findViews(view);
+    findViews();
     setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
@@ -56,7 +56,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     return view;
   }
 
-  private void findViews(View view) {
+  private void findViews() {
     fabCreateRoom = view.findViewById(R.id.fabCreateRoom);
     roomsRV = view.findViewById(R.id.room_rv);
     activeRoomCount = view.findViewById(R.id.activeRoomCount);
@@ -94,7 +94,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
       @Override
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
         int position = viewHolder.getAbsoluteAdapterPosition();
-        System.out.println("Pos" +position);
+        System.out.println("Pos" + position);
         createPopUp(position);
 
       }
@@ -121,7 +121,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
     AlertDialog alertDialog = builder.create();
     changeNameButton.setOnClickListener(view -> {
-      System.out.println("Change "+newName.getText());
+      System.out.println("Change " + newName.getText());
       System.out.println(roomObject.getName());
       viewModel.changeName(roomObject.getRoomId(), newName.getText().toString());
       undoSwipe(position);
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
-    System.out.println("PosUndo "+position);
+    System.out.println("PosUndo " + position);
     roomAdapter.notifyItemChanged(position);
     roomsRV.scrollToPosition(position);
   }

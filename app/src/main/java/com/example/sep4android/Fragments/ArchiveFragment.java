@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
-import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
@@ -32,7 +31,6 @@ import java.util.List;
 //Fragment for viewing archived measurements
 public class ArchiveFragment extends Fragment implements ParentMeasurementAdapter.OnListItemClickListener {
   View view;
-  RoomViewModel viewModel;
   RecyclerView measurementsRV;
   ArchiveViewModel archiveViewModel;
   ParentMeasurementAdapter parentMeasurementAdapter;
@@ -48,13 +46,12 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     archiveViewModel.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    viewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
+    archiveViewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
   }
 
   private void createViewModels() {
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
   }
 
@@ -112,7 +109,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     System.out.println("Room " + roomObject.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     System.out.println("Time " + dtf.format(clickedItem));
-    viewModel.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveViewModel.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
 }

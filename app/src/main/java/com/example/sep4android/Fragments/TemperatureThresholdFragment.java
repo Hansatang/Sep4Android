@@ -144,37 +144,25 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
                 return true;
             }
         });
+
         
         findViews(popupView);
 
-        popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("**********************");
-                System.out.println("adding");
+        popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
+            System.out.println("**********************");
+            System.out.println("adding");
 
-                temperatureThresholdViewModel.addTemperatureThreshold(((RoomObject)spinner.getSelectedItem()).getRoomId(),
-                        startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-                System.out.println("**********************");
-                Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
-                updateList();
-                popupWindow.dismiss();
-            }
+            temperatureThresholdViewModel.addTemperatureThreshold(((RoomObject)spinner.getSelectedItem()).getRoomId(),
+                    startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+            System.out.println("**********************");
+            Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
+            updateList();
+            popupWindow.dismiss();
         });
 
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popTimePicker(view, startTime);
-            }
-        });
+        startTime.setOnClickListener(view -> popTimePicker(view, startTime));
 
-        endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popTimePicker(view, endTime);
-            }
-        });
+        endTime.setOnClickListener(view -> popTimePicker(view, endTime));
     }
 
     private void findViews(View popupView) {
@@ -201,7 +189,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
             }
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, onTimeSetListener, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, onTimeSetListener, 0, 0, true);
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();

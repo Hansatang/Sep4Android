@@ -33,14 +33,8 @@ public abstract class RoomDao {
   @Query("DELETE FROM archivedRooms")
   public abstract void deleteAllRooms();
 
-  @Query("SELECT * FROM archivedMeasurements ORDER BY date DESC")
-  public abstract LiveData<List<MeasurementsObject>> getAllArchiveMeasurements();
-
   @Query("SELECT * FROM archivedRooms")
   public abstract LiveData<List<RoomObject>> getAllArchiveRooms();
-
-  @Query("SELECT * FROM archivedRooms")
-  public abstract List<RoomObject> getAllArchiveRoomsA();
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   public abstract void insertAllMeasurement(MeasurementsObject... measurementsObjects);
@@ -53,8 +47,5 @@ public abstract class RoomDao {
 
   @Query("SELECT * FROM archivedRooms WHERE roomId = :roomId")
   public abstract LiveData<RoomObject> getRoomById(String roomId);
-
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void insertAll(MeasurementsObject... measurementsObjects);
 
 }
