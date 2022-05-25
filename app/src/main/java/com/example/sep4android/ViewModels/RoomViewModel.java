@@ -1,6 +1,7 @@
 package com.example.sep4android.ViewModels;
 
 import android.app.Application;
+import android.widget.EditText;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -56,6 +57,18 @@ public class RoomViewModel extends AndroidViewModel {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     System.out.println("Time " + dtf.format(clickedItem));
     return archiveRepository.getMeasurementByID(roomId,dtf.format(clickedItem));
+  }
+
+  public void changeName(String roomId, String newName) {
+    roomRepository.changeName(roomId, newName);
+  }
+
+  public void deleteRoom(String roomId) {
+    roomRepository.deleteRoom(roomId);
+  }
+
+  public void resetMeasurements(String roomId) {
+    roomRepository.resetMeasurements(roomId);
   }
 }
 

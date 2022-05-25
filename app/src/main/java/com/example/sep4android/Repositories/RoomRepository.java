@@ -2,6 +2,7 @@ package com.example.sep4android.Repositories;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.EditText;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,6 +12,7 @@ import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.Objects.UserObject;
 
 import java.util.List;
 
@@ -106,5 +108,76 @@ public class RoomRepository {
     );
     return creationResult;
   }
+
+    public void changeName(String roomId, String newName) {
+        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+        Call<Integer> call = databaseApi.changeName(roomId, newName);
+        System.out.println("POST");
+        call.enqueue(new Callback<Integer>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Successful");
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                System.out.println(t);
+                System.out.println(t.getMessage());
+                Log.i("Retrofit", "Something went wrong :(");
+            }
+        });
+    }
+
+    public void deleteRoom(String roomId) {
+        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+        Call<Integer> call = databaseApi.deleteRoom(roomId);
+        System.out.println("DELETE");
+        call.enqueue(new Callback<Integer>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                System.out.println(response);
+                if (response.isSuccessful()) {
+                    System.out.println("Complete");
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                System.out.println(t);
+                System.out.println(t.getMessage());
+                Log.i("Retrofit", "Something went wrong :(");
+            }
+        });
+    }
+
+    public void resetMeasurements(String roomId) {
+        DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+        Call<Integer> call = databaseApi.resetMeasurements(roomId);
+        System.out.println("DELETE");
+        call.enqueue(new Callback<Integer>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                System.out.println(response);
+                if (response.isSuccessful()) {
+                    System.out.println("Complete");
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                System.out.println(t);
+                System.out.println(t.getMessage());
+                Log.i("Retrofit", "Something went wrong :(");
+            }
+        });
+    }
 }
 

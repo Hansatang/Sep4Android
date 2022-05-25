@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +84,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
   private void setUpItemTouchHelper() {
-    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
       @Override
       public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -95,28 +96,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
         int position = viewHolder.getAbsoluteAdapterPosition();
         System.out.println("Pos" +position);
         createPopUp(position);
-
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setTitle("Title");
-//        builder.setItems(new CharSequence[]
-//                {"Delete", "Reset measurements", "button 3", "button 4"},
-//            (dialog, which) -> {
-//              switch (which) {
-//                case 0:
-//                  Toast.makeText(getActivity(), "clicked 1", Toast.LENGTH_SHORT).show();
-//                  break;
-//                case 1:
-//                  Toast.makeText(getActivity(), "clicked 2", Toast.LENGTH_SHORT).show();
-//                  break;
-//                case 2:
-//                  Toast.makeText(getActivity(), "clicked 3", Toast.LENGTH_SHORT).show();
-//                  break;
-//                case 3:
-//                  Toast.makeText(getActivity(), "clicked 4", Toast.LENGTH_SHORT).show();
-//                  break;
-//              }
-//            });
 
       }
     };
@@ -143,18 +122,22 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     AlertDialog alertDialog = builder.create();
     changeNameButton.setOnClickListener(view -> {
       System.out.println("Change "+newName.getText());
+      System.out.println(roomObject.getName());
+      viewModel.changeName(roomObject.getRoomId(), newName.getText().toString());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     resetButton.setOnClickListener(view -> {
       System.out.println("reset");
+      viewModel.resetMeasurements(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     deleteButton.setOnClickListener(view -> {
       System.out.println("delete");
+      viewModel.deleteRoom(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });

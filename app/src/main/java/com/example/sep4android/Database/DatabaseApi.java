@@ -85,4 +85,12 @@ public interface DatabaseApi {
   @DELETE("temperatureThresholds/all/")
   Call<TemperatureThresholdObject> deleteAllTemperatureThreshold();
 
+  @POST("room/{roomId}")
+  Call<Integer> changeName(@Path("roomId") String roomId, @Body String newName);
+
+  @DELETE("room/{roomId}")
+  Call<Integer> deleteRoom(@Path("roomId") String roomId);
+
+  @DELETE("measurements/{roomId}")
+  Call<Integer> resetMeasurements(@Path("roomId") String roomId);
 }
