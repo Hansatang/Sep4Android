@@ -150,8 +150,15 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
         popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 19.05.2022 Call method from view model with the 4 fields and room id from spinner 
-                Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                System.out.println("**********************");
+                System.out.println("adding");
+
+                temperatureThresholdViewModel.addTemperatureThreshold(((RoomObject)spinner.getSelectedItem()).getRoomId(),
+                        startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+                System.out.println("**********************");
+                Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
+                updateList();
+                popupWindow.dismiss();
             }
         });
 
@@ -218,9 +225,9 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
                             temperatureThresholdViewModel.deleteTemperatureThreshold(temperatureThresholdObject.getThresholdHumidityId());
-                            temperatureThresholdViewModel.getTemperatureThresholds(((RoomObject)spinner.getSelectedItem()).getRoomId());
+                            updateList();
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -253,5 +260,12 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     private void undoSwipe(int position) {
         temperatureThresholdAdapter.notifyDataSetChanged();
         temperatureThresholdList.scrollToPosition(position);
+    }
+
+    private void updateList(){
+        System.out.println("**********************");
+        System.out.println("update list");
+        temperatureThresholdViewModel.getThresholdFromRepo(((RoomObject)spinner.getSelectedItem()).getRoomId());
+        System.out.println("**********************");
     }
 }

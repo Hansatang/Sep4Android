@@ -32,8 +32,8 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
         repository.getAllTemperatureThresholds();
     }
 
-    public void addTemperatureThreshold(int id, String roomId, String startTime, String endTime, double maxValue, double minValue){
-        repository.addTemperatureThreshold(id, roomId, startTime, endTime, maxValue, minValue);
+    public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue){
+        repository.addTemperatureThreshold(roomId, startTime, endTime, maxValue, minValue);
     }
 
     public void deleteTemperatureThreshold(int id){

@@ -149,15 +149,13 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("-------------------------------------------------------");
-                System.out.println(((RoomObject)spinner.getSelectedItem()).getRoomId());
-                System.out.println(startTime.getText().toString());
-                System.out.println(endTime.getText().toString());
-                System.out.println(startValue.getValue());
-                System.out.println(endValue.getValue());
+                System.out.println("**********************");
+                System.out.println("adding");
                 humidityThresholdViewModel.addThresholdToDatabase(((RoomObject)spinner.getSelectedItem()).getRoomId(),
-                       startTime.getText().toString(), endTime.getText().toString(), startValue.getValue(), endValue.getValue());
+                       startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+                System.out.println("**********************");
                 Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
+                updateList();
                 popupWindow.dismiss();
             }
         });
@@ -224,9 +222,9 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
                             humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
-                            humidityThresholdViewModel.getThresholdFromRepo(((RoomObject)spinner.getSelectedItem()).getRoomId());
+                            updateList();
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -259,5 +257,12 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     private void undoSwipe(int position) {
         humidityThresholdAdapter.notifyDataSetChanged();
         humidityThresholdList.scrollToPosition(position);
+    }
+
+    private void updateList(){
+        System.out.println("**********************");
+        System.out.println("update list");
+        humidityThresholdViewModel.getThresholdFromRepo(((RoomObject)spinner.getSelectedItem()).getRoomId());
+        System.out.println("**********************");
     }
 }

@@ -98,10 +98,10 @@ public class TemperatureThresholdRepositories {
         });
     }
 
-    public void addTemperatureThreshold(int id, String roomId, String startTime, String endTime, double maxValue, double minValue)
+    public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue)
     {
         DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-        TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(id, roomId, startTime, endTime, maxValue, minValue);
+        TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(roomId, startTime, endTime, maxValue, minValue);
         Call<TemperatureThresholdObject> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
         System.out.println("POST");
         call.enqueue(new Callback<TemperatureThresholdObject>() {
