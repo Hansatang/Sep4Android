@@ -108,6 +108,10 @@ public class TemperatureThresholdRepositories {
             @EverythingIsNonNull
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
+                switch (response.body()){
+                    case 400:
+                       // responseCode = "Creating threshold that is inside other threshold's startTime/endTime";
+                }
                 System.out.println(response);
                 if (response.isSuccessful()) {
                     System.out.println("Complete");
@@ -119,6 +123,7 @@ public class TemperatureThresholdRepositories {
             public void onFailure(Call<Integer> call, Throwable t) {
                 System.out.println(t);
                 System.out.println(t.getMessage());
+
                 Log.i("Retrofit", "Something went wrong :(");
             }
         });

@@ -91,6 +91,6 @@ public interface DatabaseApi {
   @DELETE("room/{roomId}")
   Call<Integer> deleteRoom(@Path("roomId") String roomId);
 
-  @DELETE("measurements/{roomId}")
+  @DELETE("measurement/room/{roomId}")
   Call<Integer> resetMeasurements(@Path("roomId") String roomId);
 }
