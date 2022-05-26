@@ -29,6 +29,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
   private Toolbar toolbar;
   private  DrawerLayout drawerLayout;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     System.out.println("Main test");
     super.onCreate(savedInstanceState);
     user = FirebaseAuth.getInstance().getCurrentUser();
+
     if (user == null) {
       startActivity(new Intent(this, SignUpActivity.class));
       finish();
