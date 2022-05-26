@@ -2,6 +2,7 @@ package com.example.sep4android.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,9 @@ import java.util.Locale;
 
 //Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
 public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ViewHolder> {
+  private final String TAG = "ChildMeasurementAdapter";
   private Context ctx;
-  public List<MeasurementsObject> objects;
+  private List<MeasurementsObject> objects;
 
 
   public ChildMeasurementAdapter() {
@@ -33,7 +35,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   }
 
   public void updateListAndNotify(List<MeasurementsObject> list) {
-    System.out.println("Update call elo " + list.size());
+    Log.i(TAG,"Update Child Adapter with "+list.size()+" objects");
     if (!list.isEmpty()) {
       objects = list;
     }
@@ -46,7 +48,6 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    System.out.println("Created child");
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
     return new ViewHolder(view);
   }
@@ -69,6 +70,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
+    Log.i(TAG,"Binding viewHolder number : "+position);
     MeasurementsObject currentItem = objects.get(position);
     holder.dateId.setText(getFormattedDate(currentItem));
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));

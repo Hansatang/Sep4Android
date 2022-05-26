@@ -20,6 +20,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 
 public class RoomRepository {
+  private final String TAG = "RoomRepository";
   private final ArchiveRepository repository;
   private static RoomRepository instance;
   private final MutableLiveData<List<RoomObject>> roomsLiveData;

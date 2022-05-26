@@ -18,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class TemperatureThresholdRepositories {
+  private final String TAG = "TemperatureThresholdRepositories";
   private static TemperatureThresholdRepositories instance;
   private final MutableLiveData<List<TemperatureThresholdObject>> temperatureThresholds;
   private final MutableLiveData<String> status;

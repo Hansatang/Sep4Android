@@ -18,9 +18,9 @@ import org.eazegraph.lib.models.ValueLineSeries;
 
 
 public class TestFragment extends Fragment {
-    TextView tvR, tvPython, tvCPP, tvJava;
-    PieChart pieChart;
-    View view;
+    private TextView tvR, tvPython, tvCPP, tvJava;
+    private PieChart pieChart;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

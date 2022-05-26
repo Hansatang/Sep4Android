@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,10 +43,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class TemperatureThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-
+  private final String TAG = "TemperatureThresholdFragment";
   private View view;
   private RoomViewModel roomViewModel;
-  private ArrayList<String> mCountryList;
   private RecyclerView temperatureThresholdList;
   private TemperatureThresholdAdapter temperatureThresholdAdapter;
   private Context context;
@@ -61,21 +61,21 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.i(TAG, "Create TemperatureThreshold View");
     super.onCreate(savedInstanceState);
-
     context = container.getContext();
     view = inflater.inflate(R.layout.fragment_temperature_threshold_list, container, false);
-    roomViewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    createViewModels();
+    findViews();
+
     roomViewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
 
-    temperatureThresholdList = view.findViewById(R.id.temperature_threshold_rv);
+
     temperatureThresholdList.hasFixedSize();
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
     temperatureThresholdList.setAdapter(temperatureThresholdAdapter);
-    temperatureThresholdViewModel = new ViewModelProvider(requireActivity()).get(TemperatureThresholdViewModel.class);
 
-    fab = view.findViewById(R.id.fab_add_new_threshold_temperature);
     temperatureThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
 
@@ -84,13 +84,23 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     return view;
   }
 
+  private void findViews() {
+    temperatureThresholdList = view.findViewById(R.id.temperature_threshold_rv);
+    fab = view.findViewById(R.id.fab_add_new_threshold_temperature);
+    spinner = view.findViewById(R.id.sp_temperature);
+  }
+
+  private void createViewModels() {
+    roomViewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    temperatureThresholdViewModel = new ViewModelProvider(requireActivity()).get(TemperatureThresholdViewModel.class);
+  }
+
   private void prepareResult(String result) {
     if (result != null) {
       if (result.equals("Complete")) {
         Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
         updateList();
-      }
-      else if(result.equals("Wrong Threshold")){
+      } else if (result.equals("Wrong Threshold")) {
         Toast.makeText(getContext(), "Wrong Threshold", Toast.LENGTH_SHORT).show();
       }
       temperatureThresholdViewModel.setResult();
@@ -98,11 +108,6 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   private void initList(List<RoomObject> listObjects) {
-    mCountryList = new ArrayList<>();
-    for (RoomObject object : listObjects) {
-      mCountryList.add(object.getRoomId());
-    }
-    spinner = view.findViewById(R.id.sp_temperature);
     SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
     spinner.setAdapter(adapter);
@@ -151,7 +156,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     });
 
 
-    findViews(popupView);
+    findPopUpViews(popupView);
 
     popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
       System.out.println("**********************");
@@ -169,7 +174,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     endTime.setOnClickListener(view -> popTimePicker(view, endTime));
   }
 
-  private void findViews(View popupView) {
+  private void findPopUpViews(View popupView) {
     startTime = popupView.findViewById(R.id.select_start_time);
     endTime = popupView.findViewById(R.id.select_end_time);
     startValue = popupView.findViewById(R.id.select_start_value);

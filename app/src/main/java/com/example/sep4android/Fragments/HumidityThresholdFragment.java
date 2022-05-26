@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,227 +43,205 @@ import java.util.List;
 import java.util.Locale;
 
 public class HumidityThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+  private final String TAG = "HumidityThresholdFragment";
+  private View view;
+  private RoomViewModel viewModel;
+  private HumidityThresholdViewModel humidityThresholdViewModel;
+  private RecyclerView humidityThresholdList;
+  private HumidityThresholdAdapter humidityThresholdAdapter;
+  private Spinner spinner;
+  private FloatingActionButton fab;
+  private Button startTime, endTime;
+  private NumberPicker startValue, endValue;
 
-    private View view;
-    private RoomViewModel viewModel;
-    private HumidityThresholdViewModel humidityThresholdViewModel;
-    private ArrayList<String> mCountryList;
-    private RecyclerView humidityThresholdList;
-    private HumidityThresholdAdapter humidityThresholdAdapter;
-    private Context context;
-    private Spinner spinner;
-    private FloatingActionButton fab;
-    private Button startTime, endTime;
-    private NumberPicker startValue, endValue;
-
-    int hour, minute;
+  private int hour, minute;
 
 
-    public HumidityThresholdFragment() {
-    }
+  public HumidityThresholdFragment() {
+  }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.i(TAG, "Create HumidityThreshold View");
+    super.onCreate(savedInstanceState);
+    view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
+    createViewModels();
+    findViews();
+    viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
+    humidityThresholdList.hasFixedSize();
+    humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    humidityThresholdAdapter = new HumidityThresholdAdapter();
+    humidityThresholdList.setAdapter(humidityThresholdAdapter);
+    setUpItemTouchHelper();
 
-        humidityThresholdViewModel = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
+    return view;
+  }
 
-        context = container.getContext();
-        view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-        viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
+  private void findViews() {
+    humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
+    spinner = view.findViewById(R.id.sp_humidity);
+    fab = view.findViewById(R.id.fab_add_new_threshold_humidity);
+  }
 
-        humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
-        humidityThresholdList.hasFixedSize();
-        humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+  private void createViewModels() {
+    humidityThresholdViewModel = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+  }
 
-        humidityThresholdAdapter = new HumidityThresholdAdapter();
-        humidityThresholdList.setAdapter(humidityThresholdAdapter);
+  private void initList(List<RoomObject> listObjects) {
 
-        setUpItemTouchHelper();
+    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+    adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
+    spinner.setAdapter(adapter);
+    spinner.setOnItemSelectedListener(this);
+    humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
+    humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
 
-        return view;
-    }
+    fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
+  }
 
-    private void initList(List<RoomObject> listObjects) {
-        mCountryList = new ArrayList<>();
-        for (RoomObject object : listObjects) {
-            mCountryList.add(object.getRoomId());
-        }
-        spinner = view.findViewById(R.id.sp_humidity);
-        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spin_item, mCountryList);
-        SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
-        adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+  @Override
+  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    System.out.println(adapterView.getItemAtPosition(i).toString());
+    // TODO: 20.05.2022 uncomment and change null to object id
+    //humidityThresholdViewModel.getThresholdFromRepo(null);
+  }
 
-        humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
-        humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
+  private void updateList(List<HumidityThresholdObject> humidityThresholdObjects) {
+    humidityThresholdAdapter.update(humidityThresholdObjects);
+  }
 
-        fab = view.findViewById(R.id.fab_add_new_threshold_humidity);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onButtonShowPopupWindowClick();
-            }
-        });
-    }
+  @Override
+  public void onNothingSelected(AdapterView<?> adapterView) {
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println(adapterView.getItemAtPosition(i).toString());
-        // TODO: 20.05.2022 uncomment and change null to object id 
-        //humidityThresholdViewModel.getThresholdFromRepo(null);
-    }
+  }
 
-    private void updateList(List<HumidityThresholdObject> humidityThresholdObjects) {
-        humidityThresholdAdapter.update(humidityThresholdObjects);
-    }
+  public void onButtonShowPopupWindowClick() {
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    LayoutInflater inflater = (LayoutInflater)
+        getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
 
-    }
+    int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+    boolean focusable = true;
+    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-    public void onButtonShowPopupWindowClick() {
+    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        LayoutInflater inflater = (LayoutInflater)
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
+    popupView.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        popupWindow.dismiss();
+        return true;
+      }
+    });
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true;
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+    findPopUpViews(popupView);
 
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        System.out.println("**********************");
+        System.out.println("adding");
+        humidityThresholdViewModel.addThresholdToDatabase(((RoomObject) spinner.getSelectedItem()).getRoomId(),
+            startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+        System.out.println("**********************");
+        Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
+        updateList();
+        popupWindow.dismiss();
+      }
+    });
 
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                return true;
-            }
-        });
+    startTime.setOnClickListener(view -> popTimePicker(view, startTime));
 
-        findViews(popupView);
+    endTime.setOnClickListener(view -> popTimePicker(view, endTime));
+  }
 
-        popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("**********************");
-                System.out.println("adding");
-                humidityThresholdViewModel.addThresholdToDatabase(((RoomObject)spinner.getSelectedItem()).getRoomId(),
-                       startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-                System.out.println("**********************");
-                Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
-                updateList();
-                popupWindow.dismiss();
-            }
-        });
+  private void findPopUpViews(View popupView) {
+    startTime = popupView.findViewById(R.id.select_start_time);
+    endTime = popupView.findViewById(R.id.select_end_time);
+    startValue = popupView.findViewById(R.id.select_start_value);
+    startValue.setMinValue(0);
+    startValue.setMaxValue(35);
+    endValue = popupView.findViewById(R.id.select_end_value);
+    endValue.setMinValue(0);
+    endValue.setMaxValue(35);
+  }
 
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popTimePicker(view, startTime);
-            }
-        });
+  public void popTimePicker(View view, Button button) {
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+      @Override
+      public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+        hour = selectedHour;
+        minute = selectedMinute;
+        button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+      }
+    };
 
-        endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popTimePicker(view, endTime);
-            }
-        });
-    }
+    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hour, minute, true);
 
-    private void findViews(View popupView) {
-        startTime = popupView.findViewById(R.id.select_start_time);
-        endTime = popupView.findViewById(R.id.select_end_time);
-        startValue = popupView.findViewById(R.id.select_start_value);
-        startValue.setMinValue(0);
-        startValue.setMaxValue(35);
-        endValue = popupView.findViewById(R.id.select_end_value);
-        endValue.setMinValue(0);
-        endValue.setMaxValue(35);
-    }
+    timePickerDialog.setTitle("Select Time");
+    timePickerDialog.show();
+  }
 
-    public void popTimePicker(View view, Button button)
-    {
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
-        {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
-            {
-                hour = selectedHour;
-                minute = selectedMinute;
-                button.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
-            }
+
+  private void setUpItemTouchHelper() {
+    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+      @Override
+      public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        return false;
+      }
+
+      @Override
+      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+          int position = viewHolder.getAbsoluteAdapterPosition();
+          HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
+
+          switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+              Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
+              humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
+              updateList();
+              break;
+
+            case DialogInterface.BUTTON_NEGATIVE:
+              undoSwipe(position);
+              Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+              break;
+          }
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, onTimeSetListener, hour, minute, true);
-
-        timePickerDialog.setTitle("Select Time");
-        timePickerDialog.show();
-    }
-
-
-    private void setUpItemTouchHelper() {
-        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-                    int position = viewHolder.getAbsoluteAdapterPosition();
-                    HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
-
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
-                            humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
-                            updateList();
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            undoSwipe(position);
-                            Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                };
-
-                DialogInterface.OnCancelListener cancelListener = (dialog) -> {
-                    int position = viewHolder.getAbsoluteAdapterPosition();
-                    undoSwipe(position);
-                    Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-                };
-
-                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setMessage("Are you sure you want to delete?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
-            }
+        DialogInterface.OnCancelListener cancelListener = (dialog) -> {
+          int position = viewHolder.getAbsoluteAdapterPosition();
+          undoSwipe(position);
+          Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
         };
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
-        itemTouchHelper.attachToRecyclerView(humidityThresholdList);
-    }
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+            .setMessage("Are you sure you want to delete?")
+            .setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+      }
+    };
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void undoSwipe(int position) {
-        humidityThresholdAdapter.notifyDataSetChanged();
-        humidityThresholdList.scrollToPosition(position);
-    }
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
+    itemTouchHelper.attachToRecyclerView(humidityThresholdList);
+  }
 
-    private void updateList(){
-        System.out.println("**********************");
-        System.out.println("update list");
-        humidityThresholdViewModel.getThresholdFromRepo(((RoomObject)spinner.getSelectedItem()).getRoomId());
-        System.out.println("**********************");
-    }
+  @SuppressLint("NotifyDataSetChanged")
+  private void undoSwipe(int position) {
+    humidityThresholdAdapter.notifyDataSetChanged();
+    humidityThresholdList.scrollToPosition(position);
+  }
+
+  private void updateList() {
+    System.out.println("**********************");
+    System.out.println("update list");
+    humidityThresholdViewModel.getThresholdFromRepo(((RoomObject) spinner.getSelectedItem()).getRoomId());
+    System.out.println("**********************");
+  }
 }

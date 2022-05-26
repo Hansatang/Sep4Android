@@ -24,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class MeasurementRepository {
+  private final String TAG = "MeasurementRepository";
   private final ArchiveRepository repository;
   private static MeasurementRepository instance;
   private final MutableLiveData<List<MeasurementsObject>> roomMeasurementsLiveData;

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +31,17 @@ import java.util.List;
 
 //Fragment for viewing archived measurements
 public class ArchiveFragment extends Fragment implements ParentMeasurementAdapter.OnListItemClickListener {
-  View view;
-  RecyclerView measurementsRV;
-  ArchiveViewModel archiveViewModel;
-  ParentMeasurementAdapter parentMeasurementAdapter;
-  TextView statusTextView;
-  Spinner spinner;
+  private final String TAG = "ArchiveFragment";
+  private View view;
+  private RecyclerView measurementsRV;
+  private ArchiveViewModel archiveViewModel;
+  private ParentMeasurementAdapter parentMeasurementAdapter;
+  private TextView statusTextView;
+  private Spinner spinner;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.i(TAG,"Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     createViewModels();
     findViews();
@@ -66,6 +69,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
 
   private void initList(List<RoomObject> listObjects) {
     if (listObjects != null) {
+      Log.i(TAG,"Initialize Parent list");
       System.out.println("Amounts " + listObjects.size());
       spinner = view.findViewById(R.id.sp);
       SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
@@ -88,7 +92,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private void setDateTimesForParentMeasurementAdapter() {
     ArrayList<LocalDateTime> weekNames = new ArrayList<>();
     LocalDateTime now = LocalDateTime.now();
-
     for (int i = 7; i > 1; i--) {
       weekNames.add(now.plusDays(-i));
     }
@@ -104,10 +107,9 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
 
   @Override
   public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
-    RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
-    System.out.println("Room " + roomObject.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
-    System.out.println("Time " + dtf.format(clickedItem));
+    Log.i(TAG,"Click on "+dtf.format(clickedItem)+" in Archive");
+    RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
     archiveViewModel.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 

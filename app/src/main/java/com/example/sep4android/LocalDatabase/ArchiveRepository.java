@@ -42,17 +42,8 @@ public class ArchiveRepository {
     return roomDao.getAllArchiveRooms();
   }
 
-  public void deleteAllMeasurement() {
-    executorService.execute(roomDao::deleteAllMeasurement);
-  }
-
   public LiveData<List<MeasurementsObject>> getMeasurementByID(String id, String date) {
     return roomDao.getArchiveById(id, date);
   }
-
-  public LiveData<RoomObject> getRoomById(String roomId) {
-    return roomDao.getRoomById(roomId);
-  }
-
 
 }

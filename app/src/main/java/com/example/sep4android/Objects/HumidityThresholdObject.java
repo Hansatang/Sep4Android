@@ -41,7 +41,6 @@ public class HumidityThresholdObject {
 
     public HumidityThresholdObject(String roomId, String startTime,
                                    String endTime, double maxValue, double minValue) {
-        this.thresholdHumidityId = thresholdHumidityId;
         this.roomId = roomId;
         this.startTime = startTime;
         this.endTime = endTime;

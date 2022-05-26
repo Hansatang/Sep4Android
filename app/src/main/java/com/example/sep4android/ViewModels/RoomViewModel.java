@@ -19,11 +19,10 @@ public class RoomViewModel extends AndroidViewModel {
 
   private final RoomRepository roomRepository;
   private final TokenRepository tokenRepository;
-  private final ArchiveRepository archiveRepository;
+
 
   public RoomViewModel(Application app) {
     super(app);
-    archiveRepository = ArchiveRepository.getInstance(app);
     roomRepository = RoomRepository.getInstance(app);
     tokenRepository = TokenRepository.getInstance(app);
   }
@@ -40,8 +39,6 @@ public class RoomViewModel extends AndroidViewModel {
     roomRepository.getDatabaseRooms(uid);
   }
 
-
-
   public void addRoomToDatabase(String roomId, String name, String userUID) {
     roomRepository.addRoomToDatabase(roomId, name, userUID);
   }
@@ -53,10 +50,6 @@ public class RoomViewModel extends AndroidViewModel {
   public void setResult() {
     roomRepository.setResult();
   }
-
-
-
-
 
   public void changeName(String roomId, String newName) {
     roomRepository.changeName(roomId, newName);

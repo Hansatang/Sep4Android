@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,15 +34,16 @@ import java.util.List;
 
 //Fragment for viewing Current Measurement Cards
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
-  RoomViewModel viewModel;
-  View view;
-  FloatingActionButton fabCreateRoom;
-  RecyclerView roomsRV;
-  TextView activeRoomCount;
-  RoomAdapter roomAdapter;
+  private final String TAG = "MainFragment";
+  private RoomViewModel viewModel;
+  private View view;
+  private FloatingActionButton fabCreateRoom;
+  private RecyclerView roomsRV;
+  private TextView activeRoomCount;
+  private RoomAdapter roomAdapter;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    System.out.println("MainView");
+    Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
     viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     // TODO: 24.05.2022 change this hard code back 
@@ -78,6 +80,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   //TODO CHANGE string to resource string everywhere
   private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
+      Log.i(TAG,"Initializing Status Cards");
       activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count_online, listObjects.size()));
       roomAdapter.updateListAndNotify(listObjects);
     }
@@ -105,6 +108,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   }
 
   private void createPopUp(int position) {
+    Log.i(TAG,"Create room manipulation pop up");
     RoomObject roomObject = roomAdapter.getRoomObjectList().get(position);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater inflater = getLayoutInflater();

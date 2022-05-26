@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,25 +21,26 @@ import com.example.sep4android.ViewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 
 public class SettingsFragment extends Fragment {
-
-  EditText oldPassword;
-  EditText newPassword;
-  EditText repeatNewPass;
-  UserViewModel viewModel;
-  Button savePasswordButton;
-  Button deleteDataButton;
-  Button deleteAccountButton;
-  Button changeThemeButton;
+  private final String TAG = "SettingsFragment";
+  private EditText oldPassword;
+  private EditText newPassword;
+  private EditText repeatNewPass;
+  private UserViewModel viewModel;
+  private Button savePasswordButton;
+  private Button deleteDataButton;
+  private Button deleteAccountButton;
+  private Button changeThemeButton;
+  private View view;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    System.out.println("Settings page");
-    View view = inflater.inflate(R.layout.settings_layout, container, false);
-    findViews(view);
+    Log.i(TAG,"Create Settings View");
+    view = inflater.inflate(R.layout.settings_layout, container, false);
+    findViews();
     setListenersToButtons();
     return view;
   }
 
-  private void findViews(View view) {
+  private void findViews() {
     oldPassword = view.findViewById(R.id.oldPass);
     newPassword = view.findViewById(R.id.newPass);
     repeatNewPass = view.findViewById(R.id.repeatNewPass);
@@ -67,7 +69,6 @@ public class SettingsFragment extends Fragment {
     deleteAccountButton.setOnClickListener(
         view -> viewModel.deleteAccount()
     );
-
   }
 
   private void goToMainActivity() {
@@ -79,7 +80,6 @@ public class SettingsFragment extends Fragment {
     SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
     final SharedPreferences.Editor editor = sharedPreferences.edit();
     final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
-
     if (isDarkModeOn) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
       editor.putBoolean("isDarkModeOn", false);

@@ -9,15 +9,15 @@ import com.example.sep4android.Objects.UserObject;
 import com.example.sep4android.Repositories.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {
-    private UserRepository repository;
+    private final UserRepository userRepository;
 
     public UserViewModel(Application app) {
         super(app);
-        repository = UserRepository.getInstance(app);
+        userRepository = UserRepository.getInstance(app);
     }
 
     public LiveData<UserObject> getUser() {
-        return repository.getUser();
+        return userRepository.getUser();
     }
 
     public void changePassword(String newPassword) {
@@ -31,6 +31,6 @@ public class UserViewModel extends AndroidViewModel {
      */
 
     public void deleteAccount() {
-        repository.deleteAccount();
+        userRepository.deleteAccount();
     }
 }

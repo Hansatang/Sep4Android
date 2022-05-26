@@ -30,15 +30,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
-  Toolbar toolbar;
-  DrawerLayout drawerLayout;
-  NavController navController;
-  NavigationView navigationView;
-  TextView UsernameInNavBar;
-  TextView EmailInNavBar;
-  AppBarConfiguration mAppBarConfiguration;
-  RoomViewModel roomViewModel;
-  FirebaseUser user;
+  private Toolbar toolbar;
+  private  DrawerLayout drawerLayout;
+  private NavController navController;
+  private NavigationView navigationView;
+  private TextView UsernameInNavBar;
+  private TextView EmailInNavBar;
+  private AppBarConfiguration mAppBarConfiguration;
+  private RoomViewModel roomViewModel;
+  private FirebaseUser user;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.Home, R.id.Test, R.id.Archive)
+        R.id.Home, R.id.Test, R.id.Archive, R.id.HumidityThreshold, R.id.TemperatureThreshold)
         .setOpenableLayout(drawerLayout).build();
   }
 
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (item.getItemId() == findViewById(R.id.LogOutItem).getId()) {
       onLogOut();
-    } else if (item.getItemId() == toolbar.getMenu().findItem(R.id.more).getItemId()) {
-      NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController);
+    } else if (item.getItemId() == toolbar.getMenu().findItem(R.id.settings).getItemId()) {
+      navController.navigate(R.id.Settings);
     }
     return super.onOptionsItemSelected(item);
   }

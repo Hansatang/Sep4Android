@@ -18,6 +18,7 @@ import com.example.sep4android.Objects.HumidityThresholdObject;
 import java.util.List;
 
 public class HumidityThresholdsRepository {
+  private final String TAG = "HumidityThresholdsRepository";
   private static HumidityThresholdsRepository instance;
   private final MutableLiveData<List<HumidityThresholdObject>> humidityThresholds;
 

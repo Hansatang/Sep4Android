@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 //Custom Adapter for creating and populating spinners
 public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
-
+  private final String TAG = "SpinnerAdapter";
   private Context context;
-  ArrayList<RoomObject> data = new ArrayList<>();
+  private ArrayList<RoomObject> data;
 
   public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> objects) {
     super(context, textViewResourceId, objects);

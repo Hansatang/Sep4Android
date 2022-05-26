@@ -3,6 +3,7 @@ package com.example.sep4android.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 
 //Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
 public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
+  private final String TAG = "ParentMeasurementAdapter";
   final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
   private ArrayList<LocalDateTime> dateTimeList;
@@ -38,7 +40,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   public void updateListAndNotify(ArrayList<LocalDateTime> list) {
-    System.out.println("Update call " + list.size());
+    Log.i(TAG,"Update Parent Adapter with "+list.size()+" objects");
     dateTimeList = new ArrayList<>();
     mExpandedPosition = -1;
     previousExpandedPosition = -1;
@@ -58,7 +60,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
   @NonNull
   public ParentMeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    System.out.println("View holder creation");
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.measurements_list_layout, parent, false);
@@ -72,7 +73,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position) {
-    System.out.println("NormalOnBind");
+    Log.i(TAG,"Binding viewHolder number : "+position);
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
@@ -81,8 +82,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
-    System.out.println("PayloadOnBind " + position);
-
+    Log.i(TAG,"Binding viewHolder number : "+position+" with payload");
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));

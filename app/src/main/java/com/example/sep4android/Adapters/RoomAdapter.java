@@ -1,6 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.Locale;
 
 //Adapter for creating Current Measurements Card Views in MainFragment
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
+  private final String TAG = "RoomAdapter";
   final private RoomAdapter.OnListItemClickListener clickListener;
   private List<RoomObject> roomObjectList;
 
@@ -33,7 +35,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void updateListAndNotify(List<RoomObject> list) {
-    System.out.println("Update call " + list.size());
+    Log.i(TAG,"Update Room Adapter with "+list.size()+" objects");
     roomObjectList = list;
     notifyDataSetChanged();
   }
@@ -51,7 +53,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
-    System.out.println("Room: " + roomObjectList.get(position).getRoomId());
+    Log.i(TAG,"Binding viewHolder number : "+position);
     viewHolder.name.setText("Room: " + roomObjectList.get(position).getName());
 
     List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();

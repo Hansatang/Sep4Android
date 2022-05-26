@@ -9,7 +9,7 @@
 
 
     <item
-        android:id="@+id/more"
+        android:id="@+id/settings"
         android:contentDescription="content_description_more"
         android:title="Settings"
         app:showAsAction="never" />
