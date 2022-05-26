@@ -73,7 +73,7 @@ public class RoomRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      roomsLiveData.setValue(null);
-                     Log.i("Retrofit", "Something went wrong Room:(");
+                     Log.i("Retrofit", "Something went wrong get rooms");
                    }
                  }
     );
@@ -101,7 +101,7 @@ public class RoomRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
                      roomsLiveData.setValue(null);
-                     Log.i("Retrofit", "Something went wrong :(");
+                     Log.i("Retrofit", "Something went with add room");
                    }
                  }
     );
@@ -125,7 +125,7 @@ public class RoomRepository {
       public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went change name");
       }
     });
   }
@@ -149,7 +149,7 @@ public class RoomRepository {
       public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went with delete Name");
       }
     });
   }
@@ -173,7 +173,7 @@ public class RoomRepository {
       public void onFailure(Call<Integer> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
+        Log.i("Retrofit", "Something went with reset measurement");
       }
     });
   }

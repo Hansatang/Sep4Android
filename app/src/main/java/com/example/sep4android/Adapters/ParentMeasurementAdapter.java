@@ -29,6 +29,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private int mExpandedPosition;
   private int previousExpandedPosition;
 
+
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
     dateTimeList = new ArrayList<>();
     clickListener = listener;
@@ -43,6 +44,11 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     previousExpandedPosition = -1;
     dateTimeList = list;
     notifyDataSetChanged();
+  }
+
+
+  public ArrayList<LocalDateTime> getDateTimeList() {
+    return dateTimeList;
   }
 
   @Override
@@ -70,13 +76,8 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
-
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
-    if (viewHolder.details.getVisibility() == View.VISIBLE) {
-      // TODO: 26.05.2022 uncomment this
-      // clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
-    }
   }
 
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
@@ -88,10 +89,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
-    if (viewHolder.details.getVisibility() == View.VISIBLE) {
-      // TODO: 26.05.2022 uncomment this
-      //clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
-    }
+
   }
 
   @Override
@@ -122,7 +120,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
     viewHolder.itemView.setOnClickListener(v -> {
           mExpandedPosition = isExpanded ? -1 : viewHolder.getBindingAdapterPosition();
-
           if (viewHolder.details.getVisibility() == View.GONE) {
             viewHolder.details.setVisibility(View.VISIBLE);
             notifyItemChanged(previousExpandedPosition, 0);
@@ -137,7 +134,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   private void setChildViewHolderAndAdapter(ViewHolder viewHolder) {
-
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
     viewHolder.recyclerView.setLayoutManager(layoutManager);
     viewHolder.recyclerView.setHasFixedSize(true);
@@ -157,7 +153,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             break;
           case MotionEvent.ACTION_MOVE:
             float y = e.getY();
-
             if (mLastY > y) {
               rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(1));
             }
@@ -166,7 +161,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             }
             break;
         }
-
         return false;
       }
 
@@ -179,9 +173,9 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
       }
-
     });
   }
+
 
   public interface OnListItemClickListener {
     void onListItemClick(LocalDateTime clickedItemIndex, ChildMeasurementAdapter viewHolder);
@@ -213,6 +207,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     }
 
     public ChildMeasurementAdapter getInsideAdapter() {
+
       return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
   }

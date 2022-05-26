@@ -73,7 +73,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-          System.out.println("Selected");
           setDateTimesForParentMeasurementAdapter();
         }
 
