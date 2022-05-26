@@ -115,8 +115,10 @@ public class HumidityThresholdsRepository {
         switch (response.body()) {
           case 400:
             status.setValue("Wrong Threshold");
+            break;
           case 200:
             status.setValue("Complete");
+            break;
         }
         System.out.println(response);
         if (response.isSuccessful()) {
@@ -147,8 +149,10 @@ public class HumidityThresholdsRepository {
           switch (response.body()) {
             case 400:
               status.setValue("Wrong Threshold");
+              break;
             case 200:
               status.setValue("Complete");
+              break;
           }
           System.out.println("Complete");
         }
