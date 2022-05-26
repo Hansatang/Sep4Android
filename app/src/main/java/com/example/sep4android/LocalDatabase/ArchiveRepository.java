@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Repository for accessing local database
+ */
 public class ArchiveRepository {
   private static ArchiveRepository instance;
   private final RoomDao roomDao;

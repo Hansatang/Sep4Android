@@ -42,6 +42,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Fragment for manipulating temperature Thresholds
+ */
 public class TemperatureThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
   private final String TAG = "TemperatureThresholdFragment";
   private View view;
@@ -54,11 +57,8 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   private Button startTime, endTime;
   private NumberPicker startValue, endValue;
   private TemperatureThresholdViewModel temperatureThresholdViewModel;
-
   int hour, minute;
 
-  public TemperatureThresholdFragment() {
-  }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create TemperatureThreshold View");
@@ -67,10 +67,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     view = inflater.inflate(R.layout.fragment_temperature_threshold_list, container, false);
     createViewModels();
     findViews();
-
     roomViewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
-
-
     temperatureThresholdList.hasFixedSize();
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
@@ -84,19 +81,31 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     return view;
   }
 
+  /**
+   * assign all needed Views in this fragment
+   */
   private void findViews() {
     temperatureThresholdList = view.findViewById(R.id.temperature_threshold_rv);
     fab = view.findViewById(R.id.fab_add_new_threshold_temperature);
     spinner = view.findViewById(R.id.sp_temperature);
   }
 
+  /**
+   * create all needed ViewModels in this fragment
+   */
   private void createViewModels() {
     roomViewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
     temperatureThresholdViewModel = new ViewModelProvider(requireActivity()).get(TemperatureThresholdViewModel.class);
   }
 
+  /**
+   * updates list if manipulation was succesfull
+   *
+   * @param result of threshold manipulation
+   */
   private void prepareResult(String result) {
     if (result != null) {
+      System.out.println("Not null "+result);
       if (result.equals("Complete")) {
         Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
         updateList();
@@ -107,6 +116,11 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     }
   }
 
+
+  /**
+   * initialize spinner with listObjects allowing for choosing desired room
+   * @param listObjects list of roomObject from local database
+   */
   private void initList(List<RoomObject> listObjects) {
     SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
@@ -119,7 +133,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   private void updateList(List<TemperatureThresholdObject> temperatureThresholdObjects) {
-    temperatureThresholdAdapter.update(temperatureThresholdObjects);
+    temperatureThresholdAdapter.updateHumidityThresholdAndNotify(temperatureThresholdObjects);
   }
 
   @Override

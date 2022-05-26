@@ -16,15 +16,26 @@ import com.example.sep4android.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for creating Humidity Threshold Views in HumidityThresholdFragment
+ */
 public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThresholdAdapter.ViewHolder> {
   private final String TAG = "HumidityThresholdAdapter";
   private List<HumidityThresholdObject> thresholdObjects;
 
+  /**
+   * Simple constructor initializing thresholdObjects as new ArrayList
+   */
   public HumidityThresholdAdapter() {
     thresholdObjects = new ArrayList<>();
   }
 
-  public void update(List<HumidityThresholdObject> list) {
+
+  /**
+   * Updates thresholdObjects with new data and notify change
+   * @param list new list with Thresholds from repository
+   */
+  public void updateHumidityThresholdsAndNotify(List<HumidityThresholdObject> list) {
     Log.i(TAG,"Update Humidity Adapter with "+list.size()+" objects");
     if (list != null) {
       thresholdObjects = list;
@@ -38,7 +49,7 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.fragment_humidity_threshold_item, parent, false);
-    return new HumidityThresholdAdapter.ViewHolder(view);
+    return new ViewHolder(view);
   }
 
   @Override
@@ -59,7 +70,10 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
     return thresholdObjects;
   }
 
-  class ViewHolder extends RecyclerView.ViewHolder {
+  /**
+   * View Holder for temperature threshold data
+   */
+  static class ViewHolder extends RecyclerView.ViewHolder {
 
     EditText startValue;
     EditText endValue;

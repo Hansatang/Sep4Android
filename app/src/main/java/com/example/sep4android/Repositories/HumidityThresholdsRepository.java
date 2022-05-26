@@ -41,16 +41,16 @@ public class HumidityThresholdsRepository {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     // TODO: 20.05.2022 change hardcoded values
     Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds("0004A30B00219CAC");
-    System.out.println("Call");
+    System.out.println("Call get hum");
     call.enqueue(new Callback<List<HumidityThresholdObject>>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<List<HumidityThresholdObject>> call, Response<List<HumidityThresholdObject>> response) {
         if (response.isSuccessful()) {
           System.out.println("response:");
-          System.out.println(response);
+          System.out.println("hej "+response);
           List<HumidityThresholdObject> rs = response.body();
-          System.out.println(rs.size());
+          System.out.println("Inter "+rs.size());
           humidityThresholds.setValue(rs);
         }
       }

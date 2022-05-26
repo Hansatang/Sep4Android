@@ -41,11 +41,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+// TODO: 26/05/2022  check comments two update list method
+/**
+ * Fragment for manipulating humility Thresholds
+ */
 public class HumidityThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
   private final String TAG = "HumidityThresholdFragment";
   private View view;
-  private RoomViewModel viewModel;
+  private RoomViewModel roomViewModel;
   private HumidityThresholdViewModel humidityThresholdViewModel;
   private RecyclerView humidityThresholdList;
   private HumidityThresholdAdapter humidityThresholdAdapter;
@@ -53,12 +56,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   private FloatingActionButton fab;
   private Button startTime, endTime;
   private NumberPicker startValue, endValue;
-
   private int hour, minute;
-
-
-  public HumidityThresholdFragment() {
-  }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create HumidityThreshold View");
@@ -66,38 +64,51 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
     createViewModels();
     findViews();
-    viewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
+    roomViewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
     humidityThresholdList.hasFixedSize();
     humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     humidityThresholdAdapter = new HumidityThresholdAdapter();
     humidityThresholdList.setAdapter(humidityThresholdAdapter);
     setUpItemTouchHelper();
-
+    setListenersToButtons();
     return view;
   }
 
+  private void setListenersToButtons() {
+    fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
+  }
+
+  /**
+   * assign all needed Views in this fragment
+   */
   private void findViews() {
     humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
     spinner = view.findViewById(R.id.sp_humidity);
     fab = view.findViewById(R.id.fab_add_new_threshold_humidity);
   }
 
+  /**
+   * create all needed ViewModels in this fragment
+   */
   private void createViewModels() {
     humidityThresholdViewModel = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    roomViewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
   }
 
+  /**
+   * initialize spinner with listObjects allowing for choosing desired room
+   * @param listObjects list of roomObject from local database
+   */
   private void initList(List<RoomObject> listObjects) {
-
+    System.out.println("Aleo "+listObjects.size());
     SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
     adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
     humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
-    humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
-
-    fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
+    humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
   }
+
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -106,13 +117,19 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     //humidityThresholdViewModel.getThresholdFromRepo(null);
   }
 
-  private void updateList(List<HumidityThresholdObject> humidityThresholdObjects) {
-    humidityThresholdAdapter.update(humidityThresholdObjects);
-  }
 
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
+    //Do Nothing
+  }
 
+  /**
+   * populate humidityThresholdAdapter with humidityThresholdObjects
+   * @param humidityThresholdObjects from repository to populate adapter with
+   */
+  private void updateListWithThresholds(List<HumidityThresholdObject> humidityThresholdObjects) {
+    System.out.println("Aleo 2 "+ humidityThresholdObjects.size());
+    humidityThresholdAdapter.updateHumidityThresholdsAndNotify(humidityThresholdObjects);
   }
 
   public void onButtonShowPopupWindowClick() {

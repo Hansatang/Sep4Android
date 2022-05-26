@@ -32,7 +32,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-//Fragment for viewing Current Measurement Cards
+/**
+ * Fragment for viewing Current Measurement Cards
+ */
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
   private final String TAG = "MainFragment";
   private RoomViewModel viewModel;
@@ -45,7 +47,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    createViewModels();
+
     // TODO: 24.05.2022 change this hard code back 
     viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
     viewModel.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
@@ -58,12 +61,25 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     return view;
   }
 
+  /**
+   * create all needed ViewModels in this fragment
+   */
+  private void createViewModels() {
+    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+  }
+
+  /**
+   * assign all needed Views in this fragment
+   */
   private void findViews() {
     fabCreateRoom = view.findViewById(R.id.fabCreateRoom);
     roomsRV = view.findViewById(R.id.room_rv);
     activeRoomCount = view.findViewById(R.id.activeRoomCount);
   }
 
+  /**
+   * add functionality to existing in this view buttons
+   */
   private void setListenersToButtons() {
     fabCreateRoom.setOnClickListener(view -> {
           NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
@@ -77,7 +93,11 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Toast.makeText(getContext(), "Room: " + clickedItemIndex.getRoomId(), Toast.LENGTH_SHORT).show();
   }
 
-  //TODO CHANGE string to resource string everywhere
+
+  /**
+   * populate roomAdapter with roomObject
+   * @param listObjects list of user rooms
+   */
   private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG,"Initializing Status Cards");
@@ -86,6 +106,9 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     }
   }
 
+  /**
+   * add swiping functionality to recycler view: on right swiped show room manipulation pop up
+   */
   private void setUpItemTouchHelper() {
     ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
@@ -107,6 +130,10 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     itemTouchHelper.attachToRecyclerView(roomsRV);
   }
 
+  /**
+   * create pop up for specific room from roomAdapter
+   * @param position of roomAdapter object that is being manipulated
+   */
   private void createPopUp(int position) {
     Log.i(TAG,"Create room manipulation pop up");
     RoomObject roomObject = roomAdapter.getRoomObjectList().get(position);
@@ -162,6 +189,10 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     alertDialog.show();
   }
 
+  /**
+   * reset swipe action
+   * @param position of item that is being reset
+   */
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
     System.out.println("PosUndo " + position);

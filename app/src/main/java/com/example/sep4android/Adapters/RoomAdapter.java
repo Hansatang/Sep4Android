@@ -23,7 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//Adapter for creating Current Measurements Card Views in MainFragment
+/**
+ * Adapter for creating Current Measurements Card Views in MainFragment
+ */
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   private final String TAG = "RoomAdapter";
   final private RoomAdapter.OnListItemClickListener clickListener;
@@ -108,7 +110,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     return roomObjectList.size();
   }
 
-  //View Holder for Current Measurements Cards
+  /**
+   * View Holder for Current Measurements Cards
+   */
   class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView name;
     TextView date;

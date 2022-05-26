@@ -20,6 +20,9 @@ import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 
+/**
+ * Fragment for manipulating user and application settings
+ */
 public class SettingsFragment extends Fragment {
   private final String TAG = "SettingsFragment";
   private EditText oldPassword;
@@ -40,6 +43,9 @@ public class SettingsFragment extends Fragment {
     return view;
   }
 
+  /**
+   * assign all needed Views in this fragment
+   */
   private void findViews() {
     oldPassword = view.findViewById(R.id.oldPass);
     newPassword = view.findViewById(R.id.newPass);
@@ -50,6 +56,9 @@ public class SettingsFragment extends Fragment {
     changeThemeButton = view.findViewById(R.id.changeThemeButton);
   }
 
+  /**
+   * add functionality to existing in this view buttons
+   */
   private void setListenersToButtons() {
     savePasswordButton.setOnClickListener(
         view -> {
@@ -71,11 +80,17 @@ public class SettingsFragment extends Fragment {
     );
   }
 
+  /**
+   * navigate to
+   */
   private void goToMainActivity() {
     Intent intent = new Intent(getActivity(), MainActivity.class);
     startActivity(intent);
   }
 
+  /**
+   * change application theme from light to dark and from dark to light
+   */
   private void changeTheme() {
     SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
     final SharedPreferences.Editor editor = sharedPreferences.edit();

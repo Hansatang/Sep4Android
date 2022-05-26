@@ -42,7 +42,7 @@ public interface DatabaseApi {
   @PUT("token/")
   Call<Integer> deleteToken(@Body UserToken userToken);
 
-  @GET("humiditythresholds/{roomId}")
+  @GET("humidityThresholds/{roomId}")
   Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
 
   @GET("all/humiditythresholds/")
