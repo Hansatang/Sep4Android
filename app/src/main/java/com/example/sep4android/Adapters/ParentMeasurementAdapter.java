@@ -29,7 +29,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private int mExpandedPosition;
   private int previousExpandedPosition;
 
-
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
     dateTimeList = new ArrayList<>();
     clickListener = listener;
@@ -44,11 +43,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     previousExpandedPosition = -1;
     dateTimeList = list;
     notifyDataSetChanged();
-  }
-
-
-  public ArrayList<LocalDateTime> getDateTimeList() {
-    return dateTimeList;
   }
 
   @Override
@@ -80,6 +74,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
     if (viewHolder.details.getVisibility() == View.VISIBLE) {
+      // TODO: 26.05.2022 uncomment this
       // clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
     }
   }
@@ -94,6 +89,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
     if (viewHolder.details.getVisibility() == View.VISIBLE) {
+      // TODO: 26.05.2022 uncomment this
       //clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
     }
   }
@@ -184,10 +180,8 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
       }
 
-
     });
   }
-
 
   public interface OnListItemClickListener {
     void onListItemClick(LocalDateTime clickedItemIndex, ChildMeasurementAdapter viewHolder);
@@ -219,7 +213,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     }
 
     public ChildMeasurementAdapter getInsideAdapter() {
-
       return (ChildMeasurementAdapter) recyclerView.getAdapter();
     }
   }

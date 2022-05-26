@@ -37,14 +37,8 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         repository.addHumidityThreshold(roomId, startTime, endTime, maxValue, minValue);
     }
 
-
     public void deleteThreshold(int thresholdId){
         repository.deleteHumidityThreshold(thresholdId);
-    }
-
-    public void deleteAllThreshold()
-    {
-        repository.deleteAllHumidityThreshold();
     }
 
 }

@@ -17,14 +17,11 @@ import java.util.List;
 
 public class TemperatureThresholdAdapter extends RecyclerView.Adapter<TemperatureThresholdAdapter.ViewHolder>{
 
-
     private List<TemperatureThresholdObject> thresholdObjects;
-    private List<RoomObject> roomObjects;
 
     public TemperatureThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
     }
-
 
     public void update(List<TemperatureThresholdObject> list){
         System.out.println("Update call "+ list.size());
@@ -56,17 +53,11 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
         return thresholdObjects.size();
     }
 
-    public interface OnListItemClickListener {
-        void onListItemClick(RoomObject clickedItemIndex);
-    }
-
     public List<TemperatureThresholdObject> getThresholds() {
         return thresholdObjects;
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder{
-
 
         EditText startValue;
         EditText endValue;

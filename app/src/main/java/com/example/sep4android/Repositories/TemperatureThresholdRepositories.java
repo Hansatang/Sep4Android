@@ -152,28 +152,4 @@ public class TemperatureThresholdRepositories {
     });
   }
 
-  public void deleteAllTemperatureThreshold() {
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<TemperatureThresholdObject> call = databaseApi.deleteAllTemperatureThreshold();
-    System.out.println("POST");
-    call.enqueue(new Callback<TemperatureThresholdObject>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<TemperatureThresholdObject> call, Response<TemperatureThresholdObject> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<TemperatureThresholdObject> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
-      }
-    });
-  }
-
 }

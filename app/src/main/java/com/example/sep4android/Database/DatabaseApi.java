@@ -32,7 +32,6 @@ public interface DatabaseApi {
   @GET("measurement/week/{userId}/")
   Call<List<MeasurementsObject>> getMeasurementsAllRooms(@Path("userId") String object);
 
-
   // TODO: 10/05/2022  Change to roomId, and latest is stupid
   @GET("measurement/{date}/{roomId}/")
   Call<List<MeasurementsObject>> getMeasurementsByDate(@Path("roomId") String roomId, @Path("date") String date);
@@ -42,9 +41,6 @@ public interface DatabaseApi {
 
   @PUT("token/")
   Call<Integer> deleteToken(@Body UserToken userToken);
-
-  @GET("api/random")
-  Call<UserObject> getUser();
 
   @GET("humiditythresholds/{roomId}")
   Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
@@ -76,14 +72,8 @@ public interface DatabaseApi {
   @DELETE("humidityThresholds/{id}")
   Call<Integer> deleteHumidityThreshold(@Path("id") int id);
 
-  @DELETE("humidityThresholds/all/")
-  Call<HumidityThresholdObject> deleteAllHumidityThreshold();
-
   @DELETE("temperatureThresholds/{id}")
   Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
-
-  @DELETE("temperatureThresholds/all/")
-  Call<TemperatureThresholdObject> deleteAllTemperatureThreshold();
 
   @POST("room/{roomId}")
   Call<Integer> changeName(@Path("roomId") String roomId, @Body String newName);

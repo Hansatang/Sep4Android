@@ -18,12 +18,10 @@ import java.util.List;
 public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThresholdAdapter.ViewHolder>{
 
     private List<HumidityThresholdObject> thresholdObjects;
-    private List<RoomObject> roomObjects;
 
     public HumidityThresholdAdapter(){
         thresholdObjects = new ArrayList<>();
     }
-
 
     public void update(List<HumidityThresholdObject> list) {
         System.out.println("Update call " + list.size());
@@ -57,11 +55,6 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
 
     public List<HumidityThresholdObject> getThresholds() {
         return thresholdObjects;
-    }
-
-
-    public interface OnListItemClickListener {
-        void onListItemClick(RoomObject clickedItemIndex);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

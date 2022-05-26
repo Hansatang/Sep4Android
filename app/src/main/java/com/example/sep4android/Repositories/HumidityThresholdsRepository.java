@@ -140,28 +140,4 @@ public class HumidityThresholdsRepository {
     });
   }
 
-  public void deleteAllHumidityThreshold() {
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<HumidityThresholdObject> call = databaseApi.deleteAllHumidityThreshold();
-    System.out.println("POST");
-    call.enqueue(new Callback<HumidityThresholdObject>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<HumidityThresholdObject> call, Response<HumidityThresholdObject> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<HumidityThresholdObject> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
-      }
-    });
-  }
-
 }

@@ -107,7 +107,6 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     return objects.size();
   }
 
-
   //View Holder used to create Views in this adapter
   static class ViewHolder extends RecyclerView.ViewHolder {
     TextView dateId;
