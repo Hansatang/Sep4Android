@@ -4,7 +4,7 @@ import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
-import com.example.sep4android.Objects.UserObject;
+
 import com.example.sep4android.Objects.UserToken;
 
 import java.util.List;
@@ -54,17 +54,13 @@ public interface DatabaseApi {
   @GET("all/temperatureThresholds/")
   Call<List<TemperatureThresholdObject>> getAllTemperatureThresholds();
 
-  @POST("api/random")
-  Call<UserObject> addUser(@Body UserObject object);
+
 
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
   @POST("temperatureThresholds/")
   Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
-
-  @DELETE("api/random")
-  Call<UserObject> deleteUser();
 
   @DELETE("api/random")
   Call<RoomObject> deleteRoomData();

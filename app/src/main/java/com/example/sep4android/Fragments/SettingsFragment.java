@@ -14,11 +14,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.sep4android.MainActivity;
 import com.example.sep4android.R;
-import com.example.sep4android.ViewModels.UserViewModel;
-import com.firebase.ui.auth.AuthUI;
+import com.example.sep4android.SignUpActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +32,6 @@ public class SettingsFragment extends Fragment {
   private EditText oldPassword;
   private EditText newPassword;
   private EditText repeatNewPass;
-  private UserViewModel viewModel;
   private Button savePasswordButton;
   private Button deleteDataButton;
   private Button deleteAccountButton;
@@ -36,7 +39,7 @@ public class SettingsFragment extends Fragment {
   private View view;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    System.out.println("Settings page");
+    Log.i(TAG,"Create setting View");
     view = inflater.inflate(R.layout.settings_layout, container, false);
     findViews();
     setListenersToButtons();
@@ -68,18 +71,14 @@ public class SettingsFragment extends Fragment {
             System.out.println(newPassword.getText().toString());
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(newPassword.getText().toString());
-            if (m.matches()){
+            if (m.matches()) {
               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
               user.updatePassword(newPassword.getText().toString()).addOnCompleteListener(task -> goToMainView());
-            }
-            else {
+            } else {
               System.out.println("1234");
-              Toast.makeText(getParentFragment().getContext(), "Failed", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
-
-
           }
-
         }
     );
     changeThemeButton.setOnClickListener(
@@ -121,7 +120,7 @@ public class SettingsFragment extends Fragment {
     startActivity(intent);
   }
 
-  private void goToMainView(){
+  private void goToMainView() {
     NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
     navController.popBackStack();
   }
