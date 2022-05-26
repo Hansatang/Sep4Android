@@ -19,6 +19,7 @@ import com.example.sep4android.MainActivity;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Fragment for manipulating user and application settings
@@ -69,7 +70,7 @@ public class SettingsFragment extends Fragment {
               goToMainActivity();
             });
           } else
-            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getParentFragment().getContext(), "Failed", Toast.LENGTH_SHORT).show();
         }
     );
     changeThemeButton.setOnClickListener(
@@ -77,6 +78,7 @@ public class SettingsFragment extends Fragment {
     );
     deleteAccountButton.setOnClickListener(
         view -> viewModel.deleteAccount()
+
     );
   }
 
