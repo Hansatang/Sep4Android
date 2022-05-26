@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.Repositories.TemperatureThresholdRepositories;
@@ -22,6 +23,10 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
 
     public LiveData<List<TemperatureThresholdObject>> getThresholds(){
         return repository.getTemperatureThresholds();
+    }
+
+    public LiveData<String> getStatus(){
+        return repository.getStatus();
     }
 
     public void getTemperatureThresholds(String roomId){
@@ -48,5 +53,9 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
 
     public void getThresholdFromRepo(String roomId) {
         repository.getTemperatureThresholds(roomId);
+    }
+
+    public void setResult() {
+        repository.setResult();
     }
 }
