@@ -73,6 +73,8 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     humidityThresholdList.setAdapter(humidityThresholdAdapter);
     setUpItemTouchHelper();
 
+    humidityThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
+
     return view;
   }
 
@@ -97,6 +99,18 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
 
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
+  }
+
+  private void prepareResult(String result) {
+    if (result != null) {
+      if (result.equals("Complete")) {
+        Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
+        updateList();
+      } else if (result.equals("Wrong Threshold")) {
+        Toast.makeText(getContext(), "Wrong Threshold", Toast.LENGTH_SHORT).show();
+      }
+      humidityThresholdViewModel.setResult();
+    }
   }
 
   @Override
@@ -146,8 +160,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
         humidityThresholdViewModel.addThresholdToDatabase(((RoomObject) spinner.getSelectedItem()).getRoomId(),
             startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
         System.out.println("**********************");
-        Toast.makeText(getContext(), "Threshold added", Toast.LENGTH_SHORT).show();
-        updateList();
+
         popupWindow.dismiss();
       }
     });
