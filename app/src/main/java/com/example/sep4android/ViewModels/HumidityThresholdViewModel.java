@@ -40,4 +40,12 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         humidityThresholdsRepository.deleteHumidityThreshold(thresholdId);
     }
 
+    public LiveData<String> getStatus(){
+        return humidityThresholdsRepository.getStatus();
+    }
+
+    public void setResult() {
+        humidityThresholdsRepository.setResult();
+    }
+
 }

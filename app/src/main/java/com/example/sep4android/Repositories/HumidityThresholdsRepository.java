@@ -21,9 +21,11 @@ public class HumidityThresholdsRepository {
   private final String TAG = "HumidityThresholdsRepository";
   private static HumidityThresholdsRepository instance;
   private final MutableLiveData<List<HumidityThresholdObject>> humidityThresholds;
+  private final MutableLiveData<String> status;
 
   private HumidityThresholdsRepository(Application application) {
     humidityThresholds = new MutableLiveData<>();
+    status = new MutableLiveData<>();
   }
 
   public static synchronized HumidityThresholdsRepository getInstance(Application application) {
@@ -35,6 +37,15 @@ public class HumidityThresholdsRepository {
 
   public LiveData<List<HumidityThresholdObject>> getHumidityThresholds() {
     return humidityThresholds;
+  }
+
+  public LiveData<String> getStatus()
+  {
+    return status;
+  }
+
+  public void setResult(){
+    status.setValue(null);
   }
 
   public void getHumidityThresholds(String roomId) {
@@ -101,6 +112,12 @@ public class HumidityThresholdsRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
+        switch (response.body()) {
+          case 400:
+            status.setValue("Wrong Threshold");
+          case 200:
+            status.setValue("Complete");
+        }
         System.out.println(response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
@@ -127,6 +144,12 @@ public class HumidityThresholdsRepository {
       public void onResponse(Call<Integer> call, Response<Integer> response) {
         System.out.println(response);
         if (response.isSuccessful()) {
+          switch (response.body()) {
+            case 400:
+              status.setValue("Wrong Threshold");
+            case 200:
+              status.setValue("Complete");
+          }
           System.out.println("Complete");
         }
       }
