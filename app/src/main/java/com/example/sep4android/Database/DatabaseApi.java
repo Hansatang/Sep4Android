@@ -19,7 +19,7 @@ import retrofit2.http.Path;
 
 public interface DatabaseApi {
   // TODO: 17/05/2022  Change to Get
-  @POST("room/last/{userId}")
+  @GET("room/last/{userId}")
   Call<List<RoomObject>> getRoomByUserId(@Path("userId") String userId);
 
   @POST("room/")

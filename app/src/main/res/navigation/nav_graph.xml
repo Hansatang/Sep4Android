@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/Test"
-        android:name="com.example.sep4android.Fragments.TestFragment"
+        android:name="com.example.sep4android.Fragments.StatisticsFragment"
         android:label="Test" >
         <action
             android:id="@+id/action_Test_to_Home"

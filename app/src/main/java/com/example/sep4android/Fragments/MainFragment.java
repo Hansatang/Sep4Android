@@ -27,6 +27,7 @@ import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
     // TODO: 24.05.2022 change this hard code back 
     roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    roomVM.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
+    roomVM.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
     findViews();
     setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));

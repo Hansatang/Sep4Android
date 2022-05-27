@@ -36,6 +36,7 @@ public class RoomViewModel extends AndroidViewModel {
   }
 
   public void getRoomsFromRepo(String uid) {
+    System.out.println("Hello User id "+uid);
     roomRepository.getDatabaseRooms(uid);
   }
 

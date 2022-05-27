@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
       finish();
     } else {
       setContentView(R.layout.activity_main);
-      createNotificationChannel();
       roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
       findViews();
       setSupportActionBar(toolbar);
@@ -89,14 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  private void createNotificationChannel() {
-    String channelId = getString(R.string.default_notification_channel_id);
-    String channelName = getString(R.string.default_notification_channel_name);
-    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-    notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-        channelName, NotificationManager.IMPORTANCE_HIGH));
 
-  }
 
   private void findViews() {
     toolbar = findViewById(R.id.topAppBar);
