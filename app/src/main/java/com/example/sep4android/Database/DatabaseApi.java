@@ -18,7 +18,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DatabaseApi {
-  // TODO: 17/05/2022  Change to Get
   @GET("room/last/{userId}")
   Call<List<RoomObject>> getRoomByUserId(@Path("userId") String userId);
 
@@ -55,7 +54,6 @@ public interface DatabaseApi {
   Call<List<TemperatureThresholdObject>> getAllTemperatureThresholds();
 
 
-
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
@@ -79,4 +77,13 @@ public interface DatabaseApi {
 
   @DELETE("measurement/room/{roomId}")
   Call<Integer> resetMeasurements(@Path("roomId") String roomId);
+
+  @GET("statistics/temp/{roomId}")
+  Call<List<Double>> getTempStats(@Path("roomId") String roomId);
+
+  @GET("statistics/hum/{roomId}")
+  Call<List<Double>> getHumStats(@Path("roomId") String roomId);
+
+  @GET("statistics/co2/{roomId}")
+  Call<List<Double>> getCo2Stats(@Path("roomId") String roomId);
 }

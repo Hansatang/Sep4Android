@@ -9,13 +9,13 @@
         android:label="My rooms" >
         <action
             android:id="@+id/action_Home_to_Test"
-            app:destination="@id/Test" />
+            app:destination="@id/Statistics" />
     </fragment>
 
     <fragment
-        android:id="@+id/Test"
+        android:id="@+id/Statistics"
         android:name="com.example.sep4android.Fragments.StatisticsFragment"
-        android:label="Test" >
+        android:label="Statistics">
         <action
             android:id="@+id/action_Test_to_Home"
             app:destination="@id/Home"
