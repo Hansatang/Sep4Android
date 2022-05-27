@@ -24,7 +24,7 @@ public class RoomRepository {
   private final ArchiveRepository repository;
   private static RoomRepository instance;
   private final MutableLiveData<List<RoomObject>> roomsLiveData;
-  private final MutableLiveData<Boolean> creationResult;
+  private final MutableLiveData<Integer> creationResult;
 
   private RoomRepository(Application application) {
     repository = ArchiveRepository.getInstance(application);
@@ -42,12 +42,12 @@ public class RoomRepository {
     return roomsLiveData;
   }
 
-  public MutableLiveData<Boolean> getCreationResult() {
+  public MutableLiveData<Integer> getCreationResult() {
     return creationResult;
   }
 
   public void setResult() {
-    creationResult.setValue(false);
+    creationResult.setValue(0);
   }
 
   //TODO change username to uid after work
@@ -91,8 +91,14 @@ public class RoomRepository {
                    public void onResponse(Call<Integer> call, Response<Integer> response) {
                      System.out.println(response);
                      if (response.isSuccessful()) {
-                       System.out.println("Complete");
-                       creationResult.setValue(true);
+                       if (response.body()==200){
+                         System.out.println("Complete");
+                         creationResult.setValue(200);
+                       }
+                       else if (response.body()==417){
+                         creationResult.setValue(417);
+                       }
+
                      }
                    }
 

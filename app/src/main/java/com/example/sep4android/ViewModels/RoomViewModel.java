@@ -31,7 +31,7 @@ public class RoomViewModel extends AndroidViewModel {
     return roomRepository.getRoomsLiveData();
   }
 
-  public LiveData<Boolean> getCreationResult() {
+  public LiveData<Integer> getCreationResult() {
     return roomRepository.getCreationResult();
   }
 
