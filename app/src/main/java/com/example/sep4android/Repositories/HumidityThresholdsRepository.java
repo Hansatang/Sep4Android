@@ -76,6 +76,7 @@ public class HumidityThresholdsRepository {
   }
 
   public void getAllHumidityThresholds() {
+    Log.i(TAG,"Getting all humidity thresholds");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<HumidityThresholdObject>> call = databaseApi.getAllHumidityThresholds();
     System.out.println("Call");
@@ -137,6 +138,7 @@ public class HumidityThresholdsRepository {
   }
 
   public void deleteHumidityThreshold(int thresholdHumidityId) {
+    Log.i(TAG,"Deleting humidity threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteHumidityThreshold(thresholdHumidityId);
     System.out.println("POST");

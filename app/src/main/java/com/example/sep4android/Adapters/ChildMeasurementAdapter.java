@@ -105,6 +105,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
    */
   @Nullable
   private String getFormattedDate(String currentItem) {
+    Log.i(TAG, "Formatting the date: "+ currentItem);
     String strDate = null;
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);

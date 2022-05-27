@@ -58,6 +58,7 @@ public class MeasurementRepository {
 
 
   public void getMeasurements(String roomId) {
+      Log.i(TAG, "Getting room measurements for specific room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<MeasurementsObject>> call = databaseApi.getMeasurements(roomId);
     System.out.println("Call");
@@ -88,6 +89,7 @@ public class MeasurementRepository {
   }
 
   public void getMeasurementsAllRooms(String userId) {
+      Log.i(TAG, "Getting room measurements for all rooms");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<MeasurementsObject>> call = databaseApi.getMeasurementsAllRooms(userId);
     System.out.println("Call");
@@ -119,6 +121,7 @@ public class MeasurementRepository {
 
 
   public void getMeasurementsByDate(LocalDateTime clickedItem, String roomId) {
+      Log.i(TAG,"Getting room measurements by date");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
     Date convertedDatetime = Date.from(clickedItem.atZone(ZoneId.systemDefault()).toInstant());

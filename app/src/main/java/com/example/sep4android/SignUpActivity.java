@@ -20,6 +20,7 @@ import java.util.List;
 
 
 public class SignUpActivity extends AppCompatActivity {
+  private final String TAG = "SignUpActivity";
   private Button toRegisterButton;
 
   ActivityResultLauncher<Intent> loginResultLauncher = registerForActivityResult(
@@ -41,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    Log.i(TAG,"Creating sign up view");
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
         .detectLeakedClosableObjects().build());
     System.out.println("Login Activity test");

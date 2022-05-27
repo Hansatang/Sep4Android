@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,13 @@ import org.eazegraph.lib.models.ValueLineSeries;
 
 public class PieFragment extends Fragment {
     TextView tvR, tvPython, tvCPP, tvJava;
+    private final String TAG = "PieFragment";
     PieChart pieChart;
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        Log.i(TAG, "Create pie chart view.");
 
         view = inflater.inflate(R.layout.fragment_pie, container, false);
 

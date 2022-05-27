@@ -48,6 +48,7 @@ public class TemperatureThresholdRepositories {
   }
 
   public void getTemperatureThresholds(String roomId) {
+    Log.i(TAG, "Getting temperature thresholds for a specific room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<TemperatureThresholdObject>> call = databaseApi.getTemperatureThresholds(roomId);
     System.out.println("Call");
@@ -75,6 +76,7 @@ public class TemperatureThresholdRepositories {
   }
 
   public void getAllTemperatureThresholds() {
+    Log.i(TAG,"Getting all temperature thresholds");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<TemperatureThresholdObject>> call = databaseApi.getAllTemperatureThresholds();
     System.out.println("Call");
@@ -102,6 +104,7 @@ public class TemperatureThresholdRepositories {
   }
 
   public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
+    Log.i(TAG,"Adding temperature threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(roomId, startTime, endTime, maxValue, minValue);
     Call<Integer> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
@@ -135,6 +138,7 @@ public class TemperatureThresholdRepositories {
   }
 
   public void deleteTemperatureThreshold(int id) {
+    Log.i(TAG,"Deleting temperature threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteTemperatureThreshold(id);
     System.out.println("POST");

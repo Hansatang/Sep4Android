@@ -26,6 +26,7 @@ public class TokenRepository {
   }
 
   public void setNewToken(String uid, String token) {
+    Log.i(TAG,"Setting new token");
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 
@@ -53,6 +54,7 @@ public class TokenRepository {
   }
 
   public void deleteToken(String userUID) {
+    Log.i(TAG,"Deleting token");
     System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
 

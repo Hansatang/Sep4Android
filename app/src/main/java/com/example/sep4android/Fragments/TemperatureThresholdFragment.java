@@ -102,6 +102,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
    * @param result of threshold manipulation
    */
   private void prepareResult(String result) {
+    Log.i(TAG,"Creating result message to user");
     if (result != null) {
       if (result.equals("Complete")) {
         Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
@@ -145,6 +146,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   public void onButtonShowPopupWindowClick() {
+    Log.i(TAG,"Opening up pop-up window");
     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
 
@@ -209,6 +211,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
               case DialogInterface.BUTTON_POSITIVE:
                 Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
                 temperatureThresholdViewModel.deleteTemperatureThreshold(temperatureThresholdObject.getThresholdHumidityId());
+                Log.i(TAG,"Threshold deleted with a swipe");
                 break;
               case DialogInterface.BUTTON_NEGATIVE:
                 undoSwipe(position);

@@ -86,6 +86,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
   @Nullable
   private String getFormattedDate(List<MeasurementsObject> list) {
+    Log.i(TAG, "Formatting"+list.size() +"number of the dates");
     String strDate = null;
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);

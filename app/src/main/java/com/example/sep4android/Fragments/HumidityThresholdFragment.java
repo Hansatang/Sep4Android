@@ -111,6 +111,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
 
   private void prepareResult(String result) {
+    Log.i(TAG,"Creating result messages to user");
     if (result != null) {
       if (result.equals("Complete")) {
         Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
@@ -144,6 +145,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   }
 
   public void onButtonShowPopupWindowClick() {
+    Log.i(TAG,"Opening up the pop-up window");
 
     LayoutInflater inflater = (LayoutInflater)
         getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -217,6 +219,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
               case DialogInterface.BUTTON_POSITIVE:
                 Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
                 humidityThresholdVM.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
+                Log.i(TAG,"Deleting threshold with a swipe");
                 updateList();
                 break;
               case DialogInterface.BUTTON_NEGATIVE:

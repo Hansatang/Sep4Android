@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ArchiveViewModel extends AndroidViewModel {
+  private final String TAG = "ArchiveViewModel";
   private final MeasurementRepository measurementRepository;
   private final ArchiveRepository archiveRepository;
 

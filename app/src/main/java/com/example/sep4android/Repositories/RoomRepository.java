@@ -52,6 +52,7 @@ public class RoomRepository {
 
   //TODO change username to uid after work
   public void getDatabaseRooms(String uid) {
+    Log.i(TAG,"Getting all rooms");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
     Call<List<RoomObject>> call = databaseApi.getRoomByUserId(uid);
@@ -81,6 +82,7 @@ public class RoomRepository {
   }
 
   public void addRoomToDatabase(String roomId, String name, String userUID) {
+    Log.i(TAG, "Adding rooms to database");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     RoomObject roomObjectToCreate = new RoomObject(roomId, name, userUID, null, null);
     Call<Integer> call = databaseApi.addRoom(roomObjectToCreate);
@@ -115,6 +117,7 @@ public class RoomRepository {
   }
 
   public void changeName(String roomId, String newName) {
+    Log.i(TAG,"Changing room's name to: "+newName);
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.changeName(roomId, newName);
     System.out.println("POST");
@@ -138,6 +141,7 @@ public class RoomRepository {
   }
 
   public void deleteRoom(String roomId) {
+    Log.i(TAG,"Deleting room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteRoom(roomId);
     System.out.println("DELETE");
@@ -162,6 +166,7 @@ public class RoomRepository {
   }
 
   public void resetMeasurements(String roomId) {
+    Log.i(TAG,"Deleting all measurements in the room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.resetMeasurements(roomId);
     System.out.println("DELETE");

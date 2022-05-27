@@ -87,6 +87,7 @@ public class SettingsFragment extends Fragment {
             if (m.matches()) {
               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
               user.updatePassword(newPassword.getText().toString()).addOnCompleteListener(task -> goToMainView());
+              Log.i(TAG,"Password changed");
             } else {
               System.out.println("1234");
               Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -126,6 +127,7 @@ public class SettingsFragment extends Fragment {
       editor.putBoolean("isDarkModeOn", true);
     }
     editor.apply();
+    Log.i(TAG,"Theme changed");
   }
 
   private void goToSignInActivity() {
@@ -136,5 +138,6 @@ public class SettingsFragment extends Fragment {
   private void goToMainView() {
     NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
     navController.popBackStack();
+    Log.i(TAG,"Account deleted, sign in initiated");
   }
 }
