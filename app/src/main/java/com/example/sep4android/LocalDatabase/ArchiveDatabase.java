@@ -13,7 +13,6 @@ import com.example.sep4android.Objects.MeasurementsObject;
 @Database(entities = {MeasurementsObject.class, RoomObject.class}, version = 1)
 public abstract class ArchiveDatabase extends RoomDatabase {
   private static ArchiveDatabase instance;
-
   public abstract RoomDao roomDao();
 
   public static synchronized ArchiveDatabase getInstance(Context context) {

@@ -128,9 +128,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/GoneGoogle"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
         tools:layout_editor_absoluteX="0dp">
 

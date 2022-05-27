@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,6 +35,7 @@ public class SettingsFragment extends Fragment {
   private EditText repeatNewPass;
   private Button savePasswordButton;
   private Button deleteDataButton;
+  private ConstraintLayout goneGoogle;
   private Button deleteAccountButton;
   private Button changeThemeButton;
   private View view;
@@ -43,6 +45,16 @@ public class SettingsFragment extends Fragment {
     view = inflater.inflate(R.layout.settings_layout, container, false);
     findViews();
     setListenersToButtons();
+    FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).addOnCompleteListener( v ->
+            {
+              if (v.getResult().getSignInProvider().equals("google.com")) {
+                goneGoogle.setVisibility(View.GONE);
+              }
+              else{
+                goneGoogle.setVisibility(View.VISIBLE);
+              }
+            });
+
     return view;
   }
 
@@ -52,6 +64,7 @@ public class SettingsFragment extends Fragment {
   private void findViews() {
     oldPassword = view.findViewById(R.id.oldPass);
     newPassword = view.findViewById(R.id.newPass);
+    goneGoogle = view.findViewById(R.id.GoneGoogle);
     repeatNewPass = view.findViewById(R.id.repeatNewPass);
     savePasswordButton = view.findViewById(R.id.savePassButton);
     deleteAccountButton = view.findViewById(R.id.deleteAccountButton);
@@ -66,7 +79,7 @@ public class SettingsFragment extends Fragment {
     savePasswordButton.setOnClickListener(
         view -> {
           if (!oldPassword.getText().toString().equals("") &&
-              newPassword.getText().toString().equals(repeatNewPass.getText().toString())) {
+                  newPassword.getText().toString().equals(repeatNewPass.getText().toString())) {
             String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$";
             System.out.println(newPassword.getText().toString());
             Pattern p = Pattern.compile(regex);
