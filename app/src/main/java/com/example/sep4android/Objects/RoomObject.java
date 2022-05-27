@@ -56,7 +56,6 @@ public class RoomObject {
     this.registrationDate = registrationDate;
   }
 
-
   public String getRoomId() {
     return roomId;
   }
@@ -88,7 +87,6 @@ public class RoomObject {
   public void setRegistrationDate(String registrationDate) {
     this.registrationDate = registrationDate;
   }
-
 
   public List<MeasurementsObject> getMeasurements() {
     return measurements;

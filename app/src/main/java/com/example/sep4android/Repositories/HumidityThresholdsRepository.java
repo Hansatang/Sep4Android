@@ -49,10 +49,9 @@ public class HumidityThresholdsRepository {
   }
 
   public void getHumidityThresholds(String roomId) {
+    Log.i(TAG, "Get Humidity Threshold Get Call");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    // TODO: 20.05.2022 change hardcoded values
-    Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds("0004A30B00219CAC");
-    System.out.println("Call get hum");
+    Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds(roomId);
     call.enqueue(new Callback<List<HumidityThresholdObject>>() {
       @EverythingIsNonNull
       @Override
@@ -104,10 +103,10 @@ public class HumidityThresholdsRepository {
   }
 
   public void addHumidityThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
+    Log.i(TAG, "Add Humidity Threshold Post Call");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     HumidityThresholdObject thresholdToCreate = new HumidityThresholdObject(roomId, startTime, endTime, maxValue, minValue);
     Call<Integer> call = databaseApi.addHumidityThreshold(thresholdToCreate);
-    System.out.println("POST");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
@@ -125,6 +124,7 @@ public class HumidityThresholdsRepository {
           System.out.println("Complete");
         }
       }
+
 
       @EverythingIsNonNull
       @Override

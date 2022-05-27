@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Air4You</string>
     <string name="home">Home</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="current_temperature">Current temperature</string>
     <string name="current_humidity_level">Current humidity level</string>
@@ -9,22 +8,10 @@
     <string name="carbon">carbon</string>
     <string name="hum">hum</string>
     <string name="current_co2">Current CO2</string>
-
-    <string name="subscribe_to_weather">Subscribe To Weather</string>
     <string name="log_token">Log Token</string>
-
-    <string name="msg_subscribed">Subscribed to weather topic</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
-
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <!--
-        This is the name that users will see when interacting with this channel.
-        It should describe the category of notifications that will be sent through this channel
-     -->
-    <!-- [START fcm_default_icon_string] -->
     <string name="default_notification_channel_name" translatable="true">Weather</string>
-    <!-- [END fcm_default_icon_string] -->
-    <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
     <string name="temperature">Temperature</string>
     <string name="select_start_time">Select Start Time</string>
@@ -47,7 +34,7 @@
     <string name="end_value">End Value</string>
     <string name="humidity_thresholds">Humidity Thresholds</string>
     <string name="add_new_threshold">Add new threshold</string>
-    <string name="select_your_room">Select your roomObject:</string>
+    <string name="select_your_room">Select room:</string>
     <string name="select_start_value">Select Start Value</string>
     <string name="select_end_value">Select End Value</string>
     <string name="add">add</string>

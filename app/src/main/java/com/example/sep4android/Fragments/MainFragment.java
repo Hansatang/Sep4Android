@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.RoomAdapter;
-import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
@@ -37,7 +35,7 @@ import java.util.List;
  */
 public class MainFragment extends Fragment implements RoomAdapter.OnListItemClickListener {
   private final String TAG = "MainFragment";
-  private RoomViewModel viewModel;
+  private RoomViewModel roomVM;
   private View view;
   private FloatingActionButton fabCreateRoom;
   private RecyclerView roomsRV;
@@ -50,8 +48,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     createViewModels();
 
     // TODO: 24.05.2022 change this hard code back 
-    viewModel.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    viewModel.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
+    roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
+    roomVM.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
     findViews();
     setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,7 +63,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
    * create all needed ViewModels in this fragment
    */
   private void createViewModels() {
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    roomVM = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
   }
 
   /**
@@ -154,21 +152,21 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     changeNameButton.setOnClickListener(view -> {
       System.out.println("Change " + newName.getText());
       System.out.println(roomObject.getName());
-      viewModel.changeName(roomObject.getRoomId(), newName.getText().toString());
+      roomVM.changeName(roomObject.getRoomId(), newName.getText().toString());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     resetButton.setOnClickListener(view -> {
       System.out.println("reset");
-      viewModel.resetMeasurements(roomObject.getRoomId());
+      roomVM.resetMeasurements(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     deleteButton.setOnClickListener(view -> {
       System.out.println("delete");
-      viewModel.deleteRoom(roomObject.getRoomId());
+      roomVM.deleteRoom(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });
