@@ -43,23 +43,24 @@ public class RCMService extends FirebaseMessagingService {
   private static final String TAG = "RCMService";
 
   public RCMService() {
-    System.out.println("Created firebase");
+    Log.d(TAG, "Created RCMService");
   }
 
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
     Log.d(TAG, "From: " + remoteMessage.getFrom());
-    if (remoteMessage.getData().size() > 0) {
+    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
       if (AppStatusChecker.isActivityVisible()) {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-          RoomRepository repository = RoomRepository.getInstance(this.getApplication());
-          repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
-          if (remoteMessage.getData().get("exceeded").contains("true")) {
-            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
-          }
+        RoomRepository repository = RoomRepository.getInstance(this.getApplication());
+        repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        if (remoteMessage.getData().get("exceeded").contains("true")) {
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
         }
       } else {
-        sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
+        if (remoteMessage.getData().get("exceeded").contains("true")) {
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
+        }
+
       }
     }
   }
@@ -79,7 +80,6 @@ public class RCMService extends FirebaseMessagingService {
     Log.d(TAG, "Refreshed token: " + token);
     sendRegistrationToServer(token);
   }
-
 
 
   /**
