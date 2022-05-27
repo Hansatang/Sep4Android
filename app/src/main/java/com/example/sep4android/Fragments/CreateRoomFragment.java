@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -56,11 +57,15 @@ public class CreateRoomFragment extends Fragment {
    * navigate to MainFragment if adding new room was successful
    * @param creationResult of room creation
    */
-  private void NavigateToMainFragment(Boolean creationResult) {
+  private void NavigateToMainFragment(Integer creationResult) {
     Log.i(TAG, "Checking the room creation result: " + creationResult);
-    if (creationResult) {
+    if (creationResult==200) {
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
+      viewModel.setResult();
+    }
+    else if(creationResult==417){
+      Toast.makeText(getContext(),"You already registered this room",Toast.LENGTH_SHORT).show();
       viewModel.setResult();
     }
   }
