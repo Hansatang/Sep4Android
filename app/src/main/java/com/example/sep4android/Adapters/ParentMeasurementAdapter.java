@@ -3,6 +3,7 @@ package com.example.sep4android.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,8 +22,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-//Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
+/**
+ * Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
+ */
 public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
+  private final String TAG = "ParentMeasurementAdapter";
   final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
   private ArrayList<LocalDateTime> dateTimeList;
@@ -30,6 +34,12 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   private int previousExpandedPosition;
 
 
+  /**
+   * Constructor initializing dateTimeList as new ArrayList,
+   * assigning listener from Archive fragment
+   * and setting two recently interacted object indexes to -1
+   * @param listener
+   */
   public ParentMeasurementAdapter(ParentMeasurementAdapter.OnListItemClickListener listener) {
     dateTimeList = new ArrayList<>();
     clickListener = listener;
@@ -37,18 +47,18 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     previousExpandedPosition = -1;
   }
 
+
+  /**
+   * Updates dateTimeList with new data , notifying change
+   * and ressting two recently interacted object indexes to  -1
+   * @param list list with dates
+   */
   public void updateListAndNotify(ArrayList<LocalDateTime> list) {
-    System.out.println("Update call " + list.size());
-    dateTimeList = new ArrayList<>();
+    Log.i(TAG, "Update Parent Adapter with " + list.size() + " objects");
     mExpandedPosition = -1;
     previousExpandedPosition = -1;
     dateTimeList = list;
     notifyDataSetChanged();
-  }
-
-
-  public ArrayList<LocalDateTime> getDateTimeList() {
-    return dateTimeList;
   }
 
   @Override
@@ -58,7 +68,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
   @NonNull
   public ParentMeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    System.out.println("View holder creation");
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.measurements_list_layout, parent, false);
@@ -71,31 +80,26 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     ctx = recyclerView.getContext();
   }
 
+  @Override
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position) {
-    System.out.println("NormalOnBind");
+    Log.i(TAG, "Binding viewHolder number : " + position);
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
-
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
-    if (viewHolder.details.getVisibility() == View.VISIBLE) {
-      // clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
-    }
   }
 
+  @Override
   public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
-    System.out.println("PayloadOnBind " + position);
-
+    Log.i(TAG, "Binding viewHolder number : " + position + " with payload");
     LocalDateTime currentItem = dateTimeList.get(position);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     viewHolder.dateId.setText(dtf.format(currentItem));
 
     setChildViewHolderAndAdapter(viewHolder);
     addExpandabilityToViewHolder(viewHolder);
-    if (viewHolder.details.getVisibility() == View.VISIBLE) {
-      //clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
-    }
+
   }
 
   @Override
@@ -119,6 +123,13 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
 
+  /**
+   * adds expandability to viewHolder by changing visibility of this viewHolder Linear Layout "details"
+   * adds Click listener to expand/collapse, within this Listener logic for collapsing previously expanded viewHolder is provided,
+   * also Click listener from Adapter is used to relay position and Child adapter to Fragment for populating child list purposes
+   *
+   * @param viewHolder to add functionality of expanding/collapsing
+   */
   private void addExpandabilityToViewHolder(ViewHolder viewHolder) {
     final boolean isExpanded = viewHolder.getBindingAdapterPosition() == mExpandedPosition;
     viewHolder.details.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -126,10 +137,9 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
     viewHolder.itemView.setOnClickListener(v -> {
           mExpandedPosition = isExpanded ? -1 : viewHolder.getBindingAdapterPosition();
-
           if (viewHolder.details.getVisibility() == View.GONE) {
             viewHolder.details.setVisibility(View.VISIBLE);
-            notifyItemChanged(previousExpandedPosition, 2);
+            notifyItemChanged(previousExpandedPosition, 0);
             previousExpandedPosition = viewHolder.getBindingAdapterPosition();
           } else {
             viewHolder.details.setVisibility(View.GONE);
@@ -140,8 +150,12 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     );
   }
 
+  /**
+   * adds ChildMeasurementAdapter to viewHolder by creating layoutManager and setting adapter
+   * adds OnItemTouchListener to child reyclerView to ensure that both parent and child are able to being scrolled up and down
+   * @param viewHolder to add Child Adapter to
+   */
   private void setChildViewHolderAndAdapter(ViewHolder viewHolder) {
-
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
     viewHolder.recyclerView.setLayoutManager(layoutManager);
     viewHolder.recyclerView.setHasFixedSize(true);
@@ -161,7 +175,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             break;
           case MotionEvent.ACTION_MOVE:
             float y = e.getY();
-
             if (mLastY > y) {
               rv.getParent().requestDisallowInterceptTouchEvent(rv.canScrollVertically(1));
             }
@@ -170,7 +183,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
             }
             break;
         }
-
         return false;
       }
 
@@ -183,8 +195,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
       }
-
-
     });
   }
 
@@ -197,7 +207,9 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     return dateTimeList.size();
   }
 
-  //View Holder for Views with nested Recycler View of measurements
+  /**
+   * View Holder for Views with nested Recycler View of measurements
+   */
   public static class ViewHolder extends RecyclerView.ViewHolder {
     LinearLayout details;
     LinearLayout containerChild;
@@ -218,6 +230,9 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
       details = itemView.findViewById(R.id.details);
     }
 
+    /**
+     * @return ChildMeasurementAdapter to provided access to this dynamically created adapter
+     */
     public ChildMeasurementAdapter getInsideAdapter() {
 
       return (ChildMeasurementAdapter) recyclerView.getAdapter();

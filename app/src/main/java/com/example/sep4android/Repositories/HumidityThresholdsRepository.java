@@ -18,11 +18,14 @@ import com.example.sep4android.Objects.HumidityThresholdObject;
 import java.util.List;
 
 public class HumidityThresholdsRepository {
+  private final String TAG = "HumidityThresholdsRepository";
   private static HumidityThresholdsRepository instance;
   private final MutableLiveData<List<HumidityThresholdObject>> humidityThresholds;
+  private final MutableLiveData<String> status;
 
   private HumidityThresholdsRepository(Application application) {
     humidityThresholds = new MutableLiveData<>();
+    status = new MutableLiveData<>();
   }
 
   public static synchronized HumidityThresholdsRepository getInstance(Application application) {
@@ -36,20 +39,29 @@ public class HumidityThresholdsRepository {
     return humidityThresholds;
   }
 
+  public LiveData<String> getStatus()
+  {
+    return status;
+  }
+
+  public void setResult(){
+    status.setValue(null);
+  }
+
   public void getHumidityThresholds(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     // TODO: 20.05.2022 change hardcoded values
     Call<List<HumidityThresholdObject>> call = databaseApi.getHumidityThresholds("0004A30B00219CAC");
-    System.out.println("Call");
+    System.out.println("Call get hum");
     call.enqueue(new Callback<List<HumidityThresholdObject>>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<List<HumidityThresholdObject>> call, Response<List<HumidityThresholdObject>> response) {
         if (response.isSuccessful()) {
           System.out.println("response:");
-          System.out.println(response);
+          System.out.println("hej "+response);
           List<HumidityThresholdObject> rs = response.body();
-          System.out.println(rs.size());
+          System.out.println("Inter "+rs.size());
           humidityThresholds.setValue(rs);
         }
       }
@@ -100,6 +112,14 @@ public class HumidityThresholdsRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
+        switch (response.body()) {
+          case 400:
+            status.setValue("Wrong Threshold");
+            break;
+          case 200:
+            status.setValue("Complete");
+            break;
+        }
         System.out.println(response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
@@ -126,6 +146,14 @@ public class HumidityThresholdsRepository {
       public void onResponse(Call<Integer> call, Response<Integer> response) {
         System.out.println(response);
         if (response.isSuccessful()) {
+          switch (response.body()) {
+            case 400:
+              status.setValue("Wrong Threshold");
+              break;
+            case 200:
+              status.setValue("Complete");
+              break;
+          }
           System.out.println("Complete");
         }
       }
@@ -133,30 +161,6 @@ public class HumidityThresholdsRepository {
       @EverythingIsNonNull
       @Override
       public void onFailure(Call<Integer> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
-      }
-    });
-  }
-
-  public void deleteAllHumidityThreshold() {
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<HumidityThresholdObject> call = databaseApi.deleteAllHumidityThreshold();
-    System.out.println("POST");
-    call.enqueue(new Callback<HumidityThresholdObject>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<HumidityThresholdObject> call, Response<HumidityThresholdObject> response) {
-        System.out.println(response);
-        if (response.isSuccessful()) {
-          System.out.println("Complete");
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<HumidityThresholdObject> call, Throwable t) {
         System.out.println(t);
         System.out.println(t.getMessage());
         Log.i("Retrofit", "Something went wrong :(");

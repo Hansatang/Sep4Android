@@ -19,25 +19,28 @@ public class RoomViewModel extends AndroidViewModel {
 
   private final RoomRepository roomRepository;
   private final TokenRepository tokenRepository;
-  private final ArchiveRepository archiveRepository;
+
 
   public RoomViewModel(Application app) {
     super(app);
-    archiveRepository = ArchiveRepository.getInstance(app);
     roomRepository = RoomRepository.getInstance(app);
     tokenRepository = TokenRepository.getInstance(app);
   }
 
   public LiveData<List<RoomObject>> getRooms() {
-    return roomRepository.getRooms();
+    return roomRepository.getRoomsLiveData();
   }
 
-  public LiveData<List<RoomObject>> getRoomsFromRepo(String uid) {
-    return roomRepository.getDatabaseRooms(uid);
+  public LiveData<Boolean> getCreationResult() {
+    return roomRepository.getCreationResult();
   }
 
-  public LiveData<Boolean> addRoomToDatabase(String roomId, String name, String userUID) {
-    return roomRepository.addRoomToDatabase(roomId, name, userUID);
+  public void getRoomsFromRepo(String uid) {
+    roomRepository.getDatabaseRooms(uid);
+  }
+
+  public void addRoomToDatabase(String roomId, String name, String userUID) {
+    roomRepository.addRoomToDatabase(roomId, name, userUID);
   }
 
   public void deleteToken(String userUID) {
@@ -48,14 +51,16 @@ public class RoomViewModel extends AndroidViewModel {
     roomRepository.setResult();
   }
 
-  public LiveData<List<RoomObject>> getRoomsLocal() {
-    return archiveRepository.getRooms();
+  public void changeName(String roomId, String newName) {
+    roomRepository.changeName(roomId, newName);
   }
 
-  public LiveData<List<MeasurementsObject>> getMeasurementsLocal(LocalDateTime clickedItem, String roomId) {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    System.out.println("Time " + dtf.format(clickedItem));
-    return archiveRepository.getMeasurementByID(roomId,dtf.format(clickedItem));
+  public void deleteRoom(String roomId) {
+    roomRepository.deleteRoom(roomId);
+  }
+
+  public void resetMeasurements(String roomId) {
+    roomRepository.resetMeasurements(roomId);
   }
 }
 

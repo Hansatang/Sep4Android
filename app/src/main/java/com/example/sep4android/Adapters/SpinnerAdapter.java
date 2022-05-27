@@ -12,16 +12,25 @@ import com.example.sep4android.R;
 
 import java.util.ArrayList;
 
-//Custom Adapter for creating and populating spinners
+/**
+ * Custom Adapter for creating and populating spinners
+ */
+
 public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
-
+  private final String TAG = "SpinnerAdapter";
   private Context context;
-  ArrayList<RoomObject> data = new ArrayList<>();
+  private ArrayList<RoomObject> roomObjects;
 
-  public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> objects) {
-    super(context, textViewResourceId, objects);
+  /**
+   * Constructor
+   * @param context
+   * @param textViewResourceId
+   * @param roomObjects
+   */
+  public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> roomObjects) {
+    super(context, textViewResourceId, roomObjects);
     this.context = context;
-    data = objects;
+    this.roomObjects = roomObjects;
   }
 
   @Override
@@ -36,7 +45,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     v = inflater.inflate(R.layout.spin_item, null);
     TextView textView = v.findViewById(R.id.item_text);
-    textView.setText(data.get(position).getName());
+    textView.setText(roomObjects.get(position).getName());
     return v;
 
   }
@@ -55,7 +64,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
       row = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
     }
 
-    RoomObject roomObject = data.get(position);
+    RoomObject roomObject = roomObjects.get(position);
 
     TextView roomName = row.findViewById(R.id.spinnerItemName);
 

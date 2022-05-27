@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
-import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
@@ -29,18 +29,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-//Fragment for viewing archived measurements
+/**
+ * Fragment for viewing archived measurements
+ */
 public class ArchiveFragment extends Fragment implements ParentMeasurementAdapter.OnListItemClickListener {
-  View view;
-  RoomViewModel viewModel;
-  RecyclerView measurementsRV;
-  ArchiveViewModel archiveViewModel;
-  ParentMeasurementAdapter parentMeasurementAdapter;
-  TextView statusTextView;
-  Spinner spinner;
+  private final String TAG = "ArchiveFragment";
+  private View view;
+  private RecyclerView measurementsRV;
+  private ArchiveViewModel archiveViewModel;
+  private ParentMeasurementAdapter parentMeasurementAdapter;
+  private TextView statusTextView;
+  private Spinner spinner;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     createViewModels();
     findViews();
@@ -48,36 +51,34 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     archiveViewModel.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
+    archiveViewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
   }
 
-  private void createViewModels() {
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
-    archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
+
+  /**
+   * set statusTextView text based on result
+   * @param result of connection check
+   */
+  private void setStatus(String result) {
+    statusTextView.setText(result);
   }
 
-  private void setStatus(String s) {
-    statusTextView.setText(s);
-  }
 
-  private void findViews() {
-    measurementsRV = view.findViewById(R.id.measurement_rv);
-    statusTextView = view.findViewById(R.id.statusTextView);
-  }
-
+  /**
+   * initialize spinner with listObjects allowing for choosing desired room
+   * set OnItemSelectedListener on spinner to reset parent data
+   * @param listObjects list of roomObject from local database
+   */
   private void initList(List<RoomObject> listObjects) {
     if (listObjects != null) {
-      System.out.println("Amounts " + listObjects.size());
-      spinner = view.findViewById(R.id.sp);
-
+      Log.i(TAG, "Initialize Parent list");
       SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
       spinner.setAdapter(spinnerAdapter);
       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-          System.out.println("Selected");
           setDateTimesForParentMeasurementAdapter();
         }
 
@@ -86,43 +87,16 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
           //Do nothing
         }
       });
-
       setDateTimesForParentMeasurementAdapter();
-    } else {
-      viewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initListLocal);
     }
   }
 
-  private void initListLocal(List<RoomObject> listObjects) {
-    if (listObjects != null) {
-      System.out.println("Amounts " + listObjects.size());
-      spinner = view.findViewById(R.id.sp);
-
-      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
-      spinner.setAdapter(spinnerAdapter);
-      spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-          System.out.println("Selected");
-          setDateTimesForParentMeasurementAdapter();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-          //Do nothing
-        }
-      });
-
-      setDateTimesForParentMeasurementAdapter();
-    } else {
-      viewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
-    }
-  }
-
+  /**
+   * Create dates for 7 previous days
+   */
   private void setDateTimesForParentMeasurementAdapter() {
     ArrayList<LocalDateTime> weekNames = new ArrayList<>();
     LocalDateTime now = LocalDateTime.now();
-
     for (int i = 7; i > 1; i--) {
       weekNames.add(now.plusDays(-i));
     }
@@ -131,82 +105,41 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   }
 
 
+  /**
+   * populate parentAdapter with dates object
+   * @param listObjects list of 7 previous days dates
+   */
   private void setRooms(ArrayList<LocalDateTime> listObjects) {
     parentMeasurementAdapter.updateListAndNotify(listObjects);
   }
 
 
+  /**
+   * populated childMeasurementAdapter with measurementObjects from local database based on selected room and date
+   * @param clickedItem interacted item from parent Recycler View
+   * @param childMeasurementAdapter child adapter from interacted ViewHolder
+   */
   @Override
   public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
-    RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
-    System.out.println("Room " + roomObject.getName());
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
-    System.out.println("Time " + dtf.format(clickedItem));
-    archiveViewModel.getMeasurementsByDate(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), objects -> updateChildrenWithMeasurements(objects, childMeasurementAdapter, clickedItem));
+    Log.i(TAG, "Click on " + dtf.format(clickedItem) + " in Archive");
+    RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
+    archiveViewModel.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
-
-  private void updateChildrenWithMeasurements(List<MeasurementsObject> objects, ChildMeasurementAdapter childMeasurementAdapter, LocalDateTime clickedItem) {
-    if (objects != null) {
-      childMeasurementAdapter.updateListAndNotify(objects);
-    } else {
-      System.out.println("Get Local Meas");
-      viewModel.getMeasurementsLocal(clickedItem, ((RoomObject) spinner.getSelectedItem()).getRoomId()).observe(getViewLifecycleOwner(), resultObjects -> setRoomsLocally(resultObjects, childMeasurementAdapter));
-    }
-
+  /**
+   * create all needed ViewModels in this fragment
+   */
+  private void createViewModels() {
+    archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
   }
 
-  private void setRoomsLocally(List<MeasurementsObject> roomObjects, ChildMeasurementAdapter childMeasurementAdapter) {
-    childMeasurementAdapter.updateListAndNotify(roomObjects);
+  /**
+   * assign all needed Views in this fragment
+   */
+  private void findViews() {
+    measurementsRV = view.findViewById(R.id.measurement_rv);
+    statusTextView = view.findViewById(R.id.statusTextView);
+    spinner = view.findViewById(R.id.sp);
   }
-
-//  private void setUpItemTouchHelper() {
-//    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-//
-//      @Override
-//      public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//        return false;
-//      }
-//
-//      @Override
-//      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-//        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-//          int position = viewHolder.getAbsoluteAdapterPosition();
-//
-//          switch (which) {
-//            case DialogInterface.BUTTON_POSITIVE:
-//              Toast.makeText(getActivity(), "Card deleted", Toast.LENGTH_SHORT).show();
-//              break;
-//
-//            case DialogInterface.BUTTON_NEGATIVE:
-//              undoSwipe(position);
-//              Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-//              break;
-//          }
-//        };
-//
-//        DialogInterface.OnCancelListener cancelListener = (dialog) -> {
-//          int position = viewHolder.getAbsoluteAdapterPosition();
-//          undoSwipe(position);
-//          Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-//        };
-//
-//        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-//            .setMessage("Are you sure you want to delete?")
-//            .setPositiveButton("Yes", dialogClickListener)
-//            .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
-//      }
-//    };
-//
-//    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
-//    itemTouchHelper.attachToRecyclerView(measurementsRV);
-//  }
-//
-//  @SuppressLint("NotifyDataSetChanged")
-//  private void undoSwipe(int position) {
-//    measurementAdapter.notifyDataSetChanged();
-//    measurementsRV.scrollToPosition(position);
-//  }
 }

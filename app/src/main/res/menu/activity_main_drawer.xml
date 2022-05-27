@@ -8,10 +8,6 @@
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/home" />
         <item
-            android:id="@+id/Settings"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Settings" />
-        <item
             android:id="@+id/Archive"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Archive" />

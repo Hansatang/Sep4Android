@@ -4,7 +4,7 @@ import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
-import com.example.sep4android.Objects.UserObject;
+
 import com.example.sep4android.Objects.UserToken;
 
 import java.util.List;
@@ -32,7 +32,6 @@ public interface DatabaseApi {
   @GET("measurement/week/{userId}/")
   Call<List<MeasurementsObject>> getMeasurementsAllRooms(@Path("userId") String object);
 
-
   // TODO: 10/05/2022  Change to roomId, and latest is stupid
   @GET("measurement/{date}/{roomId}/")
   Call<List<MeasurementsObject>> getMeasurementsByDate(@Path("roomId") String roomId, @Path("date") String date);
@@ -43,10 +42,7 @@ public interface DatabaseApi {
   @PUT("token/")
   Call<Integer> deleteToken(@Body UserToken userToken);
 
-  @GET("api/random")
-  Call<UserObject> getUser();
-
-  @GET("humiditythresholds/{roomId}")
+  @GET("humidityThresholds/{roomId}")
   Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
 
   @GET("all/humiditythresholds/")
@@ -58,8 +54,7 @@ public interface DatabaseApi {
   @GET("all/temperatureThresholds/")
   Call<List<TemperatureThresholdObject>> getAllTemperatureThresholds();
 
-  @POST("api/random")
-  Call<UserObject> addUser(@Body UserObject object);
+
 
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
@@ -68,21 +63,20 @@ public interface DatabaseApi {
   Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
 
   @DELETE("api/random")
-  Call<UserObject> deleteUser();
-
-  @DELETE("api/random")
   Call<RoomObject> deleteRoomData();
 
   @DELETE("humidityThresholds/{id}")
   Call<Integer> deleteHumidityThreshold(@Path("id") int id);
 
-  @DELETE("humidityThresholds/all/")
-  Call<HumidityThresholdObject> deleteAllHumidityThreshold();
-
   @DELETE("temperatureThresholds/{id}")
   Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
 
-  @DELETE("temperatureThresholds/all/")
-  Call<TemperatureThresholdObject> deleteAllTemperatureThreshold();
+  @POST("room/{roomId}")
+  Call<Integer> changeName(@Path("roomId") String roomId, @Body String newName);
 
+  @DELETE("room/{roomId}")
+  Call<Integer> deleteRoom(@Path("roomId") String roomId);
+
+  @DELETE("measurement/room/{roomId}")
+  Call<Integer> resetMeasurements(@Path("roomId") String roomId);
 }

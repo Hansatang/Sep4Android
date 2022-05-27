@@ -81,14 +81,6 @@ public class RCMService extends FirebaseMessagingService {
   }
 
 
-  /**
-   * Schedule async work using WorkManager.
-   */
-  private void scheduleJob() {
-    OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(DataMiner.class)
-        .build();
-    WorkManager.getInstance(this).beginWith(work).enqueue();
-  }
 
   /**
    * Handle time allotted to BroadcastReceivers.

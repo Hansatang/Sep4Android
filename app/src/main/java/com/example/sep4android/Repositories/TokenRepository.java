@@ -13,6 +13,7 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class TokenRepository {
+  private final String TAG = "TokenRepository";
   private static TokenRepository instance;
 
   private TokenRepository(Application application) {

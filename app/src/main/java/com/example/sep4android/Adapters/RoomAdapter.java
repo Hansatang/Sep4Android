@@ -1,6 +1,7 @@
 package com.example.sep4android.Adapters;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,22 +23,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//Adapter for creating Current Measurements Card Views in MainFragment
+/**
+ * Adapter for creating Current Measurements Card Views in MainFragment
+ */
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
+  private final String TAG = "RoomAdapter";
   final private RoomAdapter.OnListItemClickListener clickListener;
-  private List<RoomObject> objects;
+  private List<RoomObject> roomObjectList;
 
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
-    objects = new ArrayList<>();
+    roomObjectList = new ArrayList<>();
     clickListener = listener;
   }
 
   public void updateListAndNotify(List<RoomObject> list) {
-    System.out.println("Update call " + list.size());
-    objects = list;
+    Log.i(TAG,"Update Room Adapter with "+list.size()+" objects");
+    roomObjectList = list;
     notifyDataSetChanged();
   }
 
+  public List<RoomObject> getRoomObjectList() {
+    return roomObjectList;
+  }
 
   @NonNull
   public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,10 +55,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
-    System.out.println("Room: " + objects.get(position).getRoomId());
-    viewHolder.name.setText("Room: " + objects.get(position).getName());
+    Log.i(TAG,"Binding viewHolder number : "+position);
+    viewHolder.name.setText("Room: " + roomObjectList.get(position).getName());
 
-    List<MeasurementsObject> list = objects.get(position).getMeasurements();
+    List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();
     if (list !=null) {
       if (!list.isEmpty()) {
         viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
@@ -82,7 +89,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     String strDate = null;
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-
       Date date1 = dateFormat.parse(list.get(0).getDate());
       System.out.println(date1);
       DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
@@ -101,10 +107,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
 
   public int getItemCount() {
-    return objects.size();
+    return roomObjectList.size();
   }
 
-  //View Holder for Current Measurements Cards
+  /**
+   * View Holder for Current Measurements Cards
+   */
   class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView name;
     TextView date;
@@ -124,7 +132,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onClick(View view) {
-      clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
+      clickListener.onListItemClick(roomObjectList.get(getBindingAdapterPosition()));
     }
   }
 }

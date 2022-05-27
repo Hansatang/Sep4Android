@@ -2,6 +2,7 @@ package com.example.sep4android.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +23,33 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
+/**
+ * Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
+ */
 public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ViewHolder> {
+  private final String TAG = "ChildMeasurementAdapter";
   private Context ctx;
-  public List<MeasurementsObject> objects;
+  private List<MeasurementsObject> measurementsObjectList;
 
 
+  /**
+   * Simple constructor initializing measurementsObjectList as new ArrayList
+   */
   public ChildMeasurementAdapter() {
-    objects = new ArrayList<>();
+    measurementsObjectList = new ArrayList<>();
   }
 
+  /**
+   * Updates measurementsObjectList with new data and notify change
+   * @param list new list with Measurements from repository
+   */
   public void updateListAndNotify(List<MeasurementsObject> list) {
-    System.out.println("Update call elo " + list.size());
+    Log.i(TAG,"Update Child Adapter with "+list.size()+" objects");
     if (!list.isEmpty()) {
-      objects = list;
+      measurementsObjectList = list;
     }
     else {
-      objects = new ArrayList<>();
+      measurementsObjectList = new ArrayList<>();
     }
     notifyDataSetChanged();
   }
@@ -46,7 +57,6 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    System.out.println("Created child");
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
     return new ViewHolder(view);
   }
@@ -69,8 +79,9 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    MeasurementsObject currentItem = objects.get(position);
-    holder.dateId.setText(getFormattedDate(currentItem));
+    Log.i(TAG,"Binding viewHolder number : "+position);
+    MeasurementsObject currentItem = measurementsObjectList.get(position);
+    holder.dateId.setText(getFormattedDate(currentItem.getDate()));
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     if (currentItem.isTemperatureExceeded()) {
       holder.temperatureId.setTextColor(Color.RED);
@@ -88,12 +99,16 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     });
   }
 
+  /**
+   * @param currentItem Date in String in "yyyy-MM-dd'T'HH:mm:ss" format
+   * @return modified Date in String in "E hh:mm:ss" format
+   */
   @Nullable
-  private String getFormattedDate(MeasurementsObject currentItem) {
+  private String getFormattedDate(String currentItem) {
     String strDate = null;
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-      Date date1 = dateFormat.parse(currentItem.getDate());
+      Date date1 = dateFormat.parse(currentItem);
       DateFormat dateFormat2 = new SimpleDateFormat("E hh:mm:ss");
       strDate = dateFormat2.format(date1);
     } catch (ParseException e) {
@@ -104,11 +119,12 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   @Override
   public int getItemCount() {
-    return objects.size();
+    return measurementsObjectList.size();
   }
 
-
-  //View Holder used to create Views in this adapter
+  /**
+   * View Holder used to create Views in this adapter
+   */
   static class ViewHolder extends RecyclerView.ViewHolder {
     TextView dateId;
     TextView temperatureId;

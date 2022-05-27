@@ -10,7 +10,6 @@ import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.RoomObject;
-import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
 
@@ -21,14 +20,15 @@ import retrofit2.internal.EverythingIsNonNull;
 
 
 public class RoomRepository {
+  private final String TAG = "RoomRepository";
   private final ArchiveRepository repository;
   private static RoomRepository instance;
-  private final MutableLiveData<List<RoomObject>> rooms;
+  private final MutableLiveData<List<RoomObject>> roomsLiveData;
   private final MutableLiveData<Boolean> creationResult;
 
   private RoomRepository(Application application) {
     repository = ArchiveRepository.getInstance(application);
-    rooms = new MutableLiveData<>();
+    roomsLiveData = new MutableLiveData<>();
     creationResult = new MutableLiveData<>();
   }
 
@@ -38,8 +38,12 @@ public class RoomRepository {
     return instance;
   }
 
-  public LiveData<List<RoomObject>> getRooms() {
-    return rooms;
+  public LiveData<List<RoomObject>> getRoomsLiveData() {
+    return roomsLiveData;
+  }
+
+  public MutableLiveData<Boolean> getCreationResult() {
+    return creationResult;
   }
 
   public void setResult() {
@@ -47,7 +51,7 @@ public class RoomRepository {
   }
 
   //TODO change username to uid after work
-  public LiveData<List<RoomObject>> getDatabaseRooms(String uid) {
+  public void getDatabaseRooms(String uid) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     System.out.println(uid);
     Call<List<RoomObject>> call = databaseApi.getRoomByUserId(uid);
@@ -59,8 +63,8 @@ public class RoomRepository {
                      if (response.isSuccessful()) {
                        System.out.println(response);
                        List<RoomObject> rs = response.body();
-                       rooms.setValue(rs);
-                       repository.insertAllRooms(rooms.getValue().toArray(new RoomObject[0]));
+                       roomsLiveData.setValue(rs);
+                       repository.insertAllRooms(roomsLiveData.getValue().toArray(new RoomObject[0]));
                      }
                    }
 
@@ -69,16 +73,14 @@ public class RoomRepository {
                    public void onFailure(Call<List<RoomObject>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
-                     repository.getRoomById(uid).getValue();
-                     rooms.setValue(null);
-                     Log.i("Retrofit", "Something went wrong Room:(");
+                     roomsLiveData.setValue(null);
+                     Log.i("Retrofit", "Something went wrong get rooms");
                    }
                  }
     );
-    return rooms;
   }
 
-  public LiveData<Boolean> addRoomToDatabase(String roomId, String name, String userUID) {
+  public void addRoomToDatabase(String roomId, String name, String userUID) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     RoomObject roomObjectToCreate = new RoomObject(roomId, name, userUID, null, null);
     Call<Integer> call = databaseApi.addRoom(roomObjectToCreate);
@@ -99,12 +101,82 @@ public class RoomRepository {
                    public void onFailure(Call<Integer> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
-                     rooms.setValue(null);
-                     Log.i("Retrofit", "Something went wrong :(");
+                     roomsLiveData.setValue(null);
+                     Log.i("Retrofit", "Something went with add room");
                    }
                  }
     );
-    return creationResult;
+  }
+
+  public void changeName(String roomId, String newName) {
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+    Call<Integer> call = databaseApi.changeName(roomId, newName);
+    System.out.println("POST");
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        if (response.isSuccessful()) {
+          System.out.println("Successful");
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went change name");
+      }
+    });
+  }
+
+  public void deleteRoom(String roomId) {
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+    Call<Integer> call = databaseApi.deleteRoom(roomId);
+    System.out.println("DELETE");
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        System.out.println(response);
+        if (response.isSuccessful()) {
+          System.out.println("Complete");
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went with delete Name");
+      }
+    });
+  }
+
+  public void resetMeasurements(String roomId) {
+    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+    Call<Integer> call = databaseApi.resetMeasurements(roomId);
+    System.out.println("DELETE");
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        System.out.println(response);
+        if (response.isSuccessful()) {
+          System.out.println("Complete");
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went with reset measurement");
+      }
+    });
   }
 }
 

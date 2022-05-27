@@ -20,7 +20,7 @@ import java.util.List;
 
 
 public class SignUpActivity extends AppCompatActivity {
-  Button toRegisterButton;
+  private Button toRegisterButton;
 
   ActivityResultLauncher<Intent> loginResultLauncher = registerForActivityResult(
       new ActivityResultContracts.StartActivityForResult(), result -> {
