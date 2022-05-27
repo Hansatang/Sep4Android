@@ -37,10 +37,8 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
    */
   public void updateHumidityThresholdsAndNotify(List<HumidityThresholdObject> list) {
     Log.i(TAG,"Update Humidity Adapter with "+list.size()+" objects");
-    if (list != null) {
-      thresholdObjects = list;
-      notifyDataSetChanged();
-    }
+    thresholdObjects = list;
+    notifyDataSetChanged();
   }
 
   @NonNull

@@ -21,7 +21,6 @@ import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
-import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.LocalDateTime;
@@ -36,7 +35,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private final String TAG = "ArchiveFragment";
   private View view;
   private RecyclerView measurementsRV;
-  private ArchiveViewModel archiveViewModel;
+  private ArchiveViewModel archiveVM;
   private ParentMeasurementAdapter parentMeasurementAdapter;
   private TextView statusTextView;
   private Spinner spinner;
@@ -47,15 +46,14 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     createViewModels();
     findViews();
-    archiveViewModel.getStatus().observe(getViewLifecycleOwner(), this::setStatus);
+    archiveVM.getStatus().observe(getViewLifecycleOwner(), this::setStatus);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
-    archiveViewModel.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    archiveViewModel.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    archiveVM.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
   }
-
 
   /**
    * set statusTextView text based on result
@@ -64,7 +62,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private void setStatus(String result) {
     statusTextView.setText(result);
   }
-
 
   /**
    * initialize spinner with listObjects allowing for choosing desired room
@@ -81,7 +78,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           setDateTimesForParentMeasurementAdapter();
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
           //Do nothing
@@ -124,14 +120,14 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
     Log.i(TAG, "Click on " + dtf.format(clickedItem) + " in Archive");
     RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
-    archiveViewModel.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveVM.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
   /**
    * create all needed ViewModels in this fragment
    */
   private void createViewModels() {
-    archiveViewModel = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
+    archiveVM = new ViewModelProvider(requireActivity()).get(ArchiveViewModel.class);
   }
 
   /**

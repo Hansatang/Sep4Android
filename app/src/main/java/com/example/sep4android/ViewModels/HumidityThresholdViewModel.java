@@ -27,10 +27,7 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         humidityThresholdsRepository.getHumidityThresholds(roomId);
     }
 
-    public void getAllThresholdFromRepo()
-    {
-        humidityThresholdsRepository.getAllHumidityThresholds();
-    }
+
 
     public void addThresholdToDatabase(String roomId, String startTime, String endTime, double maxValue, double minValue){
         humidityThresholdsRepository.addHumidityThreshold(roomId, startTime, endTime, maxValue, minValue);

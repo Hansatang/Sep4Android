@@ -42,15 +42,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 // TODO: 26/05/2022  check comments two update list method
+
 /**
  * Fragment for manipulating humility Thresholds
  */
 public class HumidityThresholdFragment extends Fragment implements AdapterView.OnItemSelectedListener {
   private final String TAG = "HumidityThresholdFragment";
   private View view;
-  private RoomViewModel roomViewModel;
-  private HumidityThresholdViewModel humidityThresholdViewModel;
-  private RecyclerView humidityThresholdList;
+  private RoomViewModel roomVM;
+  private HumidityThresholdViewModel humidityThresholdVM;
+  private RecyclerView humidityThresholdRV;
   private HumidityThresholdAdapter humidityThresholdAdapter;
   private Spinner spinner;
   private FloatingActionButton fab;
@@ -64,15 +65,13 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
     createViewModels();
     findViews();
-    roomViewModel.getRooms().observe(getViewLifecycleOwner(), this::initList);
-    humidityThresholdList.hasFixedSize();
-    humidityThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    roomVM.getRooms().observe(getViewLifecycleOwner(), this::initList);
+    humidityThresholdRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
     humidityThresholdAdapter = new HumidityThresholdAdapter();
-    humidityThresholdList.setAdapter(humidityThresholdAdapter);
+    humidityThresholdRV.setAdapter(humidityThresholdAdapter);
     setUpItemTouchHelper();
     setListenersToButtons();
-    humidityThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
-
+    humidityThresholdVM.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
     return view;
   }
 
@@ -84,7 +83,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * assign all needed Views in this fragment
    */
   private void findViews() {
-    humidityThresholdList = view.findViewById(R.id.humidity_threshold_rv);
+    humidityThresholdRV = view.findViewById(R.id.humidity_threshold_rv);
     spinner = view.findViewById(R.id.sp_humidity);
     fab = view.findViewById(R.id.fab_add_new_threshold_humidity);
   }
@@ -93,22 +92,21 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * create all needed ViewModels in this fragment
    */
   private void createViewModels() {
-    humidityThresholdViewModel = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
-    roomViewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    humidityThresholdVM = new ViewModelProvider(requireActivity()).get(HumidityThresholdViewModel.class);
+    roomVM = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
   }
 
   /**
    * initialize spinner with listObjects allowing for choosing desired room
+   *
    * @param listObjects list of roomObject from local database
    */
   private void initList(List<RoomObject> listObjects) {
-    System.out.println("Aleo "+listObjects.size());
     SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
-    adapter.setDropDownViewResource(R.layout.spin_item_dropdown);
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
-    humidityThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
-    humidityThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
+    humidityThresholdVM.getThresholdFromRepo(listObjects.get(0).getRoomId());
+    humidityThresholdVM.getThresholds().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
   }
 
 
@@ -120,15 +118,14 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
       } else if (result.equals("Wrong Threshold")) {
         Toast.makeText(getContext(), "Wrong Threshold", Toast.LENGTH_SHORT).show();
       }
-      humidityThresholdViewModel.setResult();
+      humidityThresholdVM.setResult();
     }
   }
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-    System.out.println(adapterView.getItemAtPosition(i).toString());
-    // TODO: 20.05.2022 uncomment and change null to object id
-    //humidityThresholdViewModel.getThresholdFromRepo(null);
+    RoomObject item = (RoomObject) adapterView.getItemAtPosition(i);
+    humidityThresholdVM.getThresholdFromRepo(item.getRoomId());
   }
 
 
@@ -139,10 +136,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
   /**
    * populate humidityThresholdAdapter with humidityThresholdObjects
+   *
    * @param humidityThresholdObjects from repository to populate adapter with
    */
   private void updateListWithThresholds(List<HumidityThresholdObject> humidityThresholdObjects) {
-    System.out.println("Aleo 2 "+ humidityThresholdObjects.size());
     humidityThresholdAdapter.updateHumidityThresholdsAndNotify(humidityThresholdObjects);
   }
 
@@ -154,37 +151,24 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
     int width = LinearLayout.LayoutParams.WRAP_CONTENT;
     int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-    boolean focusable = true;
-    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
     popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-    popupView.setOnTouchListener(new View.OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        popupWindow.dismiss();
-        return true;
-      }
-    });
 
     findPopUpViews(popupView);
 
     popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        System.out.println("**********************");
-        System.out.println("adding");
-        humidityThresholdViewModel.addThresholdToDatabase(((RoomObject) spinner.getSelectedItem()).getRoomId(),
+        humidityThresholdVM.addThresholdToDatabase(((RoomObject) spinner.getSelectedItem()).getRoomId(),
             startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-        System.out.println("**********************");
-
         popupWindow.dismiss();
       }
     });
 
-    startTime.setOnClickListener(view -> popTimePicker(view, startTime));
-
-    endTime.setOnClickListener(view -> popTimePicker(view, endTime));
+    startTime.setOnClickListener(view -> popTimePicker("Select start time", startTime));
+    endTime.setOnClickListener(view -> popTimePicker("Select end time", endTime));
   }
 
   private void findPopUpViews(View popupView) {
@@ -198,7 +182,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     endValue.setMaxValue(35);
   }
 
-  public void popTimePicker(View view, Button button) {
+  public void popTimePicker(String title, Button button) {
     TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
       @Override
       public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -209,8 +193,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     };
 
     TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hour, minute, true);
-
-    timePickerDialog.setTitle("Select Time");
+    timePickerDialog.setTitle(title);
     timePickerDialog.show();
   }
 
@@ -225,53 +208,49 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
       @Override
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-          int position = viewHolder.getAbsoluteAdapterPosition();
-          HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
+        int position = viewHolder.getAbsoluteAdapterPosition();
+        HumidityThresholdObject humidityThresholdObject = humidityThresholdAdapter.getThresholds().get(position);
 
-          switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
-              Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
-              humidityThresholdViewModel.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
-              updateList();
-              break;
+        if (swipeDir == ItemTouchHelper.LEFT) {
+          DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which) {
+              case DialogInterface.BUTTON_POSITIVE:
+                Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
+                humidityThresholdVM.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
+                updateList();
+                break;
+              case DialogInterface.BUTTON_NEGATIVE:
+                undoSwipe(position);
+                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+                break;
+            }
+          };
 
-            case DialogInterface.BUTTON_NEGATIVE:
-              undoSwipe(position);
-              Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-              break;
-          }
-        };
+          DialogInterface.OnCancelListener cancelListener = (dialog) -> {
+            undoSwipe(position);
+            Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+          };
 
-        DialogInterface.OnCancelListener cancelListener = (dialog) -> {
-          int position = viewHolder.getAbsoluteAdapterPosition();
-          undoSwipe(position);
-          Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-        };
-
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-            .setMessage("Are you sure you want to delete?")
-            .setPositiveButton("Yes", dialogClickListener)
-            .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+          AlertDialog dialog = new AlertDialog.Builder(getActivity())
+              .setMessage("Are you sure you want to delete?")
+              .setPositiveButton("Yes", dialogClickListener)
+              .setNegativeButton("No", dialogClickListener).setOnCancelListener(cancelListener).create();
+          dialog.setCanceledOnTouchOutside(true);
+          dialog.show();
+        }
       }
     };
-
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
-    itemTouchHelper.attachToRecyclerView(humidityThresholdList);
+    itemTouchHelper.attachToRecyclerView(humidityThresholdRV);
   }
 
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
     humidityThresholdAdapter.notifyDataSetChanged();
-    humidityThresholdList.scrollToPosition(position);
+    humidityThresholdRV.scrollToPosition(position);
   }
 
   private void updateList() {
-    System.out.println("**********************");
-    System.out.println("update list");
-    humidityThresholdViewModel.getThresholdFromRepo(((RoomObject) spinner.getSelectedItem()).getRoomId());
-    System.out.println("**********************");
+    humidityThresholdVM.getThresholdFromRepo(((RoomObject) spinner.getSelectedItem()).getRoomId());
   }
 }

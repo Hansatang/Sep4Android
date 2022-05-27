@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class CreateRoomFragment extends Fragment {
   private final String TAG = "CreateRoomFragment";
   private View view;
-  private RoomViewModel viewModel;
+  private RoomViewModel roomVM;
   private Button createRoomButton;
   private EditText deviceText;
   private EditText nameText;
@@ -36,7 +36,7 @@ public class CreateRoomFragment extends Fragment {
     createViewModels();
     findViews();
     setListenersToButtons();
-    viewModel.getCreationResult().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
+    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
     return view;
   }
 
@@ -46,7 +46,7 @@ public class CreateRoomFragment extends Fragment {
    */
   private void setListenersToButtons() {
     createRoomButton.setOnClickListener(view -> {
-          viewModel.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
+          roomVM.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
               FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
     );
@@ -62,11 +62,11 @@ public class CreateRoomFragment extends Fragment {
     if (creationResult==200) {
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
-      viewModel.setResult();
+      roomVM.setResult();
     }
     else if(creationResult==417){
       Toast.makeText(getContext(),"You already registered this room",Toast.LENGTH_SHORT).show();
-      viewModel.setResult();
+      roomVM.setResult();
     }
   }
 
@@ -74,7 +74,7 @@ public class CreateRoomFragment extends Fragment {
    * create all needed ViewModels in this fragment
    */
   private void createViewModels() {
-    viewModel = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
+    roomVM = new ViewModelProvider(requireActivity()).get(RoomViewModel.class);
   }
 
   /**
