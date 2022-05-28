@@ -21,13 +21,13 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class RoomRepository {
   private final String TAG = "RoomRepository";
-  private final ArchiveRepository repository;
+  private final ArchiveRepository archiveRepository;
   private static RoomRepository instance;
   private final MutableLiveData<List<RoomObject>> roomsLiveData;
   private final MutableLiveData<Integer> creationResult;
 
   private RoomRepository(Application application) {
-    repository = ArchiveRepository.getInstance(application);
+    archiveRepository = ArchiveRepository.getInstance(application);
     roomsLiveData = new MutableLiveData<>();
     creationResult = new MutableLiveData<>();
   }
@@ -65,7 +65,7 @@ public class RoomRepository {
                        System.out.println(response);
                        List<RoomObject> rs = response.body();
                        roomsLiveData.setValue(rs);
-                       repository.insertAllRooms(roomsLiveData.getValue().toArray(new RoomObject[0]));
+                       archiveRepository.insertAllRooms(roomsLiveData.getValue().toArray(new RoomObject[0]));
                      }
                    }
 

@@ -5,15 +5,20 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Toolbar;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.ViewInteraction;
@@ -36,7 +41,8 @@ import org.junit.runner.RunWith;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class MainActivityInstrumentedTest {
+
   @Rule
   public ActivityTestRule<MainActivity> mainTestRule =
       new ActivityTestRule<>(MainActivity.class);
@@ -73,8 +79,60 @@ public class ExampleInstrumentedTest {
     ViewInteraction recyclerView = onView(allOf(withId(R.id.measurement_rv),
         childAtPosition(withId(R.id.measurement_linearLayout), 0)));
     recyclerView.perform(actionOnItemAtPosition(0, click()));
-
   }
+
+  @Test
+  public void test_Navigation_To_Statistics() {
+    ViewInteraction appCompatImageButton = onView(
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2),
+            isDisplayed()));
+    appCompatImageButton.perform(click());
+    onView(withId(R.id.Statistics)).perform(click());
+  }
+
+  @Test
+  public void test_Navigation_To_TempThreshold() {
+    ViewInteraction appCompatImageButton = onView(
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2),
+            isDisplayed()));
+    appCompatImageButton.perform(click());
+    onView(withId(R.id.TemperatureThreshold)).perform(click());
+  }
+
+  @Test
+  public void test_Navigation_To_Settings() {
+
+    openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+    onView(withText("Settings")).perform(click());
+
+    ViewInteraction materialButton2 = onView(
+        allOf(withId(R.id.changeThemeButton), withText("Change"),
+            childAtPosition(
+                allOf(withId(R.id.constraintLayout),
+                    childAtPosition(
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                2),
+            isDisplayed()));
+    materialButton2.perform(click());
+  }
+
+  @Test
+  public void test_Navigation_To_HumThreshold() {
+    ViewInteraction appCompatImageButton = onView(
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2),
+            isDisplayed()));
+    appCompatImageButton.perform(click());
+    onView(withId(R.id.HumidityThreshold)).perform(click());
+  }
+
+
 
 
   private static Matcher<View> childAtPosition(

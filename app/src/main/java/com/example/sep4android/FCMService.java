@@ -80,14 +80,6 @@ public class FCMService extends FirebaseMessagingService {
     sendRegistrationToServer(token);
   }
 
-
-  /**
-   * Handle time allotted to BroadcastReceivers.
-   */
-  private void handleNow() {
-    Log.d(TAG, "Short lived task is done.");
-  }
-
   /**
    * Persist token to third-party servers.
    * <p>
@@ -97,7 +89,7 @@ public class FCMService extends FirebaseMessagingService {
    * @param token The new token.
    */
   private void sendRegistrationToServer(String token) {
-    TokenRepository repository = TokenRepository.getInstance(this.getApplication());
+    TokenRepository repository = TokenRepository.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if (user != null) {
       user.getIdToken(false).addOnSuccessListener(result -> {

@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
-import com.example.sep4android.Objects.HumidityThresholdObject;
-import com.example.sep4android.Objects.RoomObject;
 
 import java.util.List;
 
@@ -24,17 +22,19 @@ public class StatisticsRepository {
   private final MutableLiveData<List<Double>> humAverageWeek;
   private final MutableLiveData<List<Double>> co2AverageWeek;
 
-  public static synchronized StatisticsRepository getInstance(Application application) {
-    if (instance == null)
-      instance = new StatisticsRepository(application);
-    return instance;
-  }
-
-  public StatisticsRepository(Application application) {
+  public StatisticsRepository() {
     this.tempAverageWeek = new MutableLiveData<>();
     this.humAverageWeek = new MutableLiveData<>();
     this.co2AverageWeek = new MutableLiveData<>();
   }
+
+  public static synchronized StatisticsRepository getInstance() {
+    if (instance == null)
+      instance = new StatisticsRepository();
+    return instance;
+  }
+
+
 
   public LiveData<List<Double>> getTempAverageWeek() {
     return tempAverageWeek;

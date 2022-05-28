@@ -21,6 +21,8 @@
     <string name="hum_measurement_list">Hum</string>
     <string name="co2_measurement_list">Co2</string>
     <string name="bind_holder_temp"> %1$.2f ℃</string>
+    <string name="bind_holder_name">Room: %1$s</string>
+    <string name="pop_up_title">"What you want to do with: " %1$s</string>
     <string name="bind_holder_hum"> %1$.2f </string>
     <string name="bind_holder_co2"> %1$.2f </string>
     <string name="bind_holder_room_name"> %1$s </string>
@@ -45,4 +47,5 @@
     <string name="reset_data">Reset data</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="settings">settings</string>
 </resources>

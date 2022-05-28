@@ -18,10 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.sep4android.MainActivity;
 import com.example.sep4android.R;
 import com.example.sep4android.SignUpActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,7 +32,6 @@ public class SettingsFragment extends Fragment {
   private EditText newPassword;
   private EditText repeatNewPass;
   private Button savePasswordButton;
-  private Button deleteDataButton;
   private ConstraintLayout goneGoogle;
   private Button deleteAccountButton;
   private Button changeThemeButton;
@@ -67,7 +64,6 @@ public class SettingsFragment extends Fragment {
     repeatNewPass = view.findViewById(R.id.repeatNewPass);
     savePasswordButton = view.findViewById(R.id.savePassButton);
     deleteAccountButton = view.findViewById(R.id.deleteAccountButton);
-    deleteDataButton = view.findViewById(R.id.deleteDataButton);
     changeThemeButton = view.findViewById(R.id.changeThemeButton);
   }
 
@@ -102,13 +98,6 @@ public class SettingsFragment extends Fragment {
     );
   }
 
-  /**
-   * navigate to
-   */
-  private void goToMainActivity() {
-    Intent intent = new Intent(getActivity(), MainActivity.class);
-    startActivity(intent);
-  }
 
   /**
    * change application theme from light to dark and from dark to light

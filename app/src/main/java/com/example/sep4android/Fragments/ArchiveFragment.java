@@ -57,6 +57,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
 
   /**
    * set statusTextView text based on result
+   *
    * @param result of connection check
    */
   private void setStatus(String result) {
@@ -66,6 +67,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   /**
    * initialize spinner with listObjects allowing for choosing desired room
    * set OnItemSelectedListener on spinner to reset parent data
+   *
    * @param listObjects list of roomObject from local database
    */
   private void initList(List<RoomObject> listObjects) {
@@ -78,12 +80,12 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           setDateTimesForParentMeasurementAdapter();
         }
+
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
           //Do nothing
         }
       });
-      setDateTimesForParentMeasurementAdapter();
     }
   }
 
@@ -93,16 +95,16 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private void setDateTimesForParentMeasurementAdapter() {
     ArrayList<LocalDateTime> weekNames = new ArrayList<>();
     LocalDateTime now = LocalDateTime.now();
-    for (int i = 7; i > 1; i--) {
-      weekNames.add(now.plusDays(-i));
+    for (int i = 6; i >= 0; i--) {
+      weekNames.add(now.minusDays(i));
     }
-    weekNames.add(now);
     setRooms(weekNames);
   }
 
 
   /**
    * populate parentAdapter with dates object
+   *
    * @param listObjects list of 7 previous days dates
    */
   private void setRooms(ArrayList<LocalDateTime> listObjects) {
@@ -112,15 +114,15 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
 
   /**
    * populated childMeasurementAdapter with measurementObjects from local database based on selected room and date
-   * @param clickedItem interacted item from parent Recycler View
+   *
+   * @param clickedItem             interacted item from parent Recycler View
    * @param childMeasurementAdapter child adapter from interacted ViewHolder
    */
   @Override
   public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd E");
-    Log.i(TAG, "Click on " + dtf.format(clickedItem) + " in Archive");
     RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
-    archiveVM.getMeasurementsLocal(clickedItem, roomObject.getRoomId()).observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveVM.getMeasurementsLocal(clickedItem, roomObject.getRoomId())
+        .observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
   }
 
   /**

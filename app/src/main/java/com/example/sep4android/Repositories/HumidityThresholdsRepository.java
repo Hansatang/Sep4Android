@@ -23,14 +23,14 @@ public class HumidityThresholdsRepository {
   private final MutableLiveData<List<HumidityThresholdObject>> humidityThresholds;
   private final MutableLiveData<String> status;
 
-  private HumidityThresholdsRepository(Application application) {
+  private HumidityThresholdsRepository() {
     humidityThresholds = new MutableLiveData<>();
     status = new MutableLiveData<>();
   }
 
-  public static synchronized HumidityThresholdsRepository getInstance(Application application) {
+  public static synchronized HumidityThresholdsRepository getInstance() {
     if (instance == null) {
-      instance = new HumidityThresholdsRepository(application);
+      instance = new HumidityThresholdsRepository();
     }
     return instance;
   }

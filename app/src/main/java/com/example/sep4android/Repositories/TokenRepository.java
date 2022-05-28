@@ -1,6 +1,5 @@
 package com.example.sep4android.Repositories;
 
-import android.app.Application;
 import android.util.Log;
 
 import com.example.sep4android.Database.DatabaseApi;
@@ -16,12 +15,12 @@ public class TokenRepository {
   private final String TAG = "TokenRepository";
   private static TokenRepository instance;
 
-  private TokenRepository(Application application) {
+  private TokenRepository() {
   }
 
-  public static synchronized TokenRepository getInstance(Application application) {
+  public static synchronized TokenRepository getInstance() {
     if (instance == null)
-      instance = new TokenRepository(application);
+      instance = new TokenRepository();
     return instance;
   }
 

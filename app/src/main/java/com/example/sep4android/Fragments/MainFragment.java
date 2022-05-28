@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.RoomAdapter;
-import com.example.sep4android.AppStatusChecker;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
@@ -48,12 +47,12 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
     createViewModels();
-
-    // TODO: 24.05.2022 change this hard code back 
-    roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::refresh);
     findViews();
     setListenersToButtons();
+    // TODO: 24.05.2022 change this hard code back
+
+    roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
+    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::refresh);
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
     roomsRV.setAdapter(roomAdapter);
@@ -108,7 +107,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG,"Initializing Status Cards");
-      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count_online, listObjects.size()));
+      activeRoomCount.setText(getString(R.string.bind_holder_room_count_online, listObjects.size()));
       roomAdapter.updateListAndNotify(listObjects);
     }
   }
@@ -153,7 +152,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Button resetButton = dialogView.findViewById(R.id.resetButton);
     Button deleteButton = dialogView.findViewById(R.id.deleteButton);
     Button cancelButton = dialogView.findViewById(R.id.cancelButton);
-    titleTextView.setText("What you want to do with: " + roomObject.getName());
+    titleTextView.setText(getString(R.string.pop_up_title, roomObject.getName()));
     builder.setView(dialogView);
 
 

@@ -23,6 +23,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
 
   /**
    * Constructor
+   *
    * @param context
    * @param textViewResourceId
    * @param roomObjects
@@ -40,37 +41,32 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-
-    View v = convertView;
-    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    v = inflater.inflate(R.layout.spin_item, null);
-    TextView textView = v.findViewById(R.id.item_text);
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    convertView = inflater.inflate(R.layout.spin_item, parent, false);
+    TextView textView = convertView.findViewById(R.id.item_text);
     textView.setText(roomObjects.get(position).getName());
-    return v;
+    return convertView;
 
   }
 
   @Override
-  public View getDropDownView(int position, View convertView, ViewGroup parent)
-  {   // This view starts when we click the spinner.
+  public View getDropDownView(int position, View convertView, ViewGroup parent) {   // This view starts when we click the spinner.
     return initView(position, convertView, parent);
   }
 
   private View initView(int position, View convertView, ViewGroup parent) {
-    View row = convertView;
-    if(row == null)
-    {
-      LayoutInflater inflater =  (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      row = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
+    if (convertView == null) {
+      LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      convertView = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
     }
 
     RoomObject roomObject = roomObjects.get(position);
 
-    TextView roomName = row.findViewById(R.id.spinnerItemName);
+    TextView roomName = convertView.findViewById(R.id.spinnerItemName);
 
-    if(roomName != null){
+    if (roomName != null) {
       roomName.setText(roomObject.getName());
     }
-    return row;
+    return convertView;
   }
 }

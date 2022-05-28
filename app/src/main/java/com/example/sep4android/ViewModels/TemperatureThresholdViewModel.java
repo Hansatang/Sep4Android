@@ -18,7 +18,7 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
 
   public TemperatureThresholdViewModel(@NonNull Application application) {
     super(application);
-    repository = TemperatureThresholdRepositories.getInstance(application);
+    repository = TemperatureThresholdRepositories.getInstance();
   }
 
   public LiveData<List<TemperatureThresholdObject>> getThresholds() {
@@ -29,17 +29,11 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
     return repository.getStatus();
   }
 
-
-  public void getAllTemperatureThresholds() {
-    repository.getAllTemperatureThresholds();
-  }
-
   public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
     repository.addTemperatureThreshold(roomId, startTime, endTime, maxValue, minValue);
   }
 
   public void deleteTemperatureThreshold(int id) {
-    System.out.println("-----------------------------------" + id);
     repository.deleteTemperatureThreshold(id);
   }
 

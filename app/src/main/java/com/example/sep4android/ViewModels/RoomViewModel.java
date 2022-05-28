@@ -6,25 +6,22 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
-import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Repositories.RoomRepository;
 import com.example.sep4android.Repositories.TokenRepository;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class RoomViewModel extends AndroidViewModel {
-
   private final RoomRepository roomRepository;
   private final TokenRepository tokenRepository;
-
+  private final ArchiveRepository archiveRepository;
 
   public RoomViewModel(Application app) {
     super(app);
+    archiveRepository = ArchiveRepository.getInstance(app);
     roomRepository = RoomRepository.getInstance(app);
-    tokenRepository = TokenRepository.getInstance(app);
+    tokenRepository = TokenRepository.getInstance();
   }
 
   public LiveData<List<RoomObject>> getRooms() {
@@ -36,7 +33,6 @@ public class RoomViewModel extends AndroidViewModel {
   }
 
   public void getRoomsFromRepo(String uid) {
-    System.out.println("Hello User id "+uid);
     roomRepository.getDatabaseRooms(uid);
   }
 

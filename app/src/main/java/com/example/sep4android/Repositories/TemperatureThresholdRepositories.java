@@ -1,6 +1,5 @@
 package com.example.sep4android.Repositories;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -23,14 +22,14 @@ public class TemperatureThresholdRepositories {
   private final MutableLiveData<List<TemperatureThresholdObject>> temperatureThresholds;
   private final MutableLiveData<String> status;
 
-  private TemperatureThresholdRepositories(Application application) {
+  private TemperatureThresholdRepositories() {
     temperatureThresholds = new MutableLiveData<>();
     status = new MutableLiveData<>();
   }
 
-  public static synchronized TemperatureThresholdRepositories getInstance(Application application) {
+  public static synchronized TemperatureThresholdRepositories getInstance() {
     if (instance == null) {
-      instance = new TemperatureThresholdRepositories(application);
+      instance = new TemperatureThresholdRepositories();
     }
     return instance;
   }

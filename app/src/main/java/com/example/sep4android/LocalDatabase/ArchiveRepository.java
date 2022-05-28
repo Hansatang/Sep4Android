@@ -50,10 +50,5 @@ public class ArchiveRepository {
   public LiveData<List<MeasurementsObject>> getMeasurementByID(String id, String date) {
     return roomDao.getArchiveById(id, date);
   }
-  public void deleteAllMeasurement() {
-    executorService.execute(roomDao::deleteAllMeasurement);
-  }
-
-
 
 }

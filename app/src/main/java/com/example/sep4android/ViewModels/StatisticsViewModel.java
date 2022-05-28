@@ -15,9 +15,8 @@ public class StatisticsViewModel extends AndroidViewModel {
 
   public StatisticsViewModel(Application application) {
     super(application);
-    statisticsRepository = StatisticsRepository.getInstance(application);
+    statisticsRepository = StatisticsRepository.getInstance();
   }
-
 
   public LiveData<List<Double>> getTempStats() {
     return statisticsRepository.getTempAverageWeek();

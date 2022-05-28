@@ -105,9 +105,6 @@ public class StatisticsFragment extends Fragment {
           //Do nothing
         }
       });
-    //  statisticsVM.getTempStatsFromRepo(listObjects.get(0).getRoomId());
-     // statisticsVM.getHumStatsFromRepo(listObjects.get(0).getRoomId());
-     // statisticsVM.getCo2StatsFromRepo(listObjects.get(0).getRoomId());
     }
   }
 

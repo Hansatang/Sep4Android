@@ -9,19 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.R;
+import com.example.sep4android.Util.DateFormatter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
@@ -48,9 +43,6 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     if (!list.isEmpty()) {
       measurementsObjectList = list;
     }
-    else {
-      measurementsObjectList = new ArrayList<>();
-    }
     notifyDataSetChanged();
   }
 
@@ -63,10 +55,6 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     return new ViewHolder(view);
   }
 
-  @Override
-  public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
-    super.onViewDetachedFromWindow(holder);
-  }
 
   @Override
   public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -83,7 +71,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   public void onBindViewHolder(ViewHolder holder, int position) {
     Log.i(TAG,"Binding viewHolder number : "+position);
     MeasurementsObject currentItem = measurementsObjectList.get(position);
-    holder.dateId.setText(getFormattedDate(currentItem.getDate()));
+    holder.dateId.setText(DateFormatter.getFormattedDateForChildAdapter(currentItem.getDate()));
     holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     if (currentItem.isTemperatureExceeded()) {
       holder.temperatureId.setTextColor(Color.RED);
@@ -96,29 +84,8 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
     if (currentItem.isCo2Exceeded()) {
       holder.co2Id.setTextColor(Color.RED);
     }
-    holder.itemView.setOnClickListener(v -> {
-      System.out.println(holder.dateId.getText().toString());
-    });
   }
 
-  /**
-   * @param currentItem Date in String in "yyyy-MM-dd'T'HH:mm:ss" format
-   * @return modified Date in String in "E hh:mm:ss" format
-   */
-  @Nullable
-  private String getFormattedDate(String currentItem) {
-    Log.i(TAG, "Formatting the date: "+ currentItem);
-    String strDate = null;
-    try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-      Date date1 = dateFormat.parse(currentItem);
-      DateFormat dateFormat2 = new SimpleDateFormat("E hh:mm:ss");
-      strDate = dateFormat2.format(date1);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    return strDate;
-  }
 
   @Override
   public int getItemCount() {

@@ -2,7 +2,6 @@ package com.example.sep4android.Adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.TypedValue;
@@ -13,20 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
+import com.example.sep4android.Util.DateFormatter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Adapter for creating Current Measurements Card Views in MainFragment
@@ -68,54 +62,36 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
     Log.i(TAG, "Binding viewHolder number : " + position);
-    viewHolder.name.setText("Room: " + roomObjectList.get(position).getName());
-
+    viewHolder.name.setText(ctx.getString(R.string.bind_holder_name, roomObjectList.get(position).getName()));
     List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();
     if (list != null) {
       if (!list.isEmpty()) {
+        MeasurementsObject measurementsObject = list.get(0);
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = ctx.getTheme();
         theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
         @ColorInt int color = typedValue.data;
-        viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
-        if (list.get(0).isTemperatureExceeded()) {
+        viewHolder.temperature.setText(ctx.getString(R.string.bind_holder_temp, measurementsObject.getTemperature()));
+        if (measurementsObject.isTemperatureExceeded()) {
           viewHolder.temperature.setTextColor(Color.RED);
         } else {
           viewHolder.temperature.setTextColor(color);
         }
-        viewHolder.humidity.setText(list.get(0).getHumidity() + "");
-        if (list.get(0).isHumidityExceeded()) {
+        viewHolder.humidity.setText(ctx.getString(R.string.bind_holder_hum, measurementsObject.getHumidity()));
+        if (measurementsObject.isHumidityExceeded()) {
           viewHolder.humidity.setTextColor(Color.RED);
         } else {
           viewHolder.humidity.setTextColor(color);
         }
-        viewHolder.co2.setText(list.get(0).getCo2() + "");
-        if (list.get(0).isCo2Exceeded()) {
+        viewHolder.co2.setText(ctx.getString(R.string.bind_holder_co2, measurementsObject.getCo2()));
+        if (measurementsObject.isCo2Exceeded()) {
           viewHolder.co2.setTextColor(Color.RED);
         } else {
           viewHolder.co2.setTextColor(color);
         }
-        viewHolder.date.setText(getFormattedDate(list));
+        viewHolder.date.setText(DateFormatter.getFormattedDateForRoom(list.get(0).getDate()));
       }
     }
-  }
-
-
-  @Nullable
-  private String getFormattedDate(List<MeasurementsObject> list) {
-    Log.i(TAG, "Formatting" + list.size() + "number of the dates");
-    String strDate = null;
-    try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-      Date date1 = dateFormat.parse(list.get(0).getDate());
-      System.out.println(date1);
-      DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
-      strDate = dateFormat2.format(date1);
-      System.out.println(strDate);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    return strDate;
   }
 
 

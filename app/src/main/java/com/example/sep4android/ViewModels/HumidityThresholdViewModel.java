@@ -16,7 +16,7 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
 
     public HumidityThresholdViewModel(Application application) {
         super(application);
-        humidityThresholdsRepository = HumidityThresholdsRepository.getInstance(application);
+        humidityThresholdsRepository = HumidityThresholdsRepository.getInstance();
     }
 
     public LiveData<List<HumidityThresholdObject>> getThresholds() {
