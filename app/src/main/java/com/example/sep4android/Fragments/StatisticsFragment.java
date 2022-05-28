@@ -63,7 +63,9 @@ public class StatisticsFragment extends Fragment {
     BarChart.clearChart();
     List<BarModel> list = new ArrayList<>();
     for (int i = 0; i < 7; i++) {
-      list.add(new BarModel(dtf.format(weekNames.get(i)), doubles.get(i).floatValue(), (getResources().getIntArray(R.array.chartColors))[i]));
+      if (doubles.get(i) != null) {
+        list.add(new BarModel(dtf.format(weekNames.get(6 - i)), doubles.get(i).floatValue(), (getResources().getIntArray(R.array.chartColors))[i]));
+      }
     }
     BarChart.addBarList(list);
     BarChart.startAnimation();
@@ -103,9 +105,9 @@ public class StatisticsFragment extends Fragment {
           //Do nothing
         }
       });
-      statisticsVM.getTempStatsFromRepo(listObjects.get(0).getRoomId());
-      statisticsVM.getHumStatsFromRepo(listObjects.get(0).getRoomId());
-      statisticsVM.getCo2StatsFromRepo(listObjects.get(0).getRoomId());
+    //  statisticsVM.getTempStatsFromRepo(listObjects.get(0).getRoomId());
+     // statisticsVM.getHumStatsFromRepo(listObjects.get(0).getRoomId());
+     // statisticsVM.getCo2StatsFromRepo(listObjects.get(0).getRoomId());
     }
   }
 

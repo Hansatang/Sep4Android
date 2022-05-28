@@ -52,8 +52,8 @@ public class RoomViewModel extends AndroidViewModel {
     roomRepository.setResult();
   }
 
-  public void changeName(String roomId, String newName) {
-    roomRepository.changeName(roomId, newName);
+  public void changeName(RoomObject roomObject) {
+    roomRepository.changeName( roomObject);
   }
 
   public void deleteRoom(String roomId) {

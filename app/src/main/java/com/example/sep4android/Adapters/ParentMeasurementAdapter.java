@@ -127,7 +127,6 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
    * adds expandability to viewHolder by changing visibility of this viewHolder Linear Layout "details"
    * adds Click listener to expand/collapse, within this Listener logic for collapsing previously expanded viewHolder is provided,
    * also Click listener from Adapter is used to relay position and Child adapter to Fragment for populating child list purposes
-   *
    * @param viewHolder to add functionality of expanding/collapsing
    */
   private void addExpandabilityToViewHolder(ViewHolder viewHolder) {

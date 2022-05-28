@@ -70,7 +70,7 @@ public class StatisticsRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
 
-                     Log.i("Retrofit", "Something went wrong get rooms");
+                     Log.i("Retrofit", "Something went wrong get temp ave");
                    }
                  }
     );
@@ -98,7 +98,7 @@ public class StatisticsRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
 
-                     Log.i("Retrofit", "Something went wrong get rooms");
+                     Log.i("Retrofit", "Something went wrong get hum ave");
                    }
                  }
     );
@@ -125,7 +125,7 @@ public class StatisticsRepository {
                      System.out.println(t);
                      System.out.println(t.getMessage());
 
-                     Log.i("Retrofit", "Something went wrong get rooms");
+                     Log.i("Retrofit", "Something went wrong get co2 ave");
                    }
                  }
     );

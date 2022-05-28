@@ -60,7 +60,7 @@
                     android:id="@+id/tempBarchart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp"
+                    android:padding="2dp"
                     app:egBarWidth="10dp"
                     app:egFixedBarWidth="true"
                     app:egLegendTextSize="10sp"

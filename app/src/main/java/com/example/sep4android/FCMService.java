@@ -38,12 +38,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-public class RCMService extends FirebaseMessagingService {
+public class FCMService extends FirebaseMessagingService {
 
-  private static final String TAG = "RCMService";
+  private static final String TAG = "FCMService";
 
-  public RCMService() {
-    Log.d(TAG, "Created RCMService");
+  public FCMService() {
+    Log.d(TAG, "Created FCMService");
   }
 
   @Override
@@ -60,7 +60,6 @@ public class RCMService extends FirebaseMessagingService {
         if (remoteMessage.getData().get("exceeded").contains("true")) {
           sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
         }
-
       }
     }
   }
@@ -110,7 +109,6 @@ public class RCMService extends FirebaseMessagingService {
 
   /**
    * Create and show a simple notification containing the received FCM message.
-   *
    * @param title FCM message body received.
    */
   private void sendNotification(String title, String content, boolean openOnCLick) {

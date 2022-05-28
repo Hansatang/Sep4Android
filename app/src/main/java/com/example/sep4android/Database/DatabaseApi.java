@@ -69,21 +69,21 @@ public interface DatabaseApi {
   @DELETE("temperatureThresholds/{id}")
   Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
 
-  @POST("room/{roomId}")
-  Call<Integer> changeName(@Path("roomId") String roomId, @Body String newName);
+  @PUT("room/")
+  Call<Integer> changeName( @Body RoomObject newName);
 
-  @DELETE("room/{roomId}")
+  @DELETE("room/{roomId}/")
   Call<Integer> deleteRoom(@Path("roomId") String roomId);
 
   @DELETE("measurement/room/{roomId}")
   Call<Integer> resetMeasurements(@Path("roomId") String roomId);
 
-  @GET("statistics/temp/{roomId}")
+  @GET("/measurement/averageTemp/{roomId}")
   Call<List<Double>> getTempStats(@Path("roomId") String roomId);
 
-  @GET("statistics/hum/{roomId}")
+  @GET("/measurement/averageHumidity/{roomId}")
   Call<List<Double>> getHumStats(@Path("roomId") String roomId);
 
-  @GET("statistics/co2/{roomId}")
+  @GET("/measurement/averageCo2/{roomId}")
   Call<List<Double>> getCo2Stats(@Path("roomId") String roomId);
 }

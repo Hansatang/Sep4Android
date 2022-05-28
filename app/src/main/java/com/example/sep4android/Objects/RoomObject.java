@@ -56,6 +56,8 @@ public class RoomObject {
     this.registrationDate = registrationDate;
   }
 
+
+
   public String getRoomId() {
     return roomId;
   }

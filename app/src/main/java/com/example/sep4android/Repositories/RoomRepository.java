@@ -114,9 +114,9 @@ public class RoomRepository {
     );
   }
 
-  public void changeName(String roomId, String newName) {
+  public void changeName(RoomObject roomObject) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<Integer> call = databaseApi.changeName(roomId, newName);
+    Call<Integer> call = databaseApi.changeName(roomObject);
     System.out.println("POST");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
@@ -124,6 +124,7 @@ public class RoomRepository {
       public void onResponse(Call<Integer> call, Response<Integer> response) {
         if (response.isSuccessful()) {
           System.out.println("Successful");
+          creationResult.setValue(200);
         }
       }
 
@@ -140,7 +141,7 @@ public class RoomRepository {
   public void deleteRoom(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteRoom(roomId);
-    System.out.println("DELETE");
+    System.out.println("DELETE room");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
@@ -148,6 +149,7 @@ public class RoomRepository {
         System.out.println(response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
+          creationResult.setValue(200);
         }
       }
 
