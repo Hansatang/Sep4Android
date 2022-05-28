@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/room_container"
     android:layout_width="match_parent"
     android:layout_height="260dp"
@@ -16,7 +15,7 @@
         android:layout_height="wrap_content"
         android:elevation="10dp"
         app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/white"
+        android:background="?colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +24,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?colorSecondary">
 
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:text="Room:"
-                android:textColor="@color/black"
+                android:textColor="?colorOnPrimary"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/black" />
+                android:background="?colorOnPrimary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Date                :"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="@string/nan"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -84,7 +84,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/black" />
+                android:background="?colorOnPrimary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Temperature :"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -110,7 +110,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="@string/nan"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -121,7 +121,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/black" />
+                android:background="?colorOnPrimary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Humidity        :"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
 
@@ -148,7 +148,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="@string/nan"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -159,7 +159,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/black" />
+                android:background="?colorOnPrimary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="CO2                 :"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
                 <TextView
@@ -185,7 +185,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text="@string/nan"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black"
+                    android:textColor="?colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -196,7 +196,7 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
+                android:background="?colorSecondary" />
 
 
         </LinearLayout>

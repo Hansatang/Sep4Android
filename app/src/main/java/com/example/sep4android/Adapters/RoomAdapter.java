@@ -1,12 +1,17 @@
 package com.example.sep4android.Adapters;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +35,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   private final String TAG = "RoomAdapter";
   final private RoomAdapter.OnListItemClickListener clickListener;
   private List<RoomObject> roomObjectList;
+  private Context ctx;
 
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
     roomObjectList = new ArrayList<>();
@@ -37,9 +43,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void updateListAndNotify(List<RoomObject> list) {
-    Log.i(TAG,"Update Room Adapter with "+list.size()+" objects");
+    Log.i(TAG, "Update Room Adapter with " + list.size() + " objects");
     roomObjectList = list;
     notifyDataSetChanged();
+  }
+
+  @Override
+  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    super.onAttachedToRecyclerView(recyclerView);
+    ctx = recyclerView.getContext();
   }
 
   public List<RoomObject> getRoomObjectList() {
@@ -55,38 +67,43 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   }
 
   public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
-    Log.i(TAG,"Binding viewHolder number : "+position);
+    Log.i(TAG, "Binding viewHolder number : " + position);
     viewHolder.name.setText("Room: " + roomObjectList.get(position).getName());
 
     List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();
-    if (list !=null) {
+    if (list != null) {
       if (!list.isEmpty()) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = ctx.getTheme();
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
+        @ColorInt int color = typedValue.data;
         viewHolder.temperature.setText(new StringBuilder().append(list.get(0).getTemperature()).append(" \u2103").toString());
         if (list.get(0).isTemperatureExceeded()) {
           viewHolder.temperature.setTextColor(Color.RED);
         } else {
-          viewHolder.temperature.setTextColor(Color.BLACK);
+          viewHolder.temperature.setTextColor(color);
         }
         viewHolder.humidity.setText(list.get(0).getHumidity() + "");
         if (list.get(0).isHumidityExceeded()) {
           viewHolder.humidity.setTextColor(Color.RED);
         } else {
-          viewHolder.humidity.setTextColor(Color.BLACK);
+          viewHolder.humidity.setTextColor(color);
         }
         viewHolder.co2.setText(list.get(0).getCo2() + "");
         if (list.get(0).isCo2Exceeded()) {
           viewHolder.co2.setTextColor(Color.RED);
         } else {
-          viewHolder.co2.setTextColor(Color.BLACK);
+          viewHolder.co2.setTextColor(color);
         }
         viewHolder.date.setText(getFormattedDate(list));
       }
     }
   }
 
+
   @Nullable
   private String getFormattedDate(List<MeasurementsObject> list) {
-    Log.i(TAG, "Formatting"+list.size() +"number of the dates");
+    Log.i(TAG, "Formatting" + list.size() + "number of the dates");
     String strDate = null;
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);

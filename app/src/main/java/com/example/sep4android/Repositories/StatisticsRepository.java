@@ -60,10 +60,8 @@ public class StatisticsRepository {
                        System.out.println(response);
                        List<Double> rs = response.body();
                        tempAverageWeek.setValue(rs);
-
                      }
                    }
-
                    @EverythingIsNonNull
                    @Override
                    public void onFailure(Call<List<Double>> call, Throwable t) {
@@ -88,7 +86,6 @@ public class StatisticsRepository {
                        System.out.println(response);
                        List<Double> rs = response.body();
                        humAverageWeek.setValue(rs);
-
                      }
                    }
 
@@ -97,7 +94,6 @@ public class StatisticsRepository {
                    public void onFailure(Call<List<Double>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
-
                      Log.i("Retrofit", "Something went wrong get hum ave");
                    }
                  }

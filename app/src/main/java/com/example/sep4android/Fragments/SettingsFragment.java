@@ -41,19 +41,18 @@ public class SettingsFragment extends Fragment {
   private View view;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.i(TAG,"Create setting View");
+    Log.i(TAG, "Create setting View");
     view = inflater.inflate(R.layout.settings_layout, container, false);
     findViews();
     setListenersToButtons();
-    FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).addOnCompleteListener( v ->
-            {
-              if (v.getResult().getSignInProvider().equals("google.com")) {
-                goneGoogle.setVisibility(View.GONE);
-              }
-              else{
-                goneGoogle.setVisibility(View.VISIBLE);
-              }
-            });
+    FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).addOnCompleteListener(v ->
+    {
+      if (v.getResult().getSignInProvider().equals("google.com")) {
+        goneGoogle.setVisibility(View.GONE);
+      } else {
+        goneGoogle.setVisibility(View.VISIBLE);
+      }
+    });
 
     return view;
   }
@@ -79,7 +78,7 @@ public class SettingsFragment extends Fragment {
     savePasswordButton.setOnClickListener(
         view -> {
           if (!oldPassword.getText().toString().equals("") &&
-                  newPassword.getText().toString().equals(repeatNewPass.getText().toString())) {
+              newPassword.getText().toString().equals(repeatNewPass.getText().toString())) {
             String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$";
             System.out.println(newPassword.getText().toString());
             Pattern p = Pattern.compile(regex);
@@ -87,7 +86,7 @@ public class SettingsFragment extends Fragment {
             if (m.matches()) {
               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
               user.updatePassword(newPassword.getText().toString()).addOnCompleteListener(task -> goToMainView());
-              Log.i(TAG,"Password changed");
+              Log.i(TAG, "Password changed");
             } else {
               System.out.println("1234");
               Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -127,7 +126,7 @@ public class SettingsFragment extends Fragment {
       editor.putBoolean("isDarkModeOn", true);
     }
     editor.apply();
-    Log.i(TAG,"Theme changed");
+    Log.i(TAG, "Theme changed");
   }
 
   private void goToSignInActivity() {
@@ -138,6 +137,6 @@ public class SettingsFragment extends Fragment {
   private void goToMainView() {
     NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
     navController.popBackStack();
-    Log.i(TAG,"Account deleted, sign in initiated");
+    Log.i(TAG, "Account deleted, sign in initiated");
   }
 }
