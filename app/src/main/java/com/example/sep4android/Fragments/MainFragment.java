@@ -27,6 +27,7 @@ import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
     // TODO: 24.05.2022 change this hard code back 
     roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    roomVM.getRoomsFromRepo("682xEWmvched6FKYq9Fi2CPs7D73");
+    roomVM.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::refresh);
     findViews();
     setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -57,6 +59,13 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     roomsRV.setAdapter(roomAdapter);
     setUpItemTouchHelper();
     return view;
+  }
+
+  private void refresh(Integer integer) {
+    if (integer == 200){
+      roomVM.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+      roomVM.setResult();
+    }
   }
 
   /**
@@ -152,8 +161,8 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     changeNameButton.setOnClickListener(view -> {
       System.out.println("Change " + newName.getText());
       System.out.println(roomObject.getName());
-      roomVM.changeName(roomObject.getRoomId(), newName.getText().toString());
-      undoSwipe(position);
+      roomObject.setName(newName.getText().toString());
+      roomVM.changeName(roomObject);
       alertDialog.dismiss();
     });
 
@@ -167,7 +176,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     deleteButton.setOnClickListener(view -> {
       System.out.println("delete");
       roomVM.deleteRoom(roomObject.getRoomId());
-      undoSwipe(position);
       alertDialog.dismiss();
     });
 

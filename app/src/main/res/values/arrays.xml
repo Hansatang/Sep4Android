@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="chartColors">
+        <item>0x4DD0E111</item>
+        <item>0x4DB6AC11</item>
+        <item>0x81C78411</item>
+        <item>0xAED58111</item>
+        <item>0xDCE77511</item>
+        <item>0xFFF17611</item>
+        <item>0xFFD54F11</item>
+    </integer-array>
+</resources>

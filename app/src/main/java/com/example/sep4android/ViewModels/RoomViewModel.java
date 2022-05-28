@@ -36,6 +36,7 @@ public class RoomViewModel extends AndroidViewModel {
   }
 
   public void getRoomsFromRepo(String uid) {
+    System.out.println("Hello User id "+uid);
     roomRepository.getDatabaseRooms(uid);
   }
 
@@ -51,8 +52,8 @@ public class RoomViewModel extends AndroidViewModel {
     roomRepository.setResult();
   }
 
-  public void changeName(String roomId, String newName) {
-    roomRepository.changeName(roomId, newName);
+  public void changeName(RoomObject roomObject) {
+    roomRepository.changeName( roomObject);
   }
 
   public void deleteRoom(String roomId) {

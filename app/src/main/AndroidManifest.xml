@@ -43,7 +43,7 @@
         <activity android:name=".SignUpActivity" />
 
         <service
-            android:name=".RCMService"
+            android:name=".FCMService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

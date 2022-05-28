@@ -2,27 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <group android:checkableBehavior="single">
-    <item
-        android:id="@+id/Home"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@string/home" />
-        <item
-            android:id="@+id/Archive"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Archive" />
-        <item
-            android:id="@+id/HumidityThreshold"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Humidity Thresholds" />
-        <item
-            android:id="@+id/TemperatureThreshold"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Temperature Thresholds" />
-        <item
-            android:id="@+id/Test"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Test" />
+    <item android:title="General">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/Home"
+                    android:icon="@drawable/main_icon"
+                    android:title="@string/home" />
+                <item
+                    android:id="@+id/Archive"
+                    android:icon="@drawable/archive_icon"
+                    android:title="Archive" />
+                <item
+                    android:id="@+id/Statistics"
+                    android:icon="@drawable/statistics_icon"
+                    android:title="Statistics" />
+            </group>
+        </menu>
+    </item>
 
-    </group>
+    <item android:title="Thresholds">
+        <menu>
+            <item
+                android:id="@+id/TemperatureThreshold"
+                android:icon="@drawable/ic_btn_search_go"
+                android:title="Temperature Thresholds" />
+
+            <item
+                android:id="@+id/HumidityThreshold"
+                android:icon="@drawable/ic_btn_search_go"
+                android:title="Humidity Thresholds" />
+
+        </menu>
+    </item>
 </menu>

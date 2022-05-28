@@ -1,7 +1,5 @@
 package com.example.sep4android;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,12 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class MainActivity extends AppCompatActivity {
   private Toolbar toolbar;
-  private  DrawerLayout drawerLayout;
+  private DrawerLayout drawerLayout;
   private NavController navController;
   private NavigationView navigationView;
   private TextView UsernameInNavBar;
@@ -76,17 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
   private void checkUser() {
     if (user != null) {
-      user.getIdToken(false).addOnSuccessListener(result -> {
-        if (result.getSignInProvider().equals("google.com")) {
-          System.out.println("User is signed in with Google");
-        } else {
-          System.out.println("User is signed in with Email");
-        }
-      });
       UsernameInNavBar.setText(user.getEmail());
       EmailInNavBar.setText(user.getDisplayName());
     }
   }
+
 
   private void findViews() {
     toolbar = findViewById(R.id.topAppBar);
@@ -97,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     EmailInNavBar = headerContainer.findViewById(R.id.nav_header_subtitle);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.Home, R.id.Test, R.id.Archive, R.id.HumidityThreshold, R.id.TemperatureThreshold)
+        R.id.Home, R.id.Archive, R.id.HumidityThreshold, R.id.TemperatureThreshold, R.id.Statistics)
         .setOpenableLayout(drawerLayout).build();
   }
 
