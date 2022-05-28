@@ -54,11 +54,11 @@ public class FCMService extends FirebaseMessagingService {
         RoomRepository repository = RoomRepository.getInstance(this.getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
         if (remoteMessage.getData().get("exceeded").contains("true")) {
-          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), false);
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), false);
         }
       } else {
         if (remoteMessage.getData().get("exceeded").contains("true")) {
-          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("exceeded"), true);
+          sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), true);
         }
       }
     }

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.RoomAdapter;
+import com.example.sep4android.AppStatusChecker;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.RoomViewModel;
@@ -50,7 +51,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
     // TODO: 24.05.2022 change this hard code back 
     roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    roomVM.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
     roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::refresh);
     findViews();
     setListenersToButtons();
@@ -206,4 +206,10 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     roomsRV.scrollToPosition(position);
   }
 
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    roomVM.getRoomsFromRepo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+  }
 }
