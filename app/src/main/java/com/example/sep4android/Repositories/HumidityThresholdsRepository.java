@@ -1,12 +1,6 @@
 package com.example.sep4android.Repositories;
 
-import android.app.Application;
 import android.util.Log;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.internal.EverythingIsNonNull;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,12 +8,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.HumidityThresholdObject;
-import com.example.sep4android.Objects.MeasurementsObject;
-import com.example.sep4android.RepositoryIntefaces.HumidityThresholdsRepositoryInterface;
 
 import java.util.List;
 
-public class HumidityThresholdsRepository implements HumidityThresholdsRepositoryInterface {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
+
+public class HumidityThresholdsRepository {
   private final String TAG = "HumidityThresholdsRepository";
   private static HumidityThresholdsRepository instance;
   private final DatabaseApi databaseApi;

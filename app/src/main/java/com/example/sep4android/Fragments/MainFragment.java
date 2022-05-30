@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -43,10 +44,16 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   private TextView activeRoomCount;
   private RoomAdapter roomAdapter;
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
-    createViewModels();
+
     findViews();
     setListenersToButtons();
     // TODO: 24.05.2022 change this hard code back

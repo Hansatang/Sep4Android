@@ -38,7 +38,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private RecyclerView measurementsRV;
   private ArchiveViewModel archiveVM;
   private ParentMeasurementAdapter parentMeasurementAdapter;
-  private TextView statusTextView;
   private Spinner spinner;
 
   @Override
@@ -51,7 +50,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
-
     findViews();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
@@ -78,7 +76,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           setDateTimesForParentMeasurementAdapter();
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
           //Do nothing

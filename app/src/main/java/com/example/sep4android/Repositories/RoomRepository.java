@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.RoomObject;
-import com.example.sep4android.RepositoryIntefaces.RoomRepositoryInterface;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 
-public class RoomRepository implements RoomRepositoryInterface {
+public class RoomRepository {
   private final DatabaseApi databaseApi;
   private final String TAG = "RoomRepository";
   private static RoomRepository instance;

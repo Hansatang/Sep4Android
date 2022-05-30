@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
-import com.example.sep4android.RepositoryIntefaces.StatisticsRepositoryInterface;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class StatisticsRepository implements StatisticsRepositoryInterface {
+public class StatisticsRepository  {
   private final DatabaseApi databaseApi;
   private static StatisticsRepository instance;
 

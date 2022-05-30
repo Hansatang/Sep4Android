@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
-import com.example.sep4android.RepositoryIntefaces.TemperatureThresholdsRepositoryInterface;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class TemperatureThresholdRepository implements TemperatureThresholdsRepositoryInterface {
+public class TemperatureThresholdRepository{
   private final String TAG = "TemperatureThresholdRepositories";
   private static TemperatureThresholdRepository instance;
   private final DatabaseApi databaseApi;

@@ -5,14 +5,13 @@ import android.util.Log;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.UserToken;
-import com.example.sep4android.RepositoryIntefaces.TokenRepositoryInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class TokenRepository implements TokenRepositoryInterface {
+public class TokenRepository {
   private final String TAG = "TokenRepository";
   private final DatabaseApi databaseApi ;
   private static TokenRepository instance;

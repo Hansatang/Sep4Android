@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.MeasurementsObject;
-import com.example.sep4android.RepositoryIntefaces.MeasurementRepositoryInterface;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class MeasurementRepository implements MeasurementRepositoryInterface {
+public class MeasurementRepository{
   private final String TAG = "MeasurementRepository";
   private static MeasurementRepository instance;
   private final DatabaseApi databaseApi;

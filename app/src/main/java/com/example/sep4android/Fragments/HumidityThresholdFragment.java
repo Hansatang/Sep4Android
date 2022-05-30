@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -57,11 +58,17 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   private NumberPicker startValue, endValue;
   private int hour, minute;
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create HumidityThreshold View");
     super.onCreate(savedInstanceState);
     view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
-    createViewModels();
     findViews();
     roomVM.getRooms().observe(getViewLifecycleOwner(), this::initList);
     humidityThresholdRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -183,16 +190,13 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   }
 
   public void popTimePicker(String title, Button button) {
-    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-      @Override
-      public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-        hour = selectedHour;
-        minute = selectedMinute;
-        button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-      }
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+      hour = selectedHour;
+      minute = selectedMinute;
+      button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
     };
 
-    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hour, minute, true);
+    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, 0, 0, true);
     timePickerDialog.setTitle(title);
     timePickerDialog.show();
   }
