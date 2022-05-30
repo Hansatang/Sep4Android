@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+<androidx.appcompat.widget.LinearLayoutCompat
     android:id="@+id/temperature_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:weightSum="4"
     android:background="@color/color_two">
 
     <TextView
         android:id="@+id/temperature_threshold_start_time_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/start_time"
@@ -16,7 +24,7 @@
 
     <TextView
         android:id="@+id/temperature_threshold_end_time_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/end_time"
@@ -25,7 +33,7 @@
 
     <TextView
         android:id="@+id/temperature_threshold_start_value_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/start_value"
@@ -34,7 +42,7 @@
 
     <TextView
         android:id="@+id/temperature_threshold_end_value_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/end_value"
@@ -42,3 +50,10 @@
         android:textSize="20sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+
+<View
+android:background="?colorOnPrimary"
+android:layout_height="1dp"
+android:layout_marginTop="1dp"
+android:layout_width="match_parent" />
+    </LinearLayout>

@@ -45,10 +45,12 @@
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_add_new_threshold.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_history.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_item.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.16458333333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_measurements_list.xml" value="0.22" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_my_rooms.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_new_room.xml" value="0.33" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_pie.xml" value="0.22" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.16458333333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_temperature_threshold_list.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_test.xml" value="0.33" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/inside_measurement_list_layout.xml" value="0.16458333333333333" />
@@ -83,7 +85,7 @@
         <entry key="app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_measurements_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_pie.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.3826741536458334" />
+        <entry key="app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/fragment_temperature_threshold_list.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/main_layout.xml" value="0.2851851851851852" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.2851851851851852" />
