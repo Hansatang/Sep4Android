@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,10 +74,10 @@ public class HumidityThresholdAdapter extends RecyclerView.Adapter<HumidityThres
    */
   static class ViewHolder extends RecyclerView.ViewHolder {
 
-    EditText startValue;
-    EditText endValue;
-    EditText startTime;
-    EditText endTime;
+    TextView startValue;
+    TextView endValue;
+    TextView startTime;
+    TextView endTime;
 
 
     ViewHolder(View itemView) {
