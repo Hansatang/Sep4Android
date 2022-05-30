@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
+import com.example.sep4android.RepositoryIntefaces.TemperatureThresholdsRepositoryInterface;
 
 import java.util.List;
 
@@ -16,39 +17,33 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-public class TemperatureThresholdRepositories {
+public class TemperatureThresholdRepository implements TemperatureThresholdsRepositoryInterface {
   private final String TAG = "TemperatureThresholdRepositories";
-  private static TemperatureThresholdRepositories instance;
-  private final MutableLiveData<List<TemperatureThresholdObject>> temperatureThresholds;
-  private final MutableLiveData<String> status;
+  private static TemperatureThresholdRepository instance;
+  private final DatabaseApi databaseApi;
 
-  private TemperatureThresholdRepositories() {
-    temperatureThresholds = new MutableLiveData<>();
-    status = new MutableLiveData<>();
+
+  private TemperatureThresholdRepository() {
+    databaseApi = DatabaseServiceGenerator.getDatabaseApi();
   }
 
-  public static synchronized TemperatureThresholdRepositories getInstance() {
+  public static synchronized TemperatureThresholdRepository getInstance() {
     if (instance == null) {
-      instance = new TemperatureThresholdRepositories();
+      instance = new TemperatureThresholdRepository();
     }
     return instance;
   }
 
-  public LiveData<List<TemperatureThresholdObject>> getTemperatureThresholds() {
-    return temperatureThresholds;
+
+  public LiveData<String> setResult() {
+    final MutableLiveData<String> liveData = new MutableLiveData<>();
+    liveData.setValue(null);
+    return liveData;
   }
 
-  public LiveData<String> getStatus() {
-    return status;
-  }
-
-  public void setResult() {
-    status.setValue(null);
-  }
-
-  public void getTemperatureThresholds(String roomId) {
+  public LiveData<List<TemperatureThresholdObject>> getTemperatureThresholds(String roomId) {
     Log.i(TAG, "Getting temperature thresholds for a specific room");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+    final MutableLiveData<List<TemperatureThresholdObject>> liveData = new MutableLiveData<>();
     Call<List<TemperatureThresholdObject>> call = databaseApi.getTemperatureThresholds(roomId);
     System.out.println("Call");
     call.enqueue(new Callback<List<TemperatureThresholdObject>>() {
@@ -60,7 +55,7 @@ public class TemperatureThresholdRepositories {
           System.out.println(response);
           List<TemperatureThresholdObject> rs = response.body();
           System.out.println(rs.size());
-          temperatureThresholds.setValue(rs);
+          liveData.setValue(rs);
         }
       }
 
@@ -72,39 +67,12 @@ public class TemperatureThresholdRepositories {
         Log.i("Retrofit", "Something went wrong :(");
       }
     });
+    return liveData;
   }
 
-  public void getAllTemperatureThresholds() {
-    Log.i(TAG,"Getting all temperature thresholds");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-    Call<List<TemperatureThresholdObject>> call = databaseApi.getAllTemperatureThresholds();
-    System.out.println("Call");
-    call.enqueue(new Callback<List<TemperatureThresholdObject>>() {
-      @EverythingIsNonNull
-      @Override
-      public void onResponse(Call<List<TemperatureThresholdObject>> call, Response<List<TemperatureThresholdObject>> response) {
-        if (response.isSuccessful()) {
-          System.out.println("response:");
-          System.out.println(response);
-          List<TemperatureThresholdObject> rs = response.body();
-          System.out.println(rs.size());
-          temperatureThresholds.setValue(rs);
-        }
-      }
-
-      @EverythingIsNonNull
-      @Override
-      public void onFailure(Call<List<TemperatureThresholdObject>> call, Throwable t) {
-        System.out.println(t);
-        System.out.println(t.getMessage());
-        Log.i("Retrofit", "Something went wrong :(");
-      }
-    });
-  }
-
-  public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
-    Log.i(TAG,"Adding temperature threshold");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+  public LiveData<String> addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
+    Log.i(TAG, "Adding temperature threshold");
+    final MutableLiveData<String> liveData = new MutableLiveData<>();
     TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(roomId, startTime, endTime, maxValue, minValue);
     Call<Integer> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
     System.out.println("POST");
@@ -114,10 +82,10 @@ public class TemperatureThresholdRepositories {
       public void onResponse(Call<Integer> call, Response<Integer> response) {
         switch (response.body()) {
           case 400:
-            status.setValue("Wrong Threshold");
+            liveData.setValue("Wrong Threshold");
             break;
           case 200:
-            status.setValue("Complete");
+            liveData.setValue("Complete");
             break;
         }
         System.out.println(response);
@@ -134,11 +102,12 @@ public class TemperatureThresholdRepositories {
         Log.i("Retrofit", "Something went wrong :(");
       }
     });
+    return liveData;
   }
 
-  public void deleteTemperatureThreshold(int id) {
-    Log.i(TAG,"Deleting temperature threshold");
-    DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
+  public LiveData<String> deleteTemperatureThreshold(int id) {
+    Log.i(TAG, "Deleting temperature threshold");
+    final MutableLiveData<String> liveData = new MutableLiveData<>();
     Call<Integer> call = databaseApi.deleteTemperatureThreshold(id);
     System.out.println("POST");
     call.enqueue(new Callback<Integer>() {
@@ -149,10 +118,10 @@ public class TemperatureThresholdRepositories {
         if (response.isSuccessful()) {
           switch (response.body()) {
             case 400:
-              status.setValue("Wrong Threshold");
+              liveData.setValue("Wrong Threshold");
               break;
             case 200:
-              status.setValue("Complete");
+              liveData.setValue("Complete");
               break;
           }
           System.out.println("Complete");
@@ -167,8 +136,6 @@ public class TemperatureThresholdRepositories {
         Log.i("Retrofit", "Something went wrong :(");
       }
     });
+    return liveData;
   }
-
-
-
 }

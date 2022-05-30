@@ -44,7 +44,8 @@ public class StatisticsFragment extends Fragment {
     findViews();
     createViewModels();
     findViews();
-    archiveVM.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocal();
     statisticsVM.getTempStats().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
     statisticsVM.getHumStats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
     statisticsVM.getCo2Stats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));

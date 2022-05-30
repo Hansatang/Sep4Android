@@ -8,19 +8,6 @@
     android:orientation="vertical"
     tools:context="com.example.sep4android.MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:id="@+id/statusTextView"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:fontFamily="sans-serif-light"
-        android:gravity="left|center_vertical"
-        android:text="Status :"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:textColor="?colorSecondary"
-        android:textSize="18sp" />
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

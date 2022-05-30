@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.RoomObject;
@@ -16,28 +18,35 @@ public class RoomViewModel extends AndroidViewModel {
   private final RoomRepository roomRepository;
   private final TokenRepository tokenRepository;
   private final ArchiveRepository archiveRepository;
+  private final MediatorLiveData<List<RoomObject>> roomsLiveData;
+  private final MediatorLiveData<Integer> creationResult;
 
   public RoomViewModel(Application app) {
     super(app);
+    roomRepository = RoomRepository.getInstance();
+    roomsLiveData = new MediatorLiveData<>();
+    creationResult = new MediatorLiveData<>();
     archiveRepository = ArchiveRepository.getInstance(app);
-    roomRepository = RoomRepository.getInstance(app);
     tokenRepository = TokenRepository.getInstance();
   }
 
   public LiveData<List<RoomObject>> getRooms() {
-    return roomRepository.getRoomsLiveData();
+    return roomsLiveData;
   }
 
   public LiveData<Integer> getCreationResult() {
-    return roomRepository.getCreationResult();
+    return creationResult;
   }
 
   public void getRoomsFromRepo(String uid) {
-    roomRepository.getDatabaseRooms(uid);
+    roomsLiveData.addSource(roomRepository.getDatabaseRooms(uid), roomObjects -> {
+      archiveRepository.insertAllRooms(roomObjects.toArray(new RoomObject[0]));
+      roomsLiveData.setValue(roomObjects);
+    });
   }
 
   public void addRoomToDatabase(String roomId, String name, String userUID) {
-    roomRepository.addRoomToDatabase(roomId, name, userUID);
+    creationResult.addSource(roomRepository.addRoomToDatabase(roomId, name, userUID), creationResult::setValue);
   }
 
   public void deleteToken(String userUID) {
@@ -45,19 +54,20 @@ public class RoomViewModel extends AndroidViewModel {
   }
 
   public void setResult() {
-    roomRepository.setResult();
+    creationResult.addSource(roomRepository.setResult(), creationResult::setValue);
   }
 
   public void changeName(RoomObject roomObject) {
-    roomRepository.changeName( roomObject);
+    creationResult.addSource(roomRepository.changeName(roomObject), creationResult::setValue);
+
   }
 
   public void deleteRoom(String roomId) {
-    roomRepository.deleteRoom(roomId);
+    creationResult.addSource(roomRepository.deleteRoom(roomId), creationResult::setValue);
   }
 
   public void resetMeasurements(String roomId) {
-    roomRepository.resetMeasurements(roomId);
+    creationResult.addSource(roomRepository.resetMeasurements(roomId), creationResult::setValue);
   }
 }
 

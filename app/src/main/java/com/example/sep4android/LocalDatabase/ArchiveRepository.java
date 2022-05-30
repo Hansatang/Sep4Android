@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
+import com.example.sep4android.RepositoryIntefaces.ArchiveRepositoryInterface;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors;
 /**
  * Repository for accessing local database
  */
-public class ArchiveRepository {
+public class ArchiveRepository implements ArchiveRepositoryInterface {
   private static ArchiveRepository instance;
   private final RoomDao roomDao;
   private final ExecutorService executorService;
@@ -40,7 +41,6 @@ public class ArchiveRepository {
     System.out.println("DelCreRooms");
     executorService.execute(() -> roomDao.deleteAndCreateRooms(roomObjects));
   }
-
 
 
   public LiveData<List<RoomObject>> getRooms() {
