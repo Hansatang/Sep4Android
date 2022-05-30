@@ -160,7 +160,6 @@ public class HumidityThresholdsRepository {
         }
       }
 
-
       @EverythingIsNonNull
       @Override
       public void onFailure(Call<Integer> call, Throwable t) {
