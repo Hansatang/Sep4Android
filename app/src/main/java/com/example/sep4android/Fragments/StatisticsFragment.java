@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,17 +37,22 @@ public class StatisticsFragment extends Fragment {
   private BarChart co2BarChart;
   private ArchiveViewModel archiveVM;
   private StatisticsViewModel statisticsVM;
-
   private Spinner spinner;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     System.out.println("Test");
     view = inflater.inflate(R.layout.fragment_test, container, false);
     findViews();
-    createViewModels();
     findViews();
-    archiveVM.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocal();
     statisticsVM.getTempStats().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
     statisticsVM.getHumStats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
     statisticsVM.getCo2Stats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));

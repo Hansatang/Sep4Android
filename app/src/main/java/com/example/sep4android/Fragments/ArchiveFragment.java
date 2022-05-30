@@ -2,6 +2,7 @@ package com.example.sep4android.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,31 +38,26 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private RecyclerView measurementsRV;
   private ArchiveViewModel archiveVM;
   private ParentMeasurementAdapter parentMeasurementAdapter;
-  private TextView statusTextView;
   private Spinner spinner;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
-    createViewModels();
     findViews();
-    archiveVM.getStatus().observe(getViewLifecycleOwner(), this::setStatus);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     archiveVM.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    archiveVM.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocal();
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
-  }
-
-  /**
-   * set statusTextView text based on result
-   *
-   * @param result of connection check
-   */
-  private void setStatus(String result) {
-    statusTextView.setText(result);
   }
 
   /**
@@ -80,7 +76,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           setDateTimesForParentMeasurementAdapter();
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
           //Do nothing
@@ -121,8 +116,8 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   @Override
   public void onListItemClick(LocalDateTime clickedItem, ChildMeasurementAdapter childMeasurementAdapter) {
     RoomObject roomObject = (RoomObject) spinner.getSelectedItem();
-    archiveVM.getMeasurementsLocal(clickedItem, roomObject.getRoomId())
-        .observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveVM.getMeasurementsLocalLiveData().observe(getViewLifecycleOwner(), childMeasurementAdapter::updateListAndNotify);
+    archiveVM.getMeasurementsLocal(clickedItem, roomObject.getRoomId());
   }
 
   /**
@@ -137,7 +132,6 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
    */
   private void findViews() {
     measurementsRV = view.findViewById(R.id.measurement_rv);
-    statusTextView = view.findViewById(R.id.statusTextView);
     spinner = view.findViewById(R.id.sp);
   }
 }

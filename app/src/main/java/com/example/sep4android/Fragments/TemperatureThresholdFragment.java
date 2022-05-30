@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -59,23 +60,25 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   int hour, minute;
 
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create TemperatureThreshold View");
     super.onCreate(savedInstanceState);
     view = inflater.inflate(R.layout.fragment_temperature_threshold_list, container, false);
-    createViewModels();
     findViews();
     roomViewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
     temperatureThresholdList.hasFixedSize();
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
     temperatureThresholdList.setAdapter(temperatureThresholdAdapter);
-
     temperatureThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
-
     setUpItemTouchHelper();
-
     return view;
   }
 

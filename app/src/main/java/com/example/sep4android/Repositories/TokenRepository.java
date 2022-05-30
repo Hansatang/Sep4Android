@@ -16,9 +16,11 @@ import retrofit2.internal.EverythingIsNonNull;
  */
 public class TokenRepository {
   private final String TAG = "TokenRepository";
+  private final DatabaseApi databaseApi ;
   private static TokenRepository instance;
 
   private TokenRepository() {
+    databaseApi = DatabaseServiceGenerator.getDatabaseApi();
   }
 
   public static synchronized TokenRepository getInstance() {
@@ -34,9 +36,7 @@ public class TokenRepository {
    */
   public void setNewToken(String uid, String token) {
     Log.i(TAG,"Setting new token");
-    System.out.println("SetNew");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-
     UserToken userToken = new UserToken(uid, token);
     Call<Integer> call = databaseApi.setToken(userToken);
     call.enqueue(new Callback<Integer>() {

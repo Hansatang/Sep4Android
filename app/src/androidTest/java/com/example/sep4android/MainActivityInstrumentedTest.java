@@ -75,7 +75,6 @@ public class MainActivityInstrumentedTest {
     appCompatImageButton.perform(click());
     onView(withId(R.id.Archive)).perform(click());
 
-
     ViewInteraction recyclerView = onView(allOf(withId(R.id.measurement_rv),
         childAtPosition(withId(R.id.measurement_linearLayout), 0)));
     recyclerView.perform(actionOnItemAtPosition(0, click()));
