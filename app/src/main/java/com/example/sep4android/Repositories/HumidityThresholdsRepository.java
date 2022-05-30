@@ -17,12 +17,18 @@ import com.example.sep4android.Objects.HumidityThresholdObject;
 
 import java.util.List;
 
+/**
+ * Repository for humidity threshold
+ */
 public class HumidityThresholdsRepository {
   private final String TAG = "HumidityThresholdsRepository";
   private static HumidityThresholdsRepository instance;
   private final MutableLiveData<List<HumidityThresholdObject>> humidityThresholds;
   private final MutableLiveData<String> status;
 
+  /**
+   * Simple constructor initializing humidityThresholdObjects as a new list
+   */
   private HumidityThresholdsRepository() {
     humidityThresholds = new MutableLiveData<>();
     status = new MutableLiveData<>();
@@ -48,6 +54,10 @@ public class HumidityThresholdsRepository {
     status.setValue(null);
   }
 
+  /**
+   * Getting humidity thresholds that have a roomId
+   * @param roomId id of the room that the threshold is assigned to
+   */
   public void getHumidityThresholds(String roomId) {
     Log.i(TAG, "Get Humidity Threshold Get Call");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -75,6 +85,9 @@ public class HumidityThresholdsRepository {
     });
   }
 
+  /**
+   * Getting all the humidity thresholds
+   */
   public void getAllHumidityThresholds() {
     Log.i(TAG,"Getting all humidity thresholds");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -103,6 +116,14 @@ public class HumidityThresholdsRepository {
     });
   }
 
+  /**
+   * Adding a humidity threshold object to the database
+   * @param roomId room id that the threshold belongs to
+   * @param startTime start time of the threshold
+   * @param endTime end time of the threshold
+   * @param maxValue maximum value of the threshold
+   * @param minValue minimum value of the threshold
+   */
   public void addHumidityThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
     Log.i(TAG, "Add Humidity Threshold Post Call");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -137,6 +158,10 @@ public class HumidityThresholdsRepository {
     });
   }
 
+  /**
+   * Deleting a threshold from the database
+   * @param thresholdHumidityId id of the threshold
+   */
   public void deleteHumidityThreshold(int thresholdHumidityId) {
     Log.i(TAG,"Deleting humidity threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();

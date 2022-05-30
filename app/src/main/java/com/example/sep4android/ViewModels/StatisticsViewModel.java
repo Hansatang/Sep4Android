@@ -10,6 +10,9 @@ import com.example.sep4android.Repositories.StatisticsRepository;
 
 import java.util.List;
 
+/**
+ * View Model class for statistic
+ */
 public class StatisticsViewModel extends AndroidViewModel {
   private final StatisticsRepository statisticsRepository;
 

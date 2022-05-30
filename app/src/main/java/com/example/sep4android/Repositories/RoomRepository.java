@@ -18,7 +18,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-
+/**
+ * Repository for room
+ */
 public class RoomRepository {
   private final String TAG = "RoomRepository";
   private final ArchiveRepository archiveRepository;
@@ -26,6 +28,10 @@ public class RoomRepository {
   private final MutableLiveData<List<RoomObject>> roomsLiveData;
   private final MutableLiveData<Integer> creationResult;
 
+  /**
+   * Simple constructor initializing room objects in a new list
+   * @param application instance of the application
+   */
   private RoomRepository(Application application) {
     archiveRepository = ArchiveRepository.getInstance(application);
     roomsLiveData = new MutableLiveData<>();
@@ -51,6 +57,11 @@ public class RoomRepository {
   }
 
   //TODO change username to uid after work
+
+  /**
+   * Getting the rooms for a specific user
+   * @param uid user id
+   */
   public void getDatabaseRooms(String uid) {
     Log.i(TAG,"Getting all rooms");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -81,6 +92,12 @@ public class RoomRepository {
     );
   }
 
+  /**
+   * Adding a room to the database
+   * @param roomId an id for the room object
+   * @param name name of the room object
+   * @param userUID user id that created the room
+   */
   public void addRoomToDatabase(String roomId, String name, String userUID) {
     Log.i(TAG, "Adding rooms to database");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -116,6 +133,10 @@ public class RoomRepository {
     );
   }
 
+  /**
+   * Changing the name of an already existing room object
+   * @param roomObject the room that the name change needs to be performed
+   */
   public void changeName(RoomObject roomObject) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.changeName(roomObject);
@@ -140,6 +161,10 @@ public class RoomRepository {
     });
   }
 
+  /**
+   * Deleting a room from the database
+   * @param roomId roomId for the selected room for deleting
+   */
   public void deleteRoom(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.deleteRoom(roomId);
@@ -165,6 +190,10 @@ public class RoomRepository {
     });
   }
 
+  /**
+   * Resetting (deleting all measurements) a room in the database
+   * @param roomId desired room for resetting
+   */
   public void resetMeasurements(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<Integer> call = databaseApi.resetMeasurements(roomId);

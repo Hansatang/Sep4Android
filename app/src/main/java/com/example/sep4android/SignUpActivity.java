@@ -18,7 +18,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Activity class for signing-up
+ */
 public class SignUpActivity extends AppCompatActivity {
   private final String TAG = "SignUpActivity";
   private Button toRegisterButton;
@@ -52,19 +54,31 @@ public class SignUpActivity extends AppCompatActivity {
     setListenersToButtons();
   }
 
+  /**
+   * Assigns needed Views in this activity
+   */
   private void findViews() {
     toRegisterButton = findViewById(R.id.toRegisterView);
   }
 
+  /**
+   * Adds functionality to buttons int this view
+   */
   private void setListenersToButtons() {
     toRegisterButton.setOnClickListener(view -> signIn());
   }
 
+  /**
+   * Navigates to the main activity (Home page)
+   */
   private void goToMainActivity() {
     startActivity(new Intent(this, MainActivity.class));
     finish();
   }
 
+  /**
+   * Launches the sign in intent
+   */
   public void signIn() {
     List<AuthUI.IdpConfig> providers = Arrays.asList(
         new AuthUI.IdpConfig.EmailBuilder().build(),

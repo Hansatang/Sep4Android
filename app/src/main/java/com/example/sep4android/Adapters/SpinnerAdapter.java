@@ -22,8 +22,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   private ArrayList<RoomObject> roomObjects;
 
   /**
-   * Constructor
-   *
+   * Constructor initializing roomObjects as a new Array, the context and a textViewResource
    * @param context
    * @param textViewResourceId
    * @param roomObjects

@@ -25,6 +25,9 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
   private final String TAG = "TemperatureThresholdAdapter";
   private List<TemperatureThresholdObject> thresholdObjects;
 
+  /**
+   * Simple constructor initializing thresholdObjectList as new ArrayList
+   */
   public TemperatureThresholdAdapter() {
     thresholdObjects = new ArrayList<>();
   }

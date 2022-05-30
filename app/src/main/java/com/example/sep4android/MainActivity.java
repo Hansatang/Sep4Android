@@ -27,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+/**
+ * Activity class for the main page
+ */
 public class MainActivity extends AppCompatActivity {
   private Toolbar toolbar;
   private DrawerLayout drawerLayout;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+
   private void checkUser() {
     if (user != null) {
       UsernameInNavBar.setText(user.getEmail());
@@ -75,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-
+  /**
+   * Assigns needed Views in this activity
+   */
   private void findViews() {
     toolbar = findViewById(R.id.topAppBar);
     drawerLayout = findViewById(R.id.drawer_layout);
@@ -110,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
         || super.onSupportNavigateUp();
   }
 
+  /**
+   * Logs out the user
+   */
   private void onLogOut() {
     roomViewModel.deleteToken(user.getUid());
     FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(deleteTokenTask -> {

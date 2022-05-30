@@ -16,12 +16,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
+/**
+ * Repository for temperature thresholds
+ */
 public class TemperatureThresholdRepositories {
   private final String TAG = "TemperatureThresholdRepositories";
   private static TemperatureThresholdRepositories instance;
   private final MutableLiveData<List<TemperatureThresholdObject>> temperatureThresholds;
   private final MutableLiveData<String> status;
 
+  /**
+   * Simple constructor initializing temperatureThresholdObjects as a new list
+   */
   private TemperatureThresholdRepositories() {
     temperatureThresholds = new MutableLiveData<>();
     status = new MutableLiveData<>();
@@ -46,6 +52,10 @@ public class TemperatureThresholdRepositories {
     status.setValue(null);
   }
 
+  /**
+   * Getting the temperature thresholds from the database for a specific room
+   * @param roomId desired room for getting the thresholds
+   */
   public void getTemperatureThresholds(String roomId) {
     Log.i(TAG, "Getting temperature thresholds for a specific room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -74,6 +84,9 @@ public class TemperatureThresholdRepositories {
     });
   }
 
+  /**
+   * Getting all the temperature thresholds from the database
+   */
   public void getAllTemperatureThresholds() {
     Log.i(TAG,"Getting all temperature thresholds");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -102,6 +115,14 @@ public class TemperatureThresholdRepositories {
     });
   }
 
+  /**
+   * Adding a new temperature threshold object to the database
+   * @param roomId room that the threshold is assigned to
+   * @param startTime start time of the threshold
+   * @param endTime end time of the threshold
+   * @param maxValue max value for the threshold
+   * @param minValue min value for the threshold
+   */
   public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
     Log.i(TAG,"Adding temperature threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -136,6 +157,10 @@ public class TemperatureThresholdRepositories {
     });
   }
 
+  /**
+   * Deleting a specific temperature threshold from the database
+   * @param id id of the desired threshold
+   */
   public void deleteTemperatureThreshold(int id) {
     Log.i(TAG,"Deleting temperature threshold");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();

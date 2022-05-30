@@ -12,6 +12,9 @@ import com.example.sep4android.Repositories.TokenRepository;
 
 import java.util.List;
 
+/**
+ * View Model class for room
+ */
 public class RoomViewModel extends AndroidViewModel {
   private final RoomRepository roomRepository;
   private final TokenRepository tokenRepository;

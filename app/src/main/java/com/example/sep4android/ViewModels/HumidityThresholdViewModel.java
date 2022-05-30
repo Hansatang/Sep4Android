@@ -10,7 +10,9 @@ import com.example.sep4android.Repositories.HumidityThresholdsRepository;
 
 import java.util.List;
 
-
+/**
+ * View Model class for humidity threshold
+ */
 public class HumidityThresholdViewModel extends AndroidViewModel {
     private final HumidityThresholdsRepository humidityThresholdsRepository;
 

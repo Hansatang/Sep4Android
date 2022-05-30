@@ -14,6 +14,9 @@ import com.example.sep4android.Util.DateFormatter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * View Model class for archive
+ */
 public class ArchiveViewModel extends AndroidViewModel {
   private final String TAG = "ArchiveViewModel";
   private final MeasurementRepository measurementRepository;

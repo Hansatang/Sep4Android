@@ -16,12 +16,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
+/**
+ * Repository for statistic
+ */
 public class StatisticsRepository {
   private static StatisticsRepository instance;
   private final MutableLiveData<List<Double>> tempAverageWeek;
   private final MutableLiveData<List<Double>> humAverageWeek;
   private final MutableLiveData<List<Double>> co2AverageWeek;
 
+    /**
+     * Simple constructor initializing tempAverage, humAverage and co2Average in a new list
+     */
   public StatisticsRepository() {
     this.tempAverageWeek = new MutableLiveData<>();
     this.humAverageWeek = new MutableLiveData<>();
@@ -48,6 +54,10 @@ public class StatisticsRepository {
     return co2AverageWeek;
   }
 
+    /**
+     * Getting room temperatures from the database
+     * @param roomId desired room to get the measurements
+     */
   public void getTempStats(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<Double>> call = databaseApi.getTempStats(roomId);
@@ -74,6 +84,10 @@ public class StatisticsRepository {
     );
   }
 
+    /**
+     * Getting room humidities from the database
+     * @param roomId desired room to get the humidities
+     */
   public void getHumStats(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<Double>> call = databaseApi.getHumStats(roomId);
@@ -100,6 +114,10 @@ public class StatisticsRepository {
     );
   }
 
+    /**
+     * Getting room Co2 measurements from the database
+     * @param roomId desired room to get the Co2 measurements
+     */
   public void getCo2Stats(String roomId) {
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
     Call<List<Double>> call = databaseApi.getCo2Stats(roomId);

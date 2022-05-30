@@ -11,6 +11,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
+/**
+ * Repository for user token
+ */
 public class TokenRepository {
   private final String TAG = "TokenRepository";
   private static TokenRepository instance;
@@ -24,6 +27,11 @@ public class TokenRepository {
     return instance;
   }
 
+  /**
+   * Setting a new token in the database
+   * @param uid users id
+   * @param token token created for each user when signing up
+   */
   public void setNewToken(String uid, String token) {
     Log.i(TAG,"Setting new token");
     System.out.println("SetNew");
@@ -52,6 +60,10 @@ public class TokenRepository {
     });
   }
 
+  /**
+   * Deleting a token from the database
+   * @param userUID user id
+   */
   public void deleteToken(String userUID) {
     Log.i(TAG,"Deleting token");
     System.out.println("SetNew");

@@ -73,6 +73,9 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     return view;
   }
 
+  /**
+   * Adding functionality to buttons in this view
+   */
   private void setListenersToButtons() {
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
   }
@@ -107,7 +110,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     humidityThresholdVM.getThresholds().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
   }
 
-
+  /**
+   * Updates list if manipulation was successful
+   * @param result of humidity threshold manipulation
+   */
   private void prepareResult(String result) {
     Log.i(TAG,"Creating result messages to user");
     if (result != null) {
@@ -142,6 +148,9 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     humidityThresholdAdapter.updateHumidityThresholdsAndNotify(humidityThresholdObjects);
   }
 
+  /**
+   * Opens a pop-up window for creating new humidity threshold object
+   */
   public void onButtonShowPopupWindowClick() {
     Log.i(TAG,"Opening up the pop-up window");
 
@@ -171,6 +180,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     endTime.setOnClickListener(view -> popTimePicker("Select end time", endTime));
   }
 
+  /**
+   * Assigns all needed Views in this fragment
+   * @param popupView pop-up window view
+   */
   private void findPopUpViews(View popupView) {
     startTime = popupView.findViewById(R.id.select_start_time);
     endTime = popupView.findViewById(R.id.select_end_time);
@@ -197,7 +210,9 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     timePickerDialog.show();
   }
 
-
+  /**
+   * Adds functionality to recycle view: deleting thresholds from the list with a swipe
+   */
   private void setUpItemTouchHelper() {
     ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -245,6 +260,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     itemTouchHelper.attachToRecyclerView(humidityThresholdRV);
   }
 
+  /**
+   * Resets swipe action
+   * @param position of item that is being reset
+   */
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
     humidityThresholdAdapter.notifyDataSetChanged();

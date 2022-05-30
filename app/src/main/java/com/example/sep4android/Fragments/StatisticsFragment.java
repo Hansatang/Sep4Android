@@ -25,7 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Fragment fro Statistic page
+ */
 public class StatisticsFragment extends Fragment {
   private final String TAG = "StatisticsFragment";
   private View view;
@@ -108,7 +110,9 @@ public class StatisticsFragment extends Fragment {
     }
   }
 
-
+  /**
+   * Assigns all needed Views in this fragment
+   */
   private void findViews() {
     spinner = view.findViewById(R.id.sp);
     tempBarChart = view.findViewById(R.id.tempBarchart);

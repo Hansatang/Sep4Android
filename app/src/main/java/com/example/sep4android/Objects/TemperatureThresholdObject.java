@@ -3,6 +3,9 @@ package com.example.sep4android.Objects;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents the temperatureThresholdObject
+ */
 public class TemperatureThresholdObject {
 
     @SerializedName("id")

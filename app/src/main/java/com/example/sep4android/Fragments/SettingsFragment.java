@@ -26,6 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Fragment for Settings page
+ */
 public class SettingsFragment extends Fragment {
   private final String TAG = "SettingsFragment";
   private EditText oldPassword;

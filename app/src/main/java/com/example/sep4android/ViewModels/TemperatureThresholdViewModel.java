@@ -12,6 +12,9 @@ import com.example.sep4android.Repositories.TemperatureThresholdRepositories;
 
 import java.util.List;
 
+/**
+ * View Model class for temperature threshold
+ */
 public class TemperatureThresholdViewModel extends AndroidViewModel {
   private final TemperatureThresholdRepositories repository;
 

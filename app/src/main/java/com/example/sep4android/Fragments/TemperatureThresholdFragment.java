@@ -97,7 +97,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   /**
-   * updates list if manipulation was succesfull
+   * updates list if manipulation was successful
    *
    * @param result of threshold manipulation
    */
@@ -130,6 +130,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
   }
 
+  /**
+   * Populate temperatureThresholdAdapter with temperatureThresholdObject
+   * @param temperatureThresholdObjects from repository to populate adapter with
+   */
   private void updateList(List<TemperatureThresholdObject> temperatureThresholdObjects) {
     temperatureThresholdAdapter.updateHumidityThresholdAndNotify(temperatureThresholdObjects);
   }
@@ -145,6 +149,9 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     //Do nothing
   }
 
+  /**
+   * Opens a pop-up window for creating new humidity threshold object
+   */
   public void onButtonShowPopupWindowClick() {
     Log.i(TAG,"Opening up pop-up window");
     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -166,6 +173,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     endTime.setOnClickListener(view -> popTimePicker("Select end time", endTime));
   }
 
+  /**
+   * Assigns all needed Views in this fragment
+   * @param popupView pop-up window view
+   */
   private void findPopUpViews(View popupView) {
     startTime = popupView.findViewById(R.id.select_start_time);
     endTime = popupView.findViewById(R.id.select_end_time);
@@ -193,6 +204,9 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
 
   // TODO: 24.05.2022 test
 
+  /**
+   * Adds functionality to recycle view: deleting thresholds from the list with a swipe
+   */
   private void setUpItemTouchHelper() {
     ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -238,6 +252,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     itemTouchHelper.attachToRecyclerView(temperatureThresholdList);
   }
 
+  /**
+   * Resets swipe action
+   * @param position of item that is being reset
+   */
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
     temperatureThresholdAdapter.notifyItemChanged(position);

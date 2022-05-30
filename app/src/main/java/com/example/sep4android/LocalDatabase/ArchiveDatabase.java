@@ -10,6 +10,9 @@ import androidx.room.RoomDatabase;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.MeasurementsObject;
 
+/**
+ * Class for creating local database
+ */
 @Database(entities = {MeasurementsObject.class, RoomObject.class}, version = 1)
 public abstract class ArchiveDatabase extends RoomDatabase {
   private static ArchiveDatabase instance;

@@ -31,11 +31,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
   private List<RoomObject> roomObjectList;
   private Context ctx;
 
+
+  /**
+   * Simple constructor initializing roomObjects as a new ArrayList and a click listener
+   * @param listener to have on click listener
+   */
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
     roomObjectList = new ArrayList<>();
     clickListener = listener;
   }
 
+  /**
+   * Updates roomObjectList with new data and notify change
+   * @param list new list with Room from repository
+   */
   public void updateListAndNotify(List<RoomObject> list) {
     Log.i(TAG, "Update Room Adapter with " + list.size() + " objects");
     roomObjectList = list;

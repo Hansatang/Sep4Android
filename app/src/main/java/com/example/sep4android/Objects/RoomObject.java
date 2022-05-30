@@ -11,6 +11,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Represent the roomObject
+ */
 @Entity(tableName = "archivedRooms")
 public class RoomObject {
 

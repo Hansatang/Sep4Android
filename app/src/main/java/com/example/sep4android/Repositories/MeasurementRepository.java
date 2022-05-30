@@ -18,6 +18,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
+/**
+ * Repository for measurement
+ */
 public class MeasurementRepository {
   private final String TAG = "MeasurementRepository";
   private final ArchiveRepository archiveRepository;
@@ -26,6 +29,10 @@ public class MeasurementRepository {
   private final MutableLiveData<List<MeasurementsObject>> measurementsByDateLiveData;
   private final MutableLiveData<String> statusLiveData;
 
+    /**
+     * Simple constructor initializing measurement objects in a new list
+     * @param application an instance of the application
+     */
   private MeasurementRepository(Application application) {
     archiveRepository = ArchiveRepository.getInstance(application);
     roomMeasurementsLiveData = new MutableLiveData<>();
@@ -51,7 +58,10 @@ public class MeasurementRepository {
     return statusLiveData;
   }
 
-
+    /**
+     * Getting measurements that have a specific roomId
+     * @param roomId room id that the measurement is assigned to
+     */
   public void getMeasurements(String roomId) {
     Log.i(TAG, "Getting room measurements for specific room");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
@@ -83,6 +93,10 @@ public class MeasurementRepository {
     );
   }
 
+    /**
+     * Getting all the measurement for all the rooms for a specific user
+     * @param userId user id to get all information
+     */
   public void getMeasurementsAllRooms(String userId) {
     Log.i(TAG, "Getting room measurements for all rooms");
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
