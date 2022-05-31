@@ -9,6 +9,9 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.example.sep4android.Repositories.TokenRepository;
 
+/**
+ * View Model class for tokens
+ */
 public class TokenViewModel extends AndroidViewModel {
   private final TokenRepository tokenRepository;
   private final MediatorLiveData<Integer> deletionResultLiveData;
