@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
@@ -25,7 +24,6 @@ import com.example.sep4android.ViewModels.ArchiveViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     findViews();
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
-    archiveVM.getMeasurementsAllRoom(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    archiveVM.getMeasurementsFromAllRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
     archiveVM.getRoomsLocal();
     measurementsRV.setAdapter(parentMeasurementAdapter);
@@ -69,7 +67,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   private void initList(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG, "Initialize Parent list");
-      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spinner_layout, new ArrayList<>(listObjects));
       spinner.setAdapter(spinnerAdapter);
       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override

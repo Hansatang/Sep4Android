@@ -47,9 +47,8 @@ public class StatisticsFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    System.out.println("Test");
+    Log.i(TAG, "Create statistics View");
     view = inflater.inflate(R.layout.fragment_test, container, false);
-    findViews();
     findViews();
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
     archiveVM.getRoomsLocal();
@@ -97,7 +96,7 @@ public class StatisticsFragment extends Fragment {
   private void initList(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG, "Initialize Parent list");
-      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spinner_layout, new ArrayList<>(listObjects));
       spinner.setAdapter(spinnerAdapter);
       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override

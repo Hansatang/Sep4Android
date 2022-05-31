@@ -54,16 +54,13 @@ public class TemperatureThresholdRepository{
     Log.i(TAG, "Getting temperature thresholds for a specific room");
     final MutableLiveData<List<TemperatureThresholdObject>> liveData = new MutableLiveData<>();
     Call<List<TemperatureThresholdObject>> call = databaseApi.getTemperatureThresholds(roomId);
-    System.out.println("Call");
     call.enqueue(new Callback<List<TemperatureThresholdObject>>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<List<TemperatureThresholdObject>> call, Response<List<TemperatureThresholdObject>> response) {
+        Log.i(TAG, "TempThresholds Get Call response: " + response);
         if (response.isSuccessful()) {
-          System.out.println("response:");
-          System.out.println(response);
           List<TemperatureThresholdObject> rs = response.body();
-          System.out.println(rs.size());
           liveData.setValue(rs);
         }
       }
@@ -92,22 +89,20 @@ public class TemperatureThresholdRepository{
     final MutableLiveData<String> liveData = new MutableLiveData<>();
     TemperatureThresholdObject thresholdToCreate = new TemperatureThresholdObject(roomId, startTime, endTime, maxValue, minValue);
     Call<Integer> call = databaseApi.addTemperatureThreshold(thresholdToCreate);
-    System.out.println("POST");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        switch (response.body()) {
-          case 400:
-            liveData.setValue("Wrong Threshold");
-            break;
-          case 200:
-            liveData.setValue("Complete");
-            break;
-        }
-        System.out.println(response);
+        Log.i(TAG, "TempThresholds Add Call response: " + response);
         if (response.isSuccessful()) {
-          System.out.println("Complete");
+          switch (response.body()) {
+            case 400:
+              liveData.setValue("Wrong Threshold");
+              break;
+            case 200:
+              liveData.setValue("Complete");
+              break;
+          }
         }
       }
 
@@ -131,12 +126,12 @@ public class TemperatureThresholdRepository{
     Log.i(TAG, "Deleting temperature threshold");
     final MutableLiveData<String> liveData = new MutableLiveData<>();
     Call<Integer> call = databaseApi.deleteTemperatureThreshold(id);
-    System.out.println("POST");
+
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG, "TempThresholds Delete Call response: " + response);
         if (response.isSuccessful()) {
           switch (response.body()) {
             case 400:
@@ -146,7 +141,6 @@ public class TemperatureThresholdRepository{
               liveData.setValue("Complete");
               break;
           }
-          System.out.println("Complete");
         }
       }
 

@@ -24,16 +24,8 @@ public interface DatabaseApi {
   @POST("room/")
   Call<Integer> addRoom(@Body RoomObject object);
 
-  // TODO: 10/05/2022  Change to roomId, and latest is stupid
-  @GET("measurement/{roomId}/")
-  Call<List<MeasurementsObject>> getMeasurements(@Path("roomId") String object);
-
   @GET("measurement/week/{userId}/")
   Call<List<MeasurementsObject>> getMeasurementsAllRooms(@Path("userId") String object);
-
-  // TODO: 10/05/2022  Change to roomId, and latest is stupid
-  @GET("measurement/{date}/{roomId}/")
-  Call<List<MeasurementsObject>> getMeasurementsByDate(@Path("roomId") String roomId, @Path("date") String date);
 
   @POST("token/")
   Call<Integer> setToken(@Body UserToken userToken);
@@ -44,24 +36,14 @@ public interface DatabaseApi {
   @GET("humidityThresholds/{roomId}")
   Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
 
-  @GET("all/humiditythresholds/")
-  Call<List<HumidityThresholdObject>> getAllHumidityThresholds();
-
   @GET("temperatureThresholds/{roomId}")
   Call<List<TemperatureThresholdObject>> getTemperatureThresholds(@Path("roomId") String roomId);
-
-  @GET("all/temperatureThresholds/")
-  Call<List<TemperatureThresholdObject>> getAllTemperatureThresholds();
-
 
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
   @POST("temperatureThresholds/")
   Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
-
-  @DELETE("api/random")
-  Call<RoomObject> deleteRoomData();
 
   @DELETE("humidityThresholds/{id}")
   Call<Integer> deleteHumidityThreshold(@Path("id") int id);
@@ -70,7 +52,7 @@ public interface DatabaseApi {
   Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
 
   @PUT("room/")
-  Call<Integer> changeName( @Body RoomObject newName);
+  Call<Integer> changeName(@Body RoomObject newName);
 
   @DELETE("room/{roomId}/")
   Call<Integer> deleteRoom(@Path("roomId") String roomId);

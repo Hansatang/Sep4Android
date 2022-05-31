@@ -36,7 +36,7 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
     return statusLiveData;
   }
 
-  public void getThresholdFromRepo(String roomId) {
+  public void getTemperatureThresholds(String roomId) {
     temperatureThresholdsLiveData.addSource(temperatureThresholdRepository.getTemperatureThresholds(roomId), temperatureThresholdsLiveData::setValue);
   }
 

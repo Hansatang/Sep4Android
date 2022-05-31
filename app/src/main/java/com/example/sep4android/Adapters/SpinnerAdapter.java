@@ -41,7 +41,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    convertView = inflater.inflate(R.layout.spin_item, parent, false);
+    convertView = inflater.inflate(R.layout.spinner_layout, parent, false);
     TextView textView = convertView.findViewById(R.id.item_text);
     textView.setText(roomObjects.get(position).getName());
     return convertView;
@@ -58,11 +58,8 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
       LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       convertView = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
     }
-
     RoomObject roomObject = roomObjects.get(position);
-
     TextView roomName = convertView.findViewById(R.id.spinnerItemName);
-
     if (roomName != null) {
       roomName.setText(roomObject.getName());
     }

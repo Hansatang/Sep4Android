@@ -1,8 +1,6 @@
 package com.example.sep4android.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,14 +17,13 @@ import com.example.sep4android.R;
 import com.example.sep4android.Util.DateFormatter;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Adapter for creating date Views in Nested Recycler View (Parent) of ArchiveFragment
  */
-public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ViewHolder> {
+public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasurementAdapter.ParentViewHolder> {
   private final String TAG = "ParentMeasurementAdapter";
   final private ParentMeasurementAdapter.OnListItemClickListener clickListener;
   private Context ctx;
@@ -70,11 +67,11 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   @NonNull
-  public ParentMeasurementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public ParentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.measurements_list_layout, parent, false);
-    return new ViewHolder(view);
+    return new ParentViewHolder(view);
   }
 
   @Override
@@ -84,36 +81,34 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   @Override
-  public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position) {
+  public void onBindViewHolder(ParentViewHolder parentViewHolder, int position) {
     Log.i(TAG, "Binding viewHolder number : " + position);
     LocalDateTime currentItem = dateTimeList.get(position);
-    viewHolder.dateId.setText(DateFormatter.getFormattedDateForParent(currentItem));
-    setChildViewHolderAndAdapter(viewHolder);
-    addExpandabilityToViewHolder(viewHolder);
+    parentViewHolder.dateId.setText(DateFormatter.getFormattedDateForParent(currentItem));
+    setChildViewHolderAndAdapter(parentViewHolder);
+    addExpandabilityToViewHolder(parentViewHolder);
   }
 
   @Override
-  public void onBindViewHolder(ParentMeasurementAdapter.ViewHolder viewHolder, int position, List<Object> payloads) {
+  public void onBindViewHolder(ParentViewHolder parentViewHolder, int position, List<Object> payloads) {
     Log.i(TAG, "Binding viewHolder number : " + position + " with payload");
     LocalDateTime currentItem = dateTimeList.get(position);
-    viewHolder.dateId.setText(DateFormatter.getFormattedDateForParent(currentItem));
-
-    setChildViewHolderAndAdapter(viewHolder);
-    addExpandabilityToViewHolder(viewHolder);
-
+    parentViewHolder.dateId.setText(DateFormatter.getFormattedDateForParent(currentItem));
+    setChildViewHolderAndAdapter(parentViewHolder);
+    addExpandabilityToViewHolder(parentViewHolder);
   }
 
   @Override
-  public void onViewAttachedToWindow(@NonNull ViewHolder viewHolder) {
-    if (viewHolder.details.getVisibility() == View.VISIBLE) {
-      viewHolder.details.setVisibility(View.GONE);
-      ViewGroup.LayoutParams layoutParams = viewHolder.containerChild.getLayoutParams();
+  public void onViewAttachedToWindow(@NonNull ParentViewHolder parentViewHolder) {
+    if (parentViewHolder.details.getVisibility() == View.VISIBLE) {
+      parentViewHolder.details.setVisibility(View.GONE);
+      ViewGroup.LayoutParams layoutParams = parentViewHolder.containerChild.getLayoutParams();
       layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
       layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-      viewHolder.containerChild.setLayoutParams(layoutParams);
+      parentViewHolder.containerChild.setLayoutParams(layoutParams);
       previousExpandedPosition = -1;
     }
-    super.onViewAttachedToWindow(viewHolder);
+    super.onViewAttachedToWindow(parentViewHolder);
   }
 
   /**
@@ -121,24 +116,24 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
    * adds Click listener to expand/collapse, within this Listener logic for collapsing previously expanded viewHolder is provided,
    * also Click listener from Adapter is used to relay position and Child adapter to Fragment for populating child list purposes
    *
-   * @param viewHolder to add functionality of expanding/collapsing
+   * @param parentViewHolder to add functionality of expanding/collapsing
    */
-  private void addExpandabilityToViewHolder(ViewHolder viewHolder) {
-    final boolean isExpanded = viewHolder.getBindingAdapterPosition() == mExpandedPosition;
-    viewHolder.details.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-    viewHolder.itemView.setActivated(isExpanded);
+  private void addExpandabilityToViewHolder(ParentViewHolder parentViewHolder) {
+    final boolean isExpanded = parentViewHolder.getBindingAdapterPosition() == mExpandedPosition;
+    parentViewHolder.details.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    parentViewHolder.itemView.setActivated(isExpanded);
 
-    viewHolder.itemView.setOnClickListener(v -> {
-          mExpandedPosition = isExpanded ? -1 : viewHolder.getBindingAdapterPosition();
-          if (viewHolder.details.getVisibility() == View.GONE) {
-            viewHolder.details.setVisibility(View.VISIBLE);
+    parentViewHolder.itemView.setOnClickListener(v -> {
+          mExpandedPosition = isExpanded ? -1 : parentViewHolder.getBindingAdapterPosition();
+          if (parentViewHolder.details.getVisibility() == View.GONE) {
+            parentViewHolder.details.setVisibility(View.VISIBLE);
             notifyItemChanged(previousExpandedPosition, 0);
-            previousExpandedPosition = viewHolder.getBindingAdapterPosition();
+            previousExpandedPosition = parentViewHolder.getBindingAdapterPosition();
           } else {
-            viewHolder.details.setVisibility(View.GONE);
+            parentViewHolder.details.setVisibility(View.GONE);
             previousExpandedPosition = -1;
           }
-          clickListener.onListItemClick(dateTimeList.get(viewHolder.getBindingAdapterPosition()), viewHolder.getInsideAdapter());
+          clickListener.onListItemClick(dateTimeList.get(parentViewHolder.getBindingAdapterPosition()), parentViewHolder.getInsideAdapter());
         }
     );
   }
@@ -147,15 +142,15 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
    * adds ChildMeasurementAdapter to viewHolder by creating layoutManager and setting adapter
    * adds OnItemTouchListener to child reyclerView to ensure that both parent and child are able to being scrolled up and down
    *
-   * @param viewHolder to add Child Adapter to
+   * @param parentViewHolder to add Child Adapter to
    */
-  private void setChildViewHolderAndAdapter(ViewHolder viewHolder) {
+  private void setChildViewHolderAndAdapter(ParentViewHolder parentViewHolder) {
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
-    viewHolder.recyclerView.setLayoutManager(layoutManager);
-    viewHolder.recyclerView.setHasFixedSize(true);
+    parentViewHolder.recyclerView.setLayoutManager(layoutManager);
+    parentViewHolder.recyclerView.setHasFixedSize(true);
     ChildMeasurementAdapter childRecyclerViewAdapter = new ChildMeasurementAdapter();
-    viewHolder.recyclerView.setAdapter(childRecyclerViewAdapter);
-    viewHolder.recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+    parentViewHolder.recyclerView.setAdapter(childRecyclerViewAdapter);
+    parentViewHolder.recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
       float mLastY;
 
       @Override
@@ -204,7 +199,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   /**
    * View Holder for Views with nested Recycler View of measurements
    */
-  public static class ViewHolder extends RecyclerView.ViewHolder {
+  public static class ParentViewHolder extends RecyclerView.ViewHolder {
     LinearLayout details;
     LinearLayout containerChild;
     TextView dateId;
@@ -213,14 +208,14 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
     TextView co2Id;
     RecyclerView recyclerView;
 
-    ViewHolder(View itemView) {
+    ParentViewHolder(View itemView) {
       super(itemView);
       containerChild = itemView.findViewById(R.id.containerChild);
       recyclerView = itemView.findViewById(R.id.inside_rv);
-      dateId = itemView.findViewById(R.id.dateId);
-      temperatureId = itemView.findViewById(R.id.temperatureId);
-      humidityId = itemView.findViewById(R.id.humidityId);
-      co2Id = itemView.findViewById(R.id.co2Id);
+      dateId = itemView.findViewById(R.id.dateText);
+      temperatureId = itemView.findViewById(R.id.temperatureText);
+      humidityId = itemView.findViewById(R.id.humidityText);
+      co2Id = itemView.findViewById(R.id.co2Text);
       details = itemView.findViewById(R.id.details);
     }
 

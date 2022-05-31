@@ -36,7 +36,6 @@ public class ArchiveRepository {
    * @param measurementsObjects array of measurement object
    */
   public void insertAllMeasurements(MeasurementsObject[] measurementsObjects) {
-    System.out.println("DelCreMeasurement");
     executorService.execute(() -> roomDao.deleteAndCreateMeasurements(measurementsObjects));
   }
 
@@ -45,7 +44,6 @@ public class ArchiveRepository {
    * @param roomObjects array of rooms
    */
   public void insertAllRooms(RoomObject[] roomObjects) {
-    System.out.println("DelCreRooms");
     executorService.execute(() -> roomDao.deleteAndCreateRooms(roomObjects));
   }
 

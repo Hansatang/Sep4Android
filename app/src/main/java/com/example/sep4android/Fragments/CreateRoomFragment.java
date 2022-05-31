@@ -42,7 +42,7 @@ public class CreateRoomFragment extends Fragment {
     view = inflater.inflate(R.layout.create_room_layout, container, false);
     findViews();
     setListenersToButtons();
-    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
+    roomVM.getCreationResultLiveData().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
     return view;
   }
 
@@ -52,7 +52,7 @@ public class CreateRoomFragment extends Fragment {
    */
   private void setListenersToButtons() {
     createRoomButton.setOnClickListener(view -> {
-          roomVM.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
+          roomVM.addRoom(deviceText.getText().toString(), nameText.getText().toString(),
               FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
     );
@@ -68,12 +68,11 @@ public class CreateRoomFragment extends Fragment {
     if (creationResult==200) {
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
-      roomVM.setResult();
     }
     else if(creationResult==417){
       Toast.makeText(getContext(),"You already registered this room",Toast.LENGTH_SHORT).show();
-      roomVM.setResult();
     }
+    roomVM.setResult();
   }
 
   /**

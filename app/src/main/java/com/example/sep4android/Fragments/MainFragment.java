@@ -53,13 +53,10 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
-
     findViews();
     setListenersToButtons();
-    // TODO: 24.05.2022 change this hard code back
-
-    roomVM.getRooms().observe(getViewLifecycleOwner(), this::setRooms);
-    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::refresh);
+    roomVM.getRoomsLiveData().observe(getViewLifecycleOwner(), this::setRooms);
+    roomVM.getCreationResultLiveData().observe(getViewLifecycleOwner(), this::refresh);
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
     roomsRV.setAdapter(roomAdapter);
@@ -133,9 +130,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
       @Override
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
         int position = viewHolder.getAbsoluteAdapterPosition();
-        System.out.println("Pos" + position);
         createPopUp(position);
-
       }
     };
 
@@ -149,7 +144,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
    */
   private void createPopUp(int position) {
     Log.i(TAG,"Create room manipulation pop up");
-    RoomObject roomObject = roomAdapter.getRoomObjectList().get(position);
+    RoomObject roomObject = roomAdapter.getRoomList().get(position);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater inflater = getLayoutInflater();
     View dialogView = inflater.inflate(R.layout.room_dialog, null);
@@ -165,28 +160,23 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
 
     AlertDialog alertDialog = builder.create();
     changeNameButton.setOnClickListener(view -> {
-      System.out.println("Change " + newName.getText());
-      System.out.println(roomObject.getName());
       roomObject.setName(newName.getText().toString());
-      roomVM.changeName(roomObject);
+      roomVM.changeRoomName(roomObject);
       alertDialog.dismiss();
     });
 
     resetButton.setOnClickListener(view -> {
-      System.out.println("reset");
-      roomVM.resetMeasurements(roomObject.getRoomId());
+      roomVM.resetRoomMeasurements(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     deleteButton.setOnClickListener(view -> {
-      System.out.println("delete");
       roomVM.deleteRoom(roomObject.getRoomId());
       alertDialog.dismiss();
     });
 
     cancelButton.setOnClickListener(view -> {
-      System.out.println("Cancel");
       undoSwipe(position);
       alertDialog.dismiss();
     });
@@ -207,7 +197,6 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
    */
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
-    System.out.println("PosUndo " + position);
     roomAdapter.notifyItemChanged(position);
     roomsRV.scrollToPosition(position);
   }

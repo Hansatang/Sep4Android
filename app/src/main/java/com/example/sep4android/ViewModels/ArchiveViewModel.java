@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.LocalDatabase.ArchiveRepository;
 import com.example.sep4android.Objects.MeasurementsObject;
@@ -40,22 +39,22 @@ public class ArchiveViewModel extends AndroidViewModel {
     return roomsLiveData;
   }
 
-  public void getRoomsLocal() {
-    roomsLiveData.addSource(archiveRepository.getRooms(), roomsLiveData::setValue);
-  }
-
   public LiveData<List<MeasurementsObject>> getMeasurementsLocalLiveData() {
     return measurementsByDateLiveData;
   }
 
+  public void getRoomsLocal() {
+    roomsLiveData.addSource(archiveRepository.getRooms(), roomsLiveData::setValue);
+  }
+
   public void getMeasurementsLocal(LocalDateTime clickedItem, String roomId) {
     measurementsByDateLiveData.addSource(archiveRepository.getMeasurementByID(roomId, DateFormatter.getFormattedDateForArchive(clickedItem))
-        ,measurementsByDateLiveData::setValue);
+        , measurementsByDateLiveData::setValue);
 
   }
 
-  public void getMeasurementsAllRoom(String userId) {
-    roomMeasurementsLiveData.addSource(measurementRepository.getMeasurementsAllRooms(userId), measurementsObjects -> {
+  public void getMeasurementsFromAllRooms(String userId) {
+    roomMeasurementsLiveData.addSource(measurementRepository.getMeasurementsFromAllRooms(userId), measurementsObjects -> {
       archiveRepository.insertAllMeasurements(measurementsObjects.toArray(new MeasurementsObject[0]));
     });
   }

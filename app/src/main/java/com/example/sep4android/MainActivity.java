@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     } else {
       setContentView(R.layout.activity_main);
       tokenViewModel = new ViewModelProvider(this).get(TokenViewModel.class);
-      tokenViewModel.getDeletionResult().observe(this, result -> LogOut(result));
+      tokenViewModel.getDeletionResultLiveData().observe(this, result -> LogOut(result));
       findViews();
       setSupportActionBar(toolbar);
       NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);

@@ -55,7 +55,7 @@ public class TokenRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG,"Token Set: " +response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
         }
@@ -80,17 +80,15 @@ public class TokenRepository {
     Log.i(TAG,"Deleting token");
     final MutableLiveData<Integer> liveData = new MutableLiveData<>();
     DatabaseApi databaseApi = DatabaseServiceGenerator.getDatabaseApi();
-
     UserToken userToken = new UserToken(userUID, null);
     Call<Integer> call = databaseApi.deleteToken(userToken);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG,"Token delete: " +response);
         if (response.isSuccessful()) {
           liveData.setValue(response.body());
-          System.out.println("Complete");
         }
       }
 

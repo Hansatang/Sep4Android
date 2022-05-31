@@ -56,11 +56,9 @@ public class HumidityThresholdsRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<List<HumidityThresholdObject>> call, Response<List<HumidityThresholdObject>> response) {
+        Log.i(TAG, "Get Humidity Threshold Get Call response: "+ response);
         if (response.isSuccessful()) {
-          System.out.println("response:");
-          System.out.println("hej " + response);
           List<HumidityThresholdObject> rs = response.body();
-          System.out.println("Inter " + rs.size());
           liveData.setValue(rs);
         }
       }
@@ -93,17 +91,16 @@ public class HumidityThresholdsRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        switch (response.body()) {
-          case 400:
-            liveData.setValue("Wrong Threshold");
-            break;
-          case 200:
-            liveData.setValue("Complete");
-            break;
-        }
-        System.out.println(response);
+        Log.i(TAG, "Get Humidity Threshold Add Call response: "+ response);
         if (response.isSuccessful()) {
-          System.out.println("Complete");
+          switch (response.body()) {
+            case 400:
+              liveData.setValue("Wrong Threshold");
+              break;
+            case 200:
+              liveData.setValue("Complete");
+              break;
+          }
         }
       }
 
@@ -127,12 +124,11 @@ public class HumidityThresholdsRepository {
     Log.i(TAG, "Deleting humidity threshold");
     final MutableLiveData<String> liveData = new MutableLiveData<>();
     Call<Integer> call = databaseApi.deleteHumidityThreshold(thresholdHumidityId);
-    System.out.println("POST");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG, "Get Humidity Threshold Delete Call response: "+ response);
         if (response.isSuccessful()) {
           switch (response.body()) {
             case 400:
@@ -142,7 +138,6 @@ public class HumidityThresholdsRepository {
               liveData.setValue("Complete");
               break;
           }
-          System.out.println("Complete");
         }
       }
 

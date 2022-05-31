@@ -44,8 +44,4 @@ public abstract class RoomDao {
 
   @Query("SELECT * FROM archivedMeasurements WHERE roomId = :id AND date LIKE '%' || :date || '%'")
   public abstract LiveData<List<MeasurementsObject>> getArchiveById(String id, String date);
-
-  @Query("SELECT * FROM archivedRooms WHERE roomId = :roomId")
-  public abstract LiveData<RoomObject> getRoomById(String roomId);
-
 }

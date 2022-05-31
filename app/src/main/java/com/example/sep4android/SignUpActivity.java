@@ -47,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity {
     Log.i(TAG,"Creating sign up view");
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
         .detectLeakedClosableObjects().build());
-    System.out.println("Login Activity test");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.login_layout);
     findViews();

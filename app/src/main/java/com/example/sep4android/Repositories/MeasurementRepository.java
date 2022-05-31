@@ -30,7 +30,6 @@ public class MeasurementRepository{
 
   /**
    * Simple constructor initializing measurement objects in a new list
-   * @param application an instance of the application
    */
   public static synchronized MeasurementRepository getInstance() {
     if (instance == null)
@@ -40,22 +39,19 @@ public class MeasurementRepository{
 
   /**
    * Getting measurements that have a specific roomId
-   * @param roomId room id that the measurement is assigned to
+   * @param userId room id that the measurement is assigned to
    */
-  public LiveData<List<MeasurementsObject>> getMeasurementsAllRooms(String userId) {
+  public LiveData<List<MeasurementsObject>> getMeasurementsFromAllRooms(String userId) {
     final MutableLiveData<List<MeasurementsObject>> liveData = new MutableLiveData<>();
     Log.i(TAG, "Getting room measurements for all rooms");
     Call<List<MeasurementsObject>> call = databaseApi.getMeasurementsAllRooms(userId);
-    System.out.println("Call");
     call.enqueue(new Callback<List<MeasurementsObject>>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<List<MeasurementsObject>> call, Response<List<MeasurementsObject>> response) {
+                     Log.i(TAG, "Get Measurements Get Call response: "+ response);
                      if (response.isSuccessful()) {
-                       System.out.println(response);
-                       System.out.println(response.body());
                        List<MeasurementsObject> rs = response.body();
-                       System.out.println("Amount " + rs.size());
                        liveData.setValue(rs);
                      }
                    }
@@ -71,5 +67,4 @@ public class MeasurementRepository{
     );
     return liveData;
   }
-
 }

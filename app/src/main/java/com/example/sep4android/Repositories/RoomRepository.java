@@ -46,6 +46,7 @@ public class RoomRepository {
 
   /**
    * Getting the rooms for a specific user
+   *
    * @param uid user id
    */
   public LiveData<List<RoomObject>> getDatabaseRooms(String uid) {
@@ -56,7 +57,7 @@ public class RoomRepository {
                    @Override
                    public void onResponse(Call<List<RoomObject>> call, Response<List<RoomObject>> response) {
                      if (response.isSuccessful()) {
-                       System.out.println(response);
+                       Log.i(TAG, "Room Get Call response: " + response);
                        List<RoomObject> rs = response.body();
                        liveData.setValue(rs);
                      }
@@ -67,7 +68,6 @@ public class RoomRepository {
                    public void onFailure(Call<List<RoomObject>> call, Throwable t) {
                      System.out.println(t);
                      System.out.println(t.getMessage());
-
                      Log.i("Retrofit", "Something went wrong get rooms");
                    }
                  }
@@ -77,23 +77,22 @@ public class RoomRepository {
 
   /**
    * Adding a room to the database
-   * @param roomId an id for the room object
-   * @param name name of the room object
+   *
+   * @param roomId  an id for the room object
+   * @param name    name of the room object
    * @param userUID user id that created the room
    */
-  public LiveData<Integer> addRoomToDatabase(String roomId, String name, String userUID) {
+  public LiveData<Integer> addRoom(String roomId, String name, String userUID) {
     final MutableLiveData<Integer> liveData = new MutableLiveData<>();
     RoomObject roomObjectToCreate = new RoomObject(roomId, name, userUID, null, null);
     Call<Integer> call = databaseApi.addRoom(roomObjectToCreate);
-    System.out.println("Post");
     call.enqueue(new Callback<Integer>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                     System.out.println(response);
+                     Log.i(TAG, "Room Add Call response: " + response);
                      if (response.isSuccessful()) {
                        if (response.body() == 200) {
-                         System.out.println("Complete");
                          liveData.setValue(200);
                        } else if (response.body() == 417) {
                          liveData.setValue(417);
@@ -115,17 +114,18 @@ public class RoomRepository {
 
   /**
    * Changing the name of an already existing room object
+   *
    * @param roomObject the room that the name change needs to be performed
    */
-  public LiveData<Integer> changeName(RoomObject roomObject) {
+  public LiveData<Integer> changeRoomName(RoomObject roomObject) {
     final MutableLiveData<Integer> liveData = new MutableLiveData<>();
     Call<Integer> call = databaseApi.changeName(roomObject);
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
+        Log.i(TAG, "Room Change Name Call response: " + response);
         if (response.isSuccessful()) {
-          System.out.println("Successful");
           liveData.setValue(200);
         }
       }
@@ -143,6 +143,7 @@ public class RoomRepository {
 
   /**
    * Deleting a room from the database
+   *
    * @param roomId roomId for the selected room for deleting
    */
   public LiveData<Integer> deleteRoom(String roomId) {
@@ -153,9 +154,8 @@ public class RoomRepository {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG, "Room Delete Call response: " + response);
         if (response.isSuccessful()) {
-          System.out.println("Complete");
           liveData.setValue(200);
         }
       }
@@ -173,17 +173,17 @@ public class RoomRepository {
 
   /**
    * Resetting (deleting all measurements) a room in the database
+   *
    * @param roomId desired room for resetting
    */
-  public LiveData<Integer> resetMeasurements(String roomId) {
+  public LiveData<Integer> resetRoomMeasurements(String roomId) {
     final MutableLiveData<Integer> liveData = new MutableLiveData<>();
     Call<Integer> call = databaseApi.resetMeasurements(roomId);
-    System.out.println("DELETE");
     call.enqueue(new Callback<Integer>() {
       @EverythingIsNonNull
       @Override
       public void onResponse(Call<Integer> call, Response<Integer> response) {
-        System.out.println(response);
+        Log.i(TAG, "Room Reset Call response: " + response);
         if (response.isSuccessful()) {
           System.out.println("Complete");
         }

@@ -19,6 +19,7 @@ import retrofit2.internal.EverythingIsNonNull;
  * Repository for statistic
  */
 public class StatisticsRepository {
+  private final String TAG = "StatisticsRepository";
   private static StatisticsRepository instance;
   private final DatabaseApi databaseApi;
 
@@ -44,13 +45,12 @@ public class StatisticsRepository {
   public LiveData<List<Double>> getTempStats(String roomId) {
     final MutableLiveData<List<Double>> liveData = new MutableLiveData<>();
     Call<List<Double>> call = databaseApi.getTempStats(roomId);
-    System.out.println("Call hello");
     call.enqueue(new Callback<List<Double>>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<List<Double>> call, Response<List<Double>> response) {
+                     Log.i(TAG, "Statistics Temp Get Call response: " + response);
                      if (response.isSuccessful()) {
-                       System.out.println(response);
                        List<Double> rs = response.body();
                        liveData.setValue(rs);
                      }
@@ -77,13 +77,13 @@ public class StatisticsRepository {
   public LiveData<List<Double>> getHumStats(String roomId) {
     final MutableLiveData<List<Double>> liveData = new MutableLiveData<>();
     Call<List<Double>> call = databaseApi.getHumStats(roomId);
-    System.out.println("Call hello");
+
     call.enqueue(new Callback<List<Double>>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<List<Double>> call, Response<List<Double>> response) {
+                     Log.i(TAG, "Statistics Hum Get Call response: " + response);
                      if (response.isSuccessful()) {
-                       System.out.println(response);
                        List<Double> rs = response.body();
                        liveData.setValue(rs);
                      }
@@ -109,13 +109,13 @@ public class StatisticsRepository {
   public LiveData<List<Double>> getCo2Stats(String roomId) {
     final MutableLiveData<List<Double>> liveData = new MutableLiveData<>();
     Call<List<Double>> call = databaseApi.getCo2Stats(roomId);
-    System.out.println("Call hello");
+
     call.enqueue(new Callback<List<Double>>() {
                    @EverythingIsNonNull
                    @Override
                    public void onResponse(Call<List<Double>> call, Response<List<Double>> response) {
+                     Log.i(TAG, "Statistics Co2 Get Call response: " + response);
                      if (response.isSuccessful()) {
-                       System.out.println(response);
                        List<Double> rs = response.body();
                        liveData.setValue(rs);
                      }

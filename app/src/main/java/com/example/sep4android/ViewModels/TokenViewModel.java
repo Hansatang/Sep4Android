@@ -11,23 +11,23 @@ import com.example.sep4android.Repositories.TokenRepository;
 
 public class TokenViewModel extends AndroidViewModel {
   private final TokenRepository tokenRepository;
-  private final MediatorLiveData<Integer> deletionResult;
+  private final MediatorLiveData<Integer> deletionResultLiveData;
 
   public TokenViewModel(@NonNull Application application) {
     super(application);
     tokenRepository = TokenRepository.getInstance();
-    deletionResult = new MediatorLiveData<>();
+    deletionResultLiveData = new MediatorLiveData<>();
   }
 
-  public LiveData<Integer> getDeletionResult(){
-    return deletionResult;
+  public LiveData<Integer> getDeletionResultLiveData(){
+    return deletionResultLiveData;
   }
 
   public void deleteToken(String userUID) {
-    deletionResult.addSource( tokenRepository.deleteToken(userUID), deletionResult::setValue);
+    deletionResultLiveData.addSource( tokenRepository.deleteToken(userUID), deletionResultLiveData::setValue);
   }
 
   public void setResult() {
-    deletionResult.addSource(tokenRepository.setResult(),  deletionResult::setValue);
+    deletionResultLiveData.addSource(tokenRepository.setResult(),  deletionResultLiveData::setValue);
   }
 }
