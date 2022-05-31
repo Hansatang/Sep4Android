@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
@@ -18,7 +20,6 @@ import java.util.ArrayList;
 
 public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   private final String TAG = "SpinnerAdapter";
-  private Context context;
   private ArrayList<RoomObject> roomObjects;
 
   /**
@@ -29,7 +30,6 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
    */
   public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> roomObjects) {
     super(context, textViewResourceId, roomObjects);
-    this.context = context;
     this.roomObjects = roomObjects;
   }
 
@@ -49,7 +49,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   }
 
   @Override
-  public View getDropDownView(int position, View convertView, ViewGroup parent) {   // This view starts when we click the spinner.
+  public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {   // This view starts when we click the spinner.
     return initView(position, convertView, parent);
   }
 

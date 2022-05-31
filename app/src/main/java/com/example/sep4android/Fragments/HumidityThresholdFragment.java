@@ -173,13 +173,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
     findPopUpViews(popupView);
 
-    popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        humidityThresholdVM.addHumidityThreshold(((RoomObject) spinner.getSelectedItem()).getRoomId(),
-            startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-        popupWindow.dismiss();
-      }
+    popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
+      humidityThresholdVM.addHumidityThreshold(((RoomObject) spinner.getSelectedItem()).getRoomId(),
+          startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+      popupWindow.dismiss();
     });
 
     startTime.setOnClickListener(view -> popTimePicker("Select start time", startTime));

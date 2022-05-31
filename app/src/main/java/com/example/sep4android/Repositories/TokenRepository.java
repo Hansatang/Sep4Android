@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
-import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.UserToken;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

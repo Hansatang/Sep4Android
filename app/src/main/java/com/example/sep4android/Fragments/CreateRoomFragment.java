@@ -51,10 +51,8 @@ public class CreateRoomFragment extends Fragment {
    * add functionality to existing in this view buttons
    */
   private void setListenersToButtons() {
-    createRoomButton.setOnClickListener(view -> {
-          roomVM.addRoom(deviceText.getText().toString(), nameText.getText().toString(),
-              FirebaseAuth.getInstance().getCurrentUser().getUid());
-        }
+    createRoomButton.setOnClickListener(view -> roomVM.addRoom(deviceText.getText().toString(), nameText.getText().toString(),
+        FirebaseAuth.getInstance().getCurrentUser().getUid())
     );
   }
 

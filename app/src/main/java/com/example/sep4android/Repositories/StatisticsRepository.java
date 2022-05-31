@@ -70,9 +70,9 @@ public class StatisticsRepository {
   }
 
   /**
-   * Getting room humidities from the database
+   * Getting room humidity statistics from the database
    *
-   * @param roomId desired room to get the humidities
+   * @param roomId desired room to get the humidity statistics
    */
   public LiveData<List<Double>> getHumStats(String roomId) {
     final MutableLiveData<List<Double>> liveData = new MutableLiveData<>();

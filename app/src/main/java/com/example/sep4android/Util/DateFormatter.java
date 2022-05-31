@@ -1,9 +1,5 @@
 package com.example.sep4android.Util;
 
-import android.util.Log;
-
-import androidx.annotation.Nullable;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

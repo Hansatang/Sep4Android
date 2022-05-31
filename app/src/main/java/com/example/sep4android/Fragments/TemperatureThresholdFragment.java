@@ -6,15 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,8 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Adapters.TemperatureThresholdAdapter;
@@ -70,7 +68,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     super.onCreate(savedInstanceState);
     view = inflater.inflate(R.layout.fragment_temperature_threshold_list, container, false);
     findViews();
-    roomViewModel.getRoomsLiveData().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
+    roomViewModel.getRoomsLiveData().observe(getViewLifecycleOwner(), this::initList);
     temperatureThresholdList.hasFixedSize();
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
@@ -191,13 +189,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   public void popTimePicker(String title, Button button) {
-    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-      @Override
-      public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-        hour = selectedHour;
-        minute = selectedMinute;
-        button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-      }
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+      hour = selectedHour;
+      minute = selectedMinute;
+      button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
     };
     TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, 0, 0, true);
     timePickerDialog.setTitle(title);

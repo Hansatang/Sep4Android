@@ -52,7 +52,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
   }
 
   @Override
-  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
     ctx = recyclerView.getContext();
   }

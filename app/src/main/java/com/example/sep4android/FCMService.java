@@ -23,10 +23,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-
-import android.util.Log;
 
 import com.example.sep4android.Repositories.RoomRepository;
 import com.example.sep4android.Repositories.TokenRepository;
@@ -34,9 +33,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 public class FCMService extends FirebaseMessagingService {
 
@@ -71,7 +67,7 @@ public class FCMService extends FirebaseMessagingService {
    * 2) Whenever an existing token is changed
    * Under #2, there are three scenarios when the existing token is changed:
    * A) App is restored to a new device
-   * B) User uninstalls/reinstalls the app
+   * B) User uninstalls/reinstall the app
    * C) User clears app data
    */
   @Override
@@ -92,9 +88,8 @@ public class FCMService extends FirebaseMessagingService {
     TokenRepository repository = TokenRepository.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if (user != null) {
-      user.getIdToken(false).addOnSuccessListener(result -> {
-        repository.setNewToken(user.getUid(), token);
-      });
+      user.getIdToken(false).addOnSuccessListener(
+          result -> repository.setNewToken(user.getUid(), token));
     }
 
   }

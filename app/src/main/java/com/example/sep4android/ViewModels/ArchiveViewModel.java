@@ -54,8 +54,7 @@ public class ArchiveViewModel extends AndroidViewModel {
   }
 
   public void getMeasurementsFromAllRooms(String userId) {
-    roomMeasurementsLiveData.addSource(measurementRepository.getMeasurementsFromAllRooms(userId), measurementsObjects -> {
-      archiveRepository.insertAllMeasurements(measurementsObjects.toArray(new MeasurementsObject[0]));
-    });
+    roomMeasurementsLiveData.addSource(measurementRepository.getMeasurementsFromAllRooms(userId),
+        measurementsObjects -> archiveRepository.insertAllMeasurements(measurementsObjects.toArray(new MeasurementsObject[0])));
   }
 }

@@ -53,7 +53,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   }
 
   @Override
-  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
     ctx = recyclerView.getContext();
   }

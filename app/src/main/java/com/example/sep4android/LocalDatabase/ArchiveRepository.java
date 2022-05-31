@@ -50,7 +50,7 @@ public class ArchiveRepository {
 
   /**
    * Getting all the rooms from the local database
-   * @return returs a list of rooms
+   * @return returns a list of rooms
    */
   public LiveData<List<RoomObject>> getRooms() {
     return roomDao.getAllArchiveRooms();

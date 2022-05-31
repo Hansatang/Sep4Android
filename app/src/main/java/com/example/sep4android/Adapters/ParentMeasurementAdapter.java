@@ -49,7 +49,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
   /**
    * Updates dateTimeList with new data , notifying change
-   * and ressting two recently interacted object indexes to  -1
+   * and resetting two recently interacted object indexes to  -1
    *
    * @param list list with dates
    */
@@ -75,7 +75,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   @Override
-  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
     ctx = recyclerView.getContext();
   }
@@ -90,7 +90,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
   }
 
   @Override
-  public void onBindViewHolder(ParentViewHolder parentViewHolder, int position, List<Object> payloads) {
+  public void onBindViewHolder(ParentViewHolder parentViewHolder, int position, @NonNull List<Object> payloads) {
     Log.i(TAG, "Binding viewHolder number : " + position + " with payload");
     LocalDateTime currentItem = dateTimeList.get(position);
     parentViewHolder.dateId.setText(DateFormatter.getFormattedDateForParent(currentItem));
@@ -140,7 +140,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
 
   /**
    * adds ChildMeasurementAdapter to viewHolder by creating layoutManager and setting adapter
-   * adds OnItemTouchListener to child reyclerView to ensure that both parent and child are able to being scrolled up and down
+   * adds OnItemTouchListener to child recyclerView to ensure that both parent and child are able to being scrolled up and down
    *
    * @param parentViewHolder to add Child Adapter to
    */
@@ -154,7 +154,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
       float mLastY;
 
       @Override
-      public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+      public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         switch (e.getAction()) {
           case MotionEvent.ACTION_DOWN:
             mLastY = e.getY();
@@ -176,7 +176,7 @@ public class ParentMeasurementAdapter extends RecyclerView.Adapter<ParentMeasure
       }
 
       @Override
-      public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+      public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
       }
 
