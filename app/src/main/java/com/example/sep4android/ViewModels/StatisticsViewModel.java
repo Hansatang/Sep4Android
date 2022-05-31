@@ -4,8 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
-import com.example.sep4android.Repositories.RoomRepository;
 import com.example.sep4android.Repositories.StatisticsRepository;
 
 import java.util.List;
@@ -15,34 +15,40 @@ import java.util.List;
  */
 public class StatisticsViewModel extends AndroidViewModel {
   private final StatisticsRepository statisticsRepository;
+  private final MediatorLiveData<List<Double>> tempAverageWeekLiveData;
+  private final MediatorLiveData<List<Double>> humAverageWeekLiveData;
+  private final MediatorLiveData<List<Double>> co2AverageWeekLiveData;
 
-  public StatisticsViewModel(Application application) {
-    super(application);
+  public StatisticsViewModel(Application app) {
+    super(app);
     statisticsRepository = StatisticsRepository.getInstance();
+    this.tempAverageWeekLiveData = new MediatorLiveData<>();
+    this.humAverageWeekLiveData = new MediatorLiveData<>();
+    this.co2AverageWeekLiveData = new MediatorLiveData<>();
   }
 
-  public LiveData<List<Double>> getTempStats() {
-    return statisticsRepository.getTempAverageWeek();
+  public LiveData<List<Double>> getTempAverageLiveData() {
+    return tempAverageWeekLiveData;
   }
 
-  public LiveData<List<Double>> getHumStats() {
-    return statisticsRepository.getHumAverageWeek();
+  public LiveData<List<Double>> getHumAverageLiveData() {
+    return humAverageWeekLiveData;
   }
 
-  public LiveData<List<Double>> getCo2Stats() {
-    return statisticsRepository.getCo2AverageWeek();
+  public LiveData<List<Double>> getCo2AverageLiveData() {
+    return co2AverageWeekLiveData;
   }
 
-  public void getTempStatsFromRepo(String roomId) {
-    statisticsRepository.getTempStats(roomId);
+  public void getTempStats(String roomId) {
+    tempAverageWeekLiveData.addSource(statisticsRepository.getTempStats(roomId), tempAverageWeekLiveData::setValue);
   }
 
-  public void getHumStatsFromRepo(String roomId) {
-    statisticsRepository.getHumStats(roomId);
+  public void getHumStats(String roomId) {
+    humAverageWeekLiveData.addSource(statisticsRepository.getHumStats(roomId), humAverageWeekLiveData::setValue);
   }
 
-  public void getCo2StatsFromRepo(String roomId) {
-    statisticsRepository.getCo2Stats(roomId);
+  public void getCo2Stats(String roomId) {
+    co2AverageWeekLiveData.addSource(statisticsRepository.getCo2Stats(roomId), co2AverageWeekLiveData::setValue);
   }
 
 }

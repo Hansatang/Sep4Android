@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -30,13 +31,18 @@ public class CreateRoomFragment extends Fragment {
   private EditText deviceText;
   private EditText nameText;
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create CreateRoom View");
     view = inflater.inflate(R.layout.create_room_layout, container, false);
-    createViewModels();
     findViews();
     setListenersToButtons();
-    roomVM.getCreationResult().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
+    roomVM.getCreationResultLiveData().observe(getViewLifecycleOwner(), this::NavigateToMainFragment);
     return view;
   }
 
@@ -45,10 +51,8 @@ public class CreateRoomFragment extends Fragment {
    * add functionality to existing in this view buttons
    */
   private void setListenersToButtons() {
-    createRoomButton.setOnClickListener(view -> {
-          roomVM.addRoomToDatabase(deviceText.getText().toString(), nameText.getText().toString(),
-              FirebaseAuth.getInstance().getCurrentUser().getUid());
-        }
+    createRoomButton.setOnClickListener(view -> roomVM.addRoom(deviceText.getText().toString(), nameText.getText().toString(),
+        FirebaseAuth.getInstance().getCurrentUser().getUid())
     );
   }
 
@@ -62,12 +66,11 @@ public class CreateRoomFragment extends Fragment {
     if (creationResult==200) {
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
-      roomVM.setResult();
     }
     else if(creationResult==417){
       Toast.makeText(getContext(),"You already registered this room",Toast.LENGTH_SHORT).show();
-      roomVM.setResult();
     }
+    roomVM.setResult();
   }
 
   /**

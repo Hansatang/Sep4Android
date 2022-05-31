@@ -75,7 +75,6 @@ public class MainActivityInstrumentedTest {
     appCompatImageButton.perform(click());
     onView(withId(R.id.Archive)).perform(click());
 
-
     ViewInteraction recyclerView = onView(allOf(withId(R.id.measurement_rv),
         childAtPosition(withId(R.id.measurement_linearLayout), 0)));
     recyclerView.perform(actionOnItemAtPosition(0, click()));
@@ -105,7 +104,6 @@ public class MainActivityInstrumentedTest {
 
   @Test
   public void test_Navigation_To_Settings() {
-
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
     onView(withText("Settings")).perform(click());
 
@@ -131,9 +129,6 @@ public class MainActivityInstrumentedTest {
     appCompatImageButton.perform(click());
     onView(withId(R.id.HumidityThreshold)).perform(click());
   }
-
-
-
 
   private static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {

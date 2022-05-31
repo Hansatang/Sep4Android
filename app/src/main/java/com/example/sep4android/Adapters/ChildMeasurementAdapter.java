@@ -21,17 +21,16 @@ import java.util.List;
 /**
  * Adapter for creating measurements Views in Nested Recycler View (Child) of ArchiveFragment
  */
-public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ViewHolder> {
+public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasurementAdapter.ChildViewHolder> {
   private final String TAG = "ChildMeasurementAdapter";
   private Context ctx;
-  private List<MeasurementsObject> measurementsObjectList;
-
+  private List<MeasurementsObject> measurementsList;
 
   /**
    * Simple constructor initializing measurementsObjectList as new ArrayList
    */
   public ChildMeasurementAdapter() {
-    measurementsObjectList = new ArrayList<>();
+    measurementsList = new ArrayList<>();
   }
 
   /**
@@ -41,23 +40,20 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   public void updateListAndNotify(List<MeasurementsObject> list) {
     Log.i(TAG,"Update Child Adapter with "+list.size()+" objects");
     if (!list.isEmpty()) {
-      measurementsObjectList = list;
+      measurementsList = list;
     }
     notifyDataSetChanged();
   }
 
-
-
   @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inside_measurement_list_layout, parent, false);
-    return new ViewHolder(view);
+  public ChildViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.child_measurement_list_layout, parent, false);
+    return new ChildViewHolder(view);
   }
 
-
   @Override
-  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
     ctx = recyclerView.getContext();
   }
@@ -68,45 +64,44 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
+  public void onBindViewHolder(ChildViewHolder holder, int position) {
     Log.i(TAG,"Binding viewHolder number : "+position);
-    MeasurementsObject currentItem = measurementsObjectList.get(position);
-    holder.dateId.setText(DateFormatter.getFormattedDateForChildAdapter(currentItem.getDate()));
-    holder.temperatureId.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
+    MeasurementsObject currentItem = measurementsList.get(position);
+    holder.dateText.setText(DateFormatter.getFormattedDateForChildAdapter(currentItem.getDate()));
+    holder.temperatureText.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));
     if (currentItem.isTemperatureExceeded()) {
-      holder.temperatureId.setTextColor(Color.RED);
+      holder.temperatureText.setTextColor(Color.RED);
     }
-    holder.humidityId.setText(ctx.getString(R.string.bind_holder_hum, currentItem.getHumidity()));
+    holder.humidityText.setText(ctx.getString(R.string.bind_holder_hum, currentItem.getHumidity()));
     if (currentItem.isHumidityExceeded()) {
-      holder.humidityId.setTextColor(Color.RED);
+      holder.humidityText.setTextColor(Color.RED);
     }
-    holder.co2Id.setText(ctx.getString(R.string.bind_holder_co2, currentItem.getCo2()));
+    holder.co2Text.setText(ctx.getString(R.string.bind_holder_co2, currentItem.getCo2()));
     if (currentItem.isCo2Exceeded()) {
-      holder.co2Id.setTextColor(Color.RED);
+      holder.co2Text.setTextColor(Color.RED);
     }
   }
 
-
   @Override
   public int getItemCount() {
-    return measurementsObjectList.size();
+    return measurementsList.size();
   }
 
   /**
    * View Holder used to create Views in this adapter
    */
-  static class ViewHolder extends RecyclerView.ViewHolder {
-    TextView dateId;
-    TextView temperatureId;
-    TextView humidityId;
-    TextView co2Id;
+  static class ChildViewHolder extends RecyclerView.ViewHolder {
+    TextView dateText;
+    TextView temperatureText;
+    TextView humidityText;
+    TextView co2Text;
 
-    ViewHolder(View itemView) {
+    ChildViewHolder(View itemView) {
       super(itemView);
-      dateId = itemView.findViewById(R.id.dateId);
-      temperatureId = itemView.findViewById(R.id.temperatureId);
-      humidityId = itemView.findViewById(R.id.humidityId);
-      co2Id = itemView.findViewById(R.id.co2Id);
+      dateText = itemView.findViewById(R.id.dateText);
+      temperatureText = itemView.findViewById(R.id.temperatureText);
+      humidityText = itemView.findViewById(R.id.humidityText);
+      co2Text = itemView.findViewById(R.id.co2Text);
     }
   }
 }

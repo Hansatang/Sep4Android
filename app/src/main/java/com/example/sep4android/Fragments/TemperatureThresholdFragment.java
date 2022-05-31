@@ -6,18 +6,9 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,8 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sep4android.Adapters.SpinnerAdapter;
 import com.example.sep4android.Adapters.TemperatureThresholdAdapter;
@@ -59,23 +57,25 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   int hour, minute;
 
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create TemperatureThreshold View");
     super.onCreate(savedInstanceState);
     view = inflater.inflate(R.layout.fragment_temperature_threshold_list, container, false);
-    createViewModels();
     findViews();
-    roomViewModel.getRooms().observe(getViewLifecycleOwner(), listObjects -> initList(listObjects));
+    roomViewModel.getRoomsLiveData().observe(getViewLifecycleOwner(), this::initList);
     temperatureThresholdList.hasFixedSize();
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
     temperatureThresholdList.setAdapter(temperatureThresholdAdapter);
-
-    temperatureThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
+    temperatureThresholdViewModel.getStatusLiveData().observe(getViewLifecycleOwner(), this::prepareResult);
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
-
     setUpItemTouchHelper();
-
     return view;
   }
 
@@ -121,12 +121,12 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
    * @param listObjects list of roomObject from local database
    */
   private void initList(List<RoomObject> listObjects) {
-    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spinner_layout, new ArrayList<>(listObjects));
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
 
-    temperatureThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
-    temperatureThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
+    temperatureThresholdViewModel.getTemperatureThresholds(listObjects.get(0).getRoomId());
+    temperatureThresholdViewModel.getTempThresholdsLiveData().observe(getViewLifecycleOwner(), this::updateList);
 
   }
 
@@ -141,7 +141,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     RoomObject item = (RoomObject) adapterView.getItemAtPosition(i);
-    temperatureThresholdViewModel.getThresholdFromRepo(item.getRoomId());
+    temperatureThresholdViewModel.getTemperatureThresholds(item.getRoomId());
   }
 
   @Override
@@ -189,13 +189,10 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   public void popTimePicker(String title, Button button) {
-    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-      @Override
-      public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-        hour = selectedHour;
-        minute = selectedMinute;
-        button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-      }
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+      hour = selectedHour;
+      minute = selectedMinute;
+      button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
     };
     TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, 0, 0, true);
     timePickerDialog.setTitle(title);
@@ -263,6 +260,6 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
   }
 
   private void updateList() {
-    temperatureThresholdViewModel.getThresholdFromRepo(((RoomObject) spinner.getSelectedItem()).getRoomId());
+    temperatureThresholdViewModel.getTemperatureThresholds(((RoomObject) spinner.getSelectedItem()).getRoomId());
   }
 }

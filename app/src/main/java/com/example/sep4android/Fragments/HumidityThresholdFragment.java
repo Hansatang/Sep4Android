@@ -17,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -57,19 +57,25 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   private NumberPicker startValue, endValue;
   private int hour, minute;
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
+
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG, "Create HumidityThreshold View");
     super.onCreate(savedInstanceState);
     view = inflater.inflate(R.layout.fragment_humidity_threshold_list, container, false);
-    createViewModels();
     findViews();
-    roomVM.getRooms().observe(getViewLifecycleOwner(), this::initList);
+    roomVM.getRoomsLiveData().observe(getViewLifecycleOwner(), this::initList);
     humidityThresholdRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
     humidityThresholdAdapter = new HumidityThresholdAdapter();
     humidityThresholdRV.setAdapter(humidityThresholdAdapter);
     setUpItemTouchHelper();
     setListenersToButtons();
-    humidityThresholdVM.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
+    humidityThresholdVM.getStatusLiveData().observe(getViewLifecycleOwner(), this::prepareResult);
     return view;
   }
 
@@ -103,11 +109,11 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * @param listObjects list of roomObject from local database
    */
   private void initList(List<RoomObject> listObjects) {
-    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+    SpinnerAdapter adapter = new SpinnerAdapter(requireActivity(), R.layout.spinner_layout, new ArrayList<>(listObjects));
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
-    humidityThresholdVM.getThresholdFromRepo(listObjects.get(0).getRoomId());
-    humidityThresholdVM.getThresholds().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
+    humidityThresholdVM.getHumidityThresholds(listObjects.get(0).getRoomId());
+    humidityThresholdVM.getThresholdsLiveData().observe(getViewLifecycleOwner(), this::updateListWithThresholds);
   }
 
   /**
@@ -130,7 +136,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     RoomObject item = (RoomObject) adapterView.getItemAtPosition(i);
-    humidityThresholdVM.getThresholdFromRepo(item.getRoomId());
+    humidityThresholdVM.getHumidityThresholds(item.getRoomId());
   }
 
 
@@ -167,13 +173,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
     findPopUpViews(popupView);
 
-    popupView.findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        humidityThresholdVM.addThresholdToDatabase(((RoomObject) spinner.getSelectedItem()).getRoomId(),
-            startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-        popupWindow.dismiss();
-      }
+    popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
+      humidityThresholdVM.addHumidityThreshold(((RoomObject) spinner.getSelectedItem()).getRoomId(),
+          startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+      popupWindow.dismiss();
     });
 
     startTime.setOnClickListener(view -> popTimePicker("Select start time", startTime));
@@ -196,16 +199,13 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   }
 
   public void popTimePicker(String title, Button button) {
-    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-      @Override
-      public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-        hour = selectedHour;
-        minute = selectedMinute;
-        button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-      }
+    TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+      hour = selectedHour;
+      minute = selectedMinute;
+      button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
     };
 
-    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hour, minute, true);
+    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, 0, 0, true);
     timePickerDialog.setTitle(title);
     timePickerDialog.show();
   }
@@ -231,7 +231,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
             switch (which) {
               case DialogInterface.BUTTON_POSITIVE:
                 Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
-                humidityThresholdVM.deleteThreshold(humidityThresholdObject.getThresholdHumidityId());
+                humidityThresholdVM.deleteHumidityThreshold(humidityThresholdObject.getThresholdHumidityId());
                 Log.i(TAG,"Deleting threshold with a swipe");
                 updateList();
                 break;
@@ -271,6 +271,6 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   }
 
   private void updateList() {
-    humidityThresholdVM.getThresholdFromRepo(((RoomObject) spinner.getSelectedItem()).getRoomId());
+    humidityThresholdVM.getHumidityThresholds(((RoomObject) spinner.getSelectedItem()).getRoomId());
   }
 }

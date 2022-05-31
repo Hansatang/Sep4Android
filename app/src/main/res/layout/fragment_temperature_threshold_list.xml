@@ -17,13 +17,13 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FFFF">
+        android:background="?colorSecondary">
 
         <Spinner
             android:id="@+id/sp_temperature"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:backgroundTint="@color/green_700"
+            android:backgroundTint="?colorPrimary"
             android:contentDescription="@string/spinner"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"

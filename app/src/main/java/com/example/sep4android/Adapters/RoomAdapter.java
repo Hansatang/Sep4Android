@@ -25,10 +25,10 @@ import java.util.List;
 /**
  * Adapter for creating Current Measurements Card Views in MainFragment
  */
-public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
+public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
   private final String TAG = "RoomAdapter";
   final private RoomAdapter.OnListItemClickListener clickListener;
-  private List<RoomObject> roomObjectList;
+  private List<RoomObject> roomList;
   private Context ctx;
 
 
@@ -37,7 +37,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
    * @param listener to have on click listener
    */
   public RoomAdapter(RoomAdapter.OnListItemClickListener listener) {
-    roomObjectList = new ArrayList<>();
+    roomList = new ArrayList<>();
     clickListener = listener;
   }
 
@@ -47,32 +47,32 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
    */
   public void updateListAndNotify(List<RoomObject> list) {
     Log.i(TAG, "Update Room Adapter with " + list.size() + " objects");
-    roomObjectList = list;
+    roomList = list;
     notifyDataSetChanged();
   }
 
   @Override
-  public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
     ctx = recyclerView.getContext();
   }
 
-  public List<RoomObject> getRoomObjectList() {
-    return roomObjectList;
+  public List<RoomObject> getRoomList() {
+    return roomList;
   }
 
   @NonNull
-  public RoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public RoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.room_list_layout, parent, false);
-    return new RoomAdapter.ViewHolder(view);
+    return new RoomViewHolder(view);
   }
 
-  public void onBindViewHolder(RoomAdapter.ViewHolder viewHolder, int position) {
+  public void onBindViewHolder(RoomViewHolder roomViewHolder, int position) {
     Log.i(TAG, "Binding viewHolder number : " + position);
-    viewHolder.name.setText(ctx.getString(R.string.bind_holder_name, roomObjectList.get(position).getName()));
-    List<MeasurementsObject> list = roomObjectList.get(position).getMeasurements();
+    roomViewHolder.name.setText(ctx.getString(R.string.bind_holder_name, roomList.get(position).getName()));
+    List<MeasurementsObject> list = roomList.get(position).getMeasurements();
     if (list != null) {
       if (!list.isEmpty()) {
         MeasurementsObject measurementsObject = list.get(0);
@@ -80,25 +80,25 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         Resources.Theme theme = ctx.getTheme();
         theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
         @ColorInt int color = typedValue.data;
-        viewHolder.temperature.setText(ctx.getString(R.string.bind_holder_temp, measurementsObject.getTemperature()));
+        roomViewHolder.temperature.setText(ctx.getString(R.string.bind_holder_temp, measurementsObject.getTemperature()));
         if (measurementsObject.isTemperatureExceeded()) {
-          viewHolder.temperature.setTextColor(Color.RED);
+          roomViewHolder.temperature.setTextColor(Color.RED);
         } else {
-          viewHolder.temperature.setTextColor(color);
+          roomViewHolder.temperature.setTextColor(color);
         }
-        viewHolder.humidity.setText(ctx.getString(R.string.bind_holder_hum, measurementsObject.getHumidity()));
+        roomViewHolder.humidity.setText(ctx.getString(R.string.bind_holder_hum, measurementsObject.getHumidity()));
         if (measurementsObject.isHumidityExceeded()) {
-          viewHolder.humidity.setTextColor(Color.RED);
+          roomViewHolder.humidity.setTextColor(Color.RED);
         } else {
-          viewHolder.humidity.setTextColor(color);
+          roomViewHolder.humidity.setTextColor(color);
         }
-        viewHolder.co2.setText(ctx.getString(R.string.bind_holder_co2, measurementsObject.getCo2()));
+        roomViewHolder.co2.setText(ctx.getString(R.string.bind_holder_co2, measurementsObject.getCo2()));
         if (measurementsObject.isCo2Exceeded()) {
-          viewHolder.co2.setTextColor(Color.RED);
+          roomViewHolder.co2.setTextColor(Color.RED);
         } else {
-          viewHolder.co2.setTextColor(color);
+          roomViewHolder.co2.setTextColor(color);
         }
-        viewHolder.date.setText(DateFormatter.getFormattedDateForRoom(list.get(0).getDate()));
+        roomViewHolder.date.setText(DateFormatter.getFormattedDateForRoom(list.get(0).getDate()));
       }
     }
   }
@@ -110,20 +110,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
 
   public int getItemCount() {
-    return roomObjectList.size();
+    return roomList.size();
   }
 
   /**
    * View Holder for Current Measurements Cards
    */
-  class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView name;
     TextView date;
     TextView temperature;
     TextView humidity;
     TextView co2;
 
-    ViewHolder(View itemView) {
+    RoomViewHolder(View itemView) {
       super(itemView);
       name = itemView.findViewById(R.id.RoomIdText);
       date = itemView.findViewById(R.id.DateText);
@@ -135,7 +135,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onClick(View view) {
-      clickListener.onListItemClick(roomObjectList.get(getBindingAdapterPosition()));
+      clickListener.onListItemClick(roomList.get(getBindingAdapterPosition()));
     }
   }
 }

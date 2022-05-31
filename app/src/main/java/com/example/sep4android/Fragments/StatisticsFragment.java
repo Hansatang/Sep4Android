@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,20 +37,24 @@ public class StatisticsFragment extends Fragment {
   private BarChart co2BarChart;
   private ArchiveViewModel archiveVM;
   private StatisticsViewModel statisticsVM;
-
   private Spinner spinner;
 
   @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    createViewModels();
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    System.out.println("Test");
+    Log.i(TAG, "Create statistics View");
     view = inflater.inflate(R.layout.fragment_test, container, false);
     findViews();
-    createViewModels();
-    findViews();
-    archiveVM.getRoomsLocal().observe(getViewLifecycleOwner(), this::initList);
-    statisticsVM.getTempStats().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
-    statisticsVM.getHumStats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
-    statisticsVM.getCo2Stats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));
+    archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
+    archiveVM.getRoomsLocal();
+    statisticsVM.getTempAverageLiveData().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
+    statisticsVM.getHumAverageLiveData().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
+    statisticsVM.getCo2AverageLiveData().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));
     return view;
   }
 
@@ -91,15 +96,15 @@ public class StatisticsFragment extends Fragment {
   private void initList(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG, "Initialize Parent list");
-      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spin_item, new ArrayList<>(listObjects));
+      SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity(), R.layout.spinner_layout, new ArrayList<>(listObjects));
       spinner.setAdapter(spinnerAdapter);
       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           RoomObject selectedRoom = (RoomObject) adapterView.getSelectedItem();
-          statisticsVM.getTempStatsFromRepo(selectedRoom.getRoomId());
-          statisticsVM.getHumStatsFromRepo(selectedRoom.getRoomId());
-          statisticsVM.getCo2StatsFromRepo(selectedRoom.getRoomId());
+          statisticsVM.getTempStats(selectedRoom.getRoomId());
+          statisticsVM.getHumStats(selectedRoom.getRoomId());
+          statisticsVM.getCo2Stats(selectedRoom.getRoomId());
         }
 
         @Override

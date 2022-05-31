@@ -4,13 +4,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 import com.example.sep4android.R;
 
@@ -21,7 +19,7 @@ import java.util.List;
 
  * Adapter for creating Temperature Threshold Views in HumidityThresholdFragment
  */
-public class TemperatureThresholdAdapter extends RecyclerView.Adapter<TemperatureThresholdAdapter.ViewHolder> {
+public class TemperatureThresholdAdapter extends RecyclerView.Adapter<TemperatureThresholdAdapter.TempThresholdViewHolder> {
   private final String TAG = "TemperatureThresholdAdapter";
   private List<TemperatureThresholdObject> thresholdObjects;
 
@@ -44,15 +42,15 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
 
   @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public TempThresholdViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
     view = inflater.inflate(R.layout.fragment_temperature_threshold_item, parent, false);
-    return new ViewHolder(view);
+    return new TempThresholdViewHolder(view);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull TempThresholdViewHolder holder, int position) {
     Log.i(TAG, "Binding viewHolder number : " + position);
     holder.startValue.setText(String.valueOf(thresholdObjects.get(position).getMinValue()));
     holder.endValue.setText(String.valueOf(thresholdObjects.get(position).getMaxValue()));
@@ -72,14 +70,14 @@ public class TemperatureThresholdAdapter extends RecyclerView.Adapter<Temperatur
   /**
    * View Holder for temperature threshold data
    */
-  static class ViewHolder extends RecyclerView.ViewHolder {
+  static class TempThresholdViewHolder extends RecyclerView.ViewHolder {
 
     TextView startValue;
     TextView endValue;
     TextView startTime;
     TextView endTime;
 
-    ViewHolder(View itemView) {
+    TempThresholdViewHolder(View itemView) {
       super(itemView);
       startValue = itemView.findViewById(R.id.temperature_threshold_start_value_holder);
       endValue = itemView.findViewById(R.id.temperature_threshold_end_value_holder);

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 
@@ -18,7 +20,6 @@ import java.util.ArrayList;
 
 public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   private final String TAG = "SpinnerAdapter";
-  private Context context;
   private ArrayList<RoomObject> roomObjects;
 
   /**
@@ -29,7 +30,6 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
    */
   public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<RoomObject> roomObjects) {
     super(context, textViewResourceId, roomObjects);
-    this.context = context;
     this.roomObjects = roomObjects;
   }
 
@@ -41,7 +41,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    convertView = inflater.inflate(R.layout.spin_item, parent, false);
+    convertView = inflater.inflate(R.layout.spinner_layout, parent, false);
     TextView textView = convertView.findViewById(R.id.item_text);
     textView.setText(roomObjects.get(position).getName());
     return convertView;
@@ -49,7 +49,7 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
   }
 
   @Override
-  public View getDropDownView(int position, View convertView, ViewGroup parent) {   // This view starts when we click the spinner.
+  public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {   // This view starts when we click the spinner.
     return initView(position, convertView, parent);
   }
 
@@ -58,11 +58,8 @@ public class SpinnerAdapter extends ArrayAdapter<RoomObject> {
       LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       convertView = inflater.inflate(R.layout.spin_item_dropdown, parent, false);
     }
-
     RoomObject roomObject = roomObjects.get(position);
-
     TextView roomName = convertView.findViewById(R.id.spinnerItemName);
-
     if (roomName != null) {
       roomName.setText(roomObject.getName());
     }

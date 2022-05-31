@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -47,7 +46,6 @@ public class SignUpActivity extends AppCompatActivity {
     Log.i(TAG,"Creating sign up view");
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
         .detectLeakedClosableObjects().build());
-    System.out.println("Login Activity test");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.login_layout);
     findViews();

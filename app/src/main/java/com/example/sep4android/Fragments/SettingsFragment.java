@@ -109,7 +109,6 @@ public class SettingsFragment extends Fragment {
     SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
     final SharedPreferences.Editor editor = sharedPreferences.edit();
     final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
-
     if (isDarkModeOn) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
       editor.putBoolean("isDarkModeOn", false);

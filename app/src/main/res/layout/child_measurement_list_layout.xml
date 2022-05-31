@@ -19,7 +19,7 @@
         app:layout_constraintTop_toBottomOf="@+id/details">
 
         <TextView
-            android:id="@+id/dateId"
+            android:id="@+id/dateText"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="28"
@@ -32,7 +32,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/temperatureId"
+            android:id="@+id/temperatureText"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="24"
@@ -45,7 +45,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/humidityId"
+            android:id="@+id/humidityText"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="24"
@@ -58,7 +58,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/co2Id"
+            android:id="@+id/co2Text"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="24"
