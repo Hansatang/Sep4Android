@@ -35,10 +35,11 @@
     <string name="end_value">End Value</string>
     <string name="humidity_thresholds">Humidity Thresholds</string>
     <string name="add_new_threshold">Add new threshold</string>
+    <string name="edit_threshold">Edit threshold</string>
     <string name="select_your_room">Select room:</string>
     <string name="select_start_value">Select Start Value</string>
     <string name="select_end_value">Select End Value</string>
-    <string name="add">add</string>
+    <string name="add">Save</string>
     <string name="select">Select</string>
     <string name="spinner">Spinner</string>
     <string name="nan">NaN</string>
@@ -52,7 +53,7 @@
     <string name="enter_device_id_here">Enter Device Id Here</string>
     <string name="enter_room_name">Enter Room Name</string>
     <string name="create_room">Create Room</string>
-    <string name="select_your_roomobject">Select your roomObject:</string>
+    <string name="select_your_roomobject">Select your room:</string>
     <string name="status">Status :</string>
     <string name="average_temperature_per_day">Average Temperature per Day</string>
     <string name="average_humidity_per_day">Average Humidity per Day</string>

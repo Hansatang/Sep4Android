@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   private RecyclerView humidityThresholdRV;
   private HumidityThresholdAdapter humidityThresholdAdapter;
   private Spinner spinner;
+  private TextView title;
   private FloatingActionButton fab;
   private Button startTime, endTime;
   private NumberPicker startValue, endValue;
@@ -174,7 +176,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
     if (humidityThresholdObject != null) {
-      System.out.println("IDE "+humidityThresholdObject.getThresholdHumidityId());
+      title.setText(getString(R.string.edit_threshold));
       startTime.setText(humidityThresholdObject.getStartTime());
       endTime.setText(humidityThresholdObject.getEndTime());
       endValue.setValue((int) humidityThresholdObject.getMaxValue());
@@ -190,6 +192,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
       });
     }
     else{
+      title.setText(getString(R.string.add_new_threshold));
       startTime.setOnClickListener(view -> popTimePicker("Select start time",0, 0, startTime));
       endTime.setOnClickListener(view -> popTimePicker("Select end time",0, 0, endTime));
       popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
@@ -209,6 +212,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * @param popupView pop-up window view
    */
   private void findPopUpViews(View popupView) {
+    title =popupView.findViewById(R.id.pop_up_title);
     startTime = popupView.findViewById(R.id.select_start_time);
     endTime = popupView.findViewById(R.id.select_end_time);
     startValue = popupView.findViewById(R.id.select_start_value);

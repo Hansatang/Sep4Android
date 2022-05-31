@@ -17,9 +17,9 @@
         android:layout_margin="1dp">
 
         <TextView
+            android:id="@+id/pop_up_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_new_threshold"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"
