@@ -3,11 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/activity_main.xml" value="0.1359375" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/app_bar_main.xml" value="0.1359375" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/content_main.xml" value="0.1359375" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/create_room_layout.xml" value="0.1359375" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_add_new_threshold.xml" value="0.25" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_add_new_threshold_temperature.xml" value="0.1" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_item.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_humidity_threshold_list.xml" value="0.2" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_measurements_list.xml" value="0.25" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_temperature_threshold_item.xml" value="0.1" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_temperature_threshold_list.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/fragment_test.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/inside_measurement_list_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/login_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/main_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/measurement_item.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/measurements_list_layout.xml" value="0.264" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/register_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/room_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/room_list_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/room_spinner_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/settings_layout.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/spin_item.xml" value="0.25" />
+        <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/spin_item_dropdown.xml" value="0.25" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android/app/src/main/res/layout/treshold_temperature.xml" value="0.1" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android2/app/src/main/res/layout/activity_main.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/Tolnai/AndroidStudioProjects/Sep4Android2/app/src/main/res/layout/app_bar_main.xml" value="0.14791666666666667" />

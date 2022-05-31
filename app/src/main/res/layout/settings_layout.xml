@@ -19,7 +19,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Change theme"
+            android:text="@string/change_theme"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="60dp"
-            android:text="Change the theme from dark to light and back"
+            android:text="@string/change_the_theme_from_dark_to_light_and_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +41,7 @@
             android:layout_marginTop="48dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#00BCD4"
-            android:text="Change"
+            android:text="@string/change"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Delete account"
+            android:text="@string/delete_account"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="72dp"
-            android:text="Deletes account from the system"
+            android:text="@string/deletes_account_from_the_system"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +81,7 @@
             android:layout_marginTop="60dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#FF5722"
-            android:text="Delete"
+            android:text="@string/delete2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,7 +100,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Change password"
+            android:text="@string/change_password"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +113,7 @@
             android:layout_marginTop="224dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#00BCD4"
-            android:text="Save"
+            android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +132,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="sans-serif-light"
-                android:hint="Old password"
+                android:hint="@string/old_password"
                 android:minHeight="48dp"
                 android:textAlignment="textEnd"
                 android:textColor="@color/purple_200"
@@ -156,7 +156,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="sans-serif-light"
-                android:hint="New password"
+                android:hint="@string/new_password"
                 android:minHeight="48dp"
                 android:textAlignment="textEnd"
                 android:textColor="@color/purple_200"

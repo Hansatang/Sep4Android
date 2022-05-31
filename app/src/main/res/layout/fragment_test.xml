@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:text="Average Temperature per Day"
+                    android:text="@string/average_temperature_per_day"
                     android:textSize="23sp"
                     android:textStyle="bold" />
 
@@ -90,7 +90,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Average Humidity per Day"
+                    android:text="@string/average_humidity_per_day"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textSize="23sp"
@@ -129,7 +129,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Average Co2 per Day"
+                    android:text="@string/average_co2_per_day"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textSize="23sp"

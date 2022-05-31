@@ -15,7 +15,7 @@
         android:background="@drawable/border"
         android:fontFamily="sans-serif-light"
         android:gravity="left|center_vertical"
-        android:text="Status :"
+        android:text="@string/status"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:textColor="?colorSecondary"

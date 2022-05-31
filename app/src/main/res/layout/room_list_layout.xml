@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
-                android:text="Room:"
+                android:text="@string/room"
                 android:textColor="?colorOnPrimary"
                 android:textSize="23sp"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Date                :"
+                    android:text="@string/date"
                     android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Temperature :"
+                    android:text="@string/temperature2"
                     android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="Humidity        :"
+                    android:text="@string/humidity"
                     android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="CO2                 :"
+                    android:text="@string/co2"
                     android:textColor="?colorOnPrimary"
                     android:textSize="18sp" />
 
