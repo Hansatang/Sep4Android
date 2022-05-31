@@ -18,47 +18,20 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DatabaseApi {
-  @GET("room/last/{userId}")
-  Call<List<RoomObject>> getRoomByUserId(@Path("userId") String userId);
-
-  @POST("room/")
-  Call<Integer> addRoom(@Body RoomObject object);
-
-  @GET("measurement/week/{userId}/")
-  Call<List<MeasurementsObject>> getMeasurementsAllRooms(@Path("userId") String object);
-
-  @POST("token/")
-  Call<Integer> setToken(@Body UserToken userToken);
-
-  @PUT("token/")
-  Call<Integer> deleteToken(@Body UserToken userToken);
-
   @GET("humidityThresholds/{roomId}")
   Call<List<HumidityThresholdObject>> getHumidityThresholds(@Path("roomId") String roomId);
-
-  @GET("temperatureThresholds/{roomId}")
-  Call<List<TemperatureThresholdObject>> getTemperatureThresholds(@Path("roomId") String roomId);
 
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
-  @POST("temperatureThresholds/")
-  Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
-
   @DELETE("humidityThresholds/{id}")
   Call<Integer> deleteHumidityThreshold(@Path("id") int id);
 
-  @DELETE("temperatureThresholds/{id}")
-  Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
-
-  @PUT("room/")
-  Call<Integer> changeName(@Body RoomObject newName);
-
-  @DELETE("room/{roomId}/")
-  Call<Integer> deleteRoom(@Path("roomId") String roomId);
-
   @DELETE("measurement/room/{roomId}")
   Call<Integer> resetMeasurements(@Path("roomId") String roomId);
+
+  @GET("measurement/week/{userId}/")
+  Call<List<MeasurementsObject>> getMeasurementsAllRooms(@Path("userId") String object);
 
   @GET("/measurement/averageTemp/{roomId}")
   Call<List<Double>> getTempStats(@Path("roomId") String roomId);
@@ -68,4 +41,34 @@ public interface DatabaseApi {
 
   @GET("/measurement/averageCo2/{roomId}")
   Call<List<Double>> getCo2Stats(@Path("roomId") String roomId);
+
+  @POST("token/")
+  Call<Integer> setToken(@Body UserToken userToken);
+
+  @PUT("token/")
+  Call<Integer> deleteToken(@Body UserToken userToken);
+
+  @POST("room/")
+  Call<Integer> addRoom(@Body RoomObject object);
+
+  @PUT("room/")
+  Call<Integer> changeName(@Body RoomObject newName);
+
+  @GET("room/last/{userId}")
+  Call<List<RoomObject>> getRoomByUserId(@Path("userId") String userId);
+
+  @DELETE("room/{roomId}/")
+  Call<Integer> deleteRoom(@Path("roomId") String roomId);
+
+  @GET("temperatureThresholds/{roomId}")
+  Call<List<TemperatureThresholdObject>> getTemperatureThresholds(@Path("roomId") String roomId);
+
+  @POST("temperatureThresholds/")
+  Call<Integer> addTemperatureThreshold(@Body TemperatureThresholdObject object);
+
+  @DELETE("temperatureThresholds/{id}")
+  Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
+
+
+
 }
