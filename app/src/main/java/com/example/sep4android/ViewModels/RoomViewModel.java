@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class RoomViewModel extends AndroidViewModel {
   private final RoomRepository roomRepository;
-  private final TokenRepository tokenRepository;
   private final ArchiveRepository archiveRepository;
   private final MediatorLiveData<List<RoomObject>> roomsLiveData;
   private final MediatorLiveData<Integer> creationResult;
@@ -30,7 +29,6 @@ public class RoomViewModel extends AndroidViewModel {
     roomsLiveData = new MediatorLiveData<>();
     creationResult = new MediatorLiveData<>();
     archiveRepository = ArchiveRepository.getInstance(app);
-    tokenRepository = TokenRepository.getInstance();
   }
 
   public LiveData<List<RoomObject>> getRooms() {
@@ -50,10 +48,6 @@ public class RoomViewModel extends AndroidViewModel {
 
   public void addRoomToDatabase(String roomId, String name, String userUID) {
     creationResult.addSource(roomRepository.addRoomToDatabase(roomId, name, userUID), creationResult::setValue);
-  }
-
-  public void deleteToken(String userUID) {
-    tokenRepository.deleteToken(userUID);
   }
 
   public void setResult() {

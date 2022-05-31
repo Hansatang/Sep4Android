@@ -27,7 +27,6 @@ public class RoomRepository {
 
   /**
    * Simple constructor initializing room objects in a new list
-   * @param application instance of the application
    */
   private RoomRepository() {
     databaseApi = DatabaseServiceGenerator.getDatabaseApi();

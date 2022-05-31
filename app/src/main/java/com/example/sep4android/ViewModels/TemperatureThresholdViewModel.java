@@ -17,39 +17,39 @@ import java.util.List;
  */
 public class TemperatureThresholdViewModel extends AndroidViewModel {
   private final TemperatureThresholdRepository temperatureThresholdRepository;
-  private final MediatorLiveData<List<TemperatureThresholdObject>> temperatureThresholds;
-  private final MediatorLiveData<String> status;
+  private final MediatorLiveData<List<TemperatureThresholdObject>> temperatureThresholdsLiveData;
+  private final MediatorLiveData<String> statusLiveData;
 
 
-  public TemperatureThresholdViewModel(@NonNull Application application) {
-    super(application);
+  public TemperatureThresholdViewModel(@NonNull Application app) {
+    super(app);
     temperatureThresholdRepository = TemperatureThresholdRepository.getInstance();
-    temperatureThresholds = new MediatorLiveData<>();
-    status = new MediatorLiveData<>();
+    temperatureThresholdsLiveData = new MediatorLiveData<>();
+    statusLiveData = new MediatorLiveData<>();
   }
 
-  public LiveData<List<TemperatureThresholdObject>> getThresholds() {
-    return temperatureThresholds;
+  public LiveData<List<TemperatureThresholdObject>> getTempThresholdsLiveData() {
+    return temperatureThresholdsLiveData;
   }
 
-  public LiveData<String> getStatus() {
-    return status;
+  public LiveData<String> getStatusLiveData() {
+    return statusLiveData;
   }
 
   public void getThresholdFromRepo(String roomId) {
-    temperatureThresholds.addSource(temperatureThresholdRepository.getTemperatureThresholds(roomId), temperatureThresholds::setValue);
+    temperatureThresholdsLiveData.addSource(temperatureThresholdRepository.getTemperatureThresholds(roomId), temperatureThresholdsLiveData::setValue);
   }
 
   public void addTemperatureThreshold(String roomId, String startTime, String endTime, double maxValue, double minValue) {
-    status.addSource(temperatureThresholdRepository.addTemperatureThreshold(roomId, startTime, endTime, maxValue, minValue), status::setValue);
+    statusLiveData.addSource(temperatureThresholdRepository.addTemperatureThreshold(roomId, startTime, endTime, maxValue, minValue), statusLiveData::setValue);
   }
 
 
   public void deleteTemperatureThreshold(int thresholdId) {
-    status.addSource(temperatureThresholdRepository.deleteTemperatureThreshold(thresholdId), status::setValue);
+    statusLiveData.addSource(temperatureThresholdRepository.deleteTemperatureThreshold(thresholdId), statusLiveData::setValue);
   }
 
   public void setResult() {
-    status.addSource(temperatureThresholdRepository.setResult(), status::setValue);
+    statusLiveData.addSource(temperatureThresholdRepository.setResult(), statusLiveData::setValue);
   }
 }

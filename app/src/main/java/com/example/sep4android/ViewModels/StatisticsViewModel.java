@@ -19,35 +19,35 @@ public class StatisticsViewModel extends AndroidViewModel {
   private final MediatorLiveData<List<Double>> humAverageWeek;
   private final MediatorLiveData<List<Double>> co2AverageWeek;
 
-  public StatisticsViewModel(Application application) {
-    super(application);
+  public StatisticsViewModel(Application appl) {
+    super(appl);
     statisticsRepository = StatisticsRepository.getInstance();
     this.tempAverageWeek = new MediatorLiveData<>();
     this.humAverageWeek = new MediatorLiveData<>();
     this.co2AverageWeek = new MediatorLiveData<>();
   }
 
-  public LiveData<List<Double>> getTempStats() {
+  public LiveData<List<Double>> getTempAverageLiveData() {
     return tempAverageWeek;
   }
 
-  public LiveData<List<Double>> getHumStats() {
+  public LiveData<List<Double>> getHumAverageLiveData() {
     return humAverageWeek;
   }
 
-  public LiveData<List<Double>> getCo2Stats() {
+  public LiveData<List<Double>> getCo2AverageLiveData() {
     return co2AverageWeek;
   }
 
-  public void getTempStatsFromRepo(String roomId) {
+  public void getTempStats(String roomId) {
     tempAverageWeek.addSource(statisticsRepository.getTempStats(roomId), tempAverageWeek::setValue);
   }
 
-  public void getHumStatsFromRepo(String roomId) {
+  public void getHumStats(String roomId) {
     humAverageWeek.addSource(statisticsRepository.getHumStats(roomId), humAverageWeek::setValue);
   }
 
-  public void getCo2StatsFromRepo(String roomId) {
+  public void getCo2Stats(String roomId) {
     co2AverageWeek.addSource(statisticsRepository.getCo2Stats(roomId), co2AverageWeek::setValue);
   }
 

@@ -53,9 +53,9 @@ public class StatisticsFragment extends Fragment {
     findViews();
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
     archiveVM.getRoomsLocal();
-    statisticsVM.getTempStats().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
-    statisticsVM.getHumStats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
-    statisticsVM.getCo2Stats().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));
+    statisticsVM.getTempAverageLiveData().observe(getViewLifecycleOwner(), list -> setChart(list, tempBarChart));
+    statisticsVM.getHumAverageLiveData().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, humBarChart));
+    statisticsVM.getCo2AverageLiveData().observe(getViewLifecycleOwner(), doubles -> setChart(doubles, co2BarChart));
     return view;
   }
 
@@ -103,9 +103,9 @@ public class StatisticsFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
           RoomObject selectedRoom = (RoomObject) adapterView.getSelectedItem();
-          statisticsVM.getTempStatsFromRepo(selectedRoom.getRoomId());
-          statisticsVM.getHumStatsFromRepo(selectedRoom.getRoomId());
-          statisticsVM.getCo2StatsFromRepo(selectedRoom.getRoomId());
+          statisticsVM.getTempStats(selectedRoom.getRoomId());
+          statisticsVM.getHumStats(selectedRoom.getRoomId());
+          statisticsVM.getCo2Stats(selectedRoom.getRoomId());
         }
 
         @Override

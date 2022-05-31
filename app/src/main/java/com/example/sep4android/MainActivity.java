@@ -20,7 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.sep4android.ViewModels.RoomViewModel;
+import com.example.sep4android.ViewModels.TokenViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
   private TextView UsernameInNavBar;
   private TextView EmailInNavBar;
   private AppBarConfiguration mAppBarConfiguration;
-  private RoomViewModel roomViewModel;
+  private TokenViewModel tokenViewModel;
   private FirebaseUser user;
 
   @Override
@@ -51,13 +51,34 @@ public class MainActivity extends AppCompatActivity {
       finish();
     } else {
       setContentView(R.layout.activity_main);
-      roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
+      tokenViewModel = new ViewModelProvider(this).get(TokenViewModel.class);
+      tokenViewModel.getDeletionResult().observe(this, result -> LogOut(result));
       findViews();
       setSupportActionBar(toolbar);
       NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
       NavigationUI.setupWithNavController(navigationView, navController);
       checkUser();
       checkThemePreferences();
+    }
+  }
+
+  private void LogOut(Integer result) {
+    if (result == 200) {
+      FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(deleteTokenTask -> {
+        if (!deleteTokenTask.isSuccessful()) {
+          Log.w("Token", "Fetching FCM registration token failed", deleteTokenTask.getException());
+          return;
+        }
+        AuthUI.getInstance().signOut(this).addOnCompleteListener(logOutTask -> {
+          if (!logOutTask.isSuccessful()) {
+            Log.w("Token", "Fetching FCM registration token failed", logOutTask.getException());
+            return;
+          }
+          tokenViewModel.setResult();
+          startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+          finish();
+        });
+      });
     }
   }
 
@@ -120,21 +141,7 @@ public class MainActivity extends AppCompatActivity {
    * Logs out the user
    */
   private void onLogOut() {
-    roomViewModel.deleteToken(user.getUid());
-    FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(deleteTokenTask -> {
-      if (!deleteTokenTask.isSuccessful()) {
-        Log.w("Token", "Fetching FCM registration token failed", deleteTokenTask.getException());
-        return;
-      }
-      AuthUI.getInstance().signOut(this).addOnCompleteListener(logOutTask -> {
-        if (!logOutTask.isSuccessful()) {
-          Log.w("Token", "Fetching FCM registration token failed", logOutTask.getException());
-          return;
-        }
-        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
-        finish();
-      });
-    });
+    tokenViewModel.deleteToken(user.getUid());
   }
 
 

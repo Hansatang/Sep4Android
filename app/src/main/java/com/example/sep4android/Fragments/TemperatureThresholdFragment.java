@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -76,7 +75,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     temperatureThresholdList.setLayoutManager(new LinearLayoutManager(this.getContext()));
     temperatureThresholdAdapter = new TemperatureThresholdAdapter();
     temperatureThresholdList.setAdapter(temperatureThresholdAdapter);
-    temperatureThresholdViewModel.getStatus().observe(getViewLifecycleOwner(), this::prepareResult);
+    temperatureThresholdViewModel.getStatusLiveData().observe(getViewLifecycleOwner(), this::prepareResult);
     fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
     setUpItemTouchHelper();
     return view;
@@ -129,7 +128,7 @@ public class TemperatureThresholdFragment extends Fragment implements AdapterVie
     spinner.setOnItemSelectedListener(this);
 
     temperatureThresholdViewModel.getThresholdFromRepo(listObjects.get(0).getRoomId());
-    temperatureThresholdViewModel.getThresholds().observe(getViewLifecycleOwner(), this::updateList);
+    temperatureThresholdViewModel.getTempThresholdsLiveData().observe(getViewLifecycleOwner(), this::updateList);
 
   }
 
