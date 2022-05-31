@@ -152,4 +152,36 @@ public class HumidityThresholdsRepository {
     return liveData;
   }
 
+  public LiveData<String> updateHumidityThreshold(int thresholdHumidityId, String roomId, String startTime, String endTime, double maxValue, double minValue) {
+    Log.i(TAG, "Update Humidity Threshold Post Call");
+    final MutableLiveData<String> liveData = new MutableLiveData<>();
+    HumidityThresholdObject thresholdToCreate = new HumidityThresholdObject(thresholdHumidityId,roomId, startTime, endTime, maxValue, minValue);
+    Call<Integer> call = databaseApi.updateHumidityThreshold(thresholdToCreate);
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        Log.i(TAG, "Humidity Threshold Update Call response: "+ response);
+        if (response.isSuccessful()) {
+          switch (response.body()) {
+            case 200:
+              liveData.setValue("Complete");
+              break;
+            case 400:
+              liveData.setValue("Wrong Threshold");
+              break;
+          }
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went wrong :(");
+      }
+    });
+    return liveData;
+  }
 }

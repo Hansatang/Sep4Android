@@ -42,6 +42,10 @@ public class HumidityThresholdViewModel extends AndroidViewModel {
         statusLiveData.addSource( humidityThresholdsRepository.addHumidityThreshold(roomId, startTime, endTime, maxValue, minValue), statusLiveData::setValue);
     }
 
+    public void updateHumidityThreshold(int thresholdHumidityId, String roomId, String startTime, String endTime, double maxValue, double minValue){
+        statusLiveData.addSource( humidityThresholdsRepository.updateHumidityThreshold(thresholdHumidityId,roomId, startTime, endTime, maxValue, minValue), statusLiveData::setValue);
+    }
+
     public void deleteHumidityThreshold(int thresholdId){
         statusLiveData.addSource( humidityThresholdsRepository.deleteHumidityThreshold(thresholdId), statusLiveData::setValue);
     }

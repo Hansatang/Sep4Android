@@ -83,7 +83,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * Adding functionality to buttons in this view
    */
   private void setListenersToButtons() {
-    fab.setOnClickListener(view -> onButtonShowPopupWindowClick());
+    fab.setOnClickListener(view -> onButtonShowPopupWindowClick(null, -1));
   }
 
   /**
@@ -118,10 +118,11 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
   /**
    * Updates list if manipulation was successful
+   *
    * @param result of humidity threshold manipulation
    */
   private void prepareResult(String result) {
-    Log.i(TAG,"Creating result messages to user");
+    Log.i(TAG, "Creating result messages to user");
     if (result != null) {
       if (result.equals("Complete")) {
         Toast.makeText(getContext(), "Complete", Toast.LENGTH_SHORT).show();
@@ -157,34 +158,54 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
   /**
    * Opens a pop-up window for creating new humidity threshold object
    */
-  public void onButtonShowPopupWindowClick() {
-    Log.i(TAG,"Opening up the pop-up window");
+  public void onButtonShowPopupWindowClick(HumidityThresholdObject humidityThresholdObject, int position) {
+
+
+    Log.i(TAG, "Opening up the pop-up window");
 
     LayoutInflater inflater = (LayoutInflater)
         getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View popupView = inflater.inflate(R.layout.fragment_add_new_threshold, null);
 
+    findPopUpViews(popupView);
+
     int width = LinearLayout.LayoutParams.WRAP_CONTENT;
     int height = LinearLayout.LayoutParams.WRAP_CONTENT;
     final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
+    if (humidityThresholdObject != null) {
+      System.out.println("IDE "+humidityThresholdObject.getThresholdHumidityId());
+      startTime.setText(humidityThresholdObject.getStartTime());
+      endTime.setText(humidityThresholdObject.getEndTime());
+      endValue.setValue((int) humidityThresholdObject.getMaxValue());
+      startValue.setValue((int) humidityThresholdObject.getMinValue());
+      String[] timeS = humidityThresholdObject.getStartTime().split(":");
+      String[] timeE = humidityThresholdObject.getEndTime().split(":");
+      startTime.setOnClickListener(view -> popTimePicker("Select start time",Integer.parseInt(timeS[0]),Integer.parseInt(timeS[1]), startTime));
+      endTime.setOnClickListener(view -> popTimePicker("Select end time",Integer.parseInt(timeE[0]),Integer.parseInt(timeE[1]), endTime));
+      popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
+        humidityThresholdVM.updateHumidityThreshold(humidityThresholdObject.getThresholdHumidityId(),((RoomObject) spinner.getSelectedItem()).getRoomId(),
+            startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+        popupWindow.dismiss();
+      });
+    }
+    else{
+      startTime.setOnClickListener(view -> popTimePicker("Select start time",0, 0, startTime));
+      endTime.setOnClickListener(view -> popTimePicker("Select end time",0, 0, endTime));
+      popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
+        humidityThresholdVM.addHumidityThreshold(((RoomObject) spinner.getSelectedItem()).getRoomId(),
+            startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
+        popupWindow.dismiss();
+      });
+    }
+    popupWindow.setOnDismissListener(() -> undoSwipe(position));
     popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-
-    findPopUpViews(popupView);
-
-    popupView.findViewById(R.id.add_button).setOnClickListener(view -> {
-      humidityThresholdVM.addHumidityThreshold(((RoomObject) spinner.getSelectedItem()).getRoomId(),
-          startTime.getText().toString(), endTime.getText().toString(), endValue.getValue(), startValue.getValue());
-      popupWindow.dismiss();
-    });
-
-    startTime.setOnClickListener(view -> popTimePicker("Select start time", startTime));
-    endTime.setOnClickListener(view -> popTimePicker("Select end time", endTime));
   }
+
 
   /**
    * Assigns all needed Views in this fragment
+   *
    * @param popupView pop-up window view
    */
   private void findPopUpViews(View popupView) {
@@ -198,14 +219,14 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     endValue.setMaxValue(35);
   }
 
-  public void popTimePicker(String title, Button button) {
+  public void popTimePicker(String title,int hourVal, int minuteVal, Button button) {
     TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
       hour = selectedHour;
       minute = selectedMinute;
       button.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
     };
 
-    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, 0, 0, true);
+    TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, hourVal, minuteVal, true);
     timePickerDialog.setTitle(title);
     timePickerDialog.show();
   }
@@ -214,7 +235,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
    * Adds functionality to recycle view: deleting thresholds from the list with a swipe
    */
   private void setUpItemTouchHelper() {
-    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
       @Override
       public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -232,7 +253,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
               case DialogInterface.BUTTON_POSITIVE:
                 Toast.makeText(getActivity(), "Threshold deleted", Toast.LENGTH_SHORT).show();
                 humidityThresholdVM.deleteHumidityThreshold(humidityThresholdObject.getThresholdHumidityId());
-                Log.i(TAG,"Deleting threshold with a swipe");
+                Log.i(TAG, "Deleting threshold with a swipe");
                 updateList();
                 break;
               case DialogInterface.BUTTON_NEGATIVE:
@@ -254,6 +275,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
           dialog.setCanceledOnTouchOutside(true);
           dialog.show();
         }
+        if (swipeDir == ItemTouchHelper.RIGHT) {
+
+          onButtonShowPopupWindowClick(humidityThresholdObject,position);
+        }
       }
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeCallback);
@@ -262,6 +287,7 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
 
   /**
    * Resets swipe action
+   *
    * @param position of item that is being reset
    */
   @SuppressLint("NotifyDataSetChanged")
