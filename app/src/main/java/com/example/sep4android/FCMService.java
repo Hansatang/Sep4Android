@@ -99,6 +99,7 @@ public class FCMService extends FirebaseMessagingService {
    * @param title FCM message body received.
    */
   private void sendNotification(String title, String content, boolean openOnCLick) {
+    System.out.println("Build");
     String channelId = getString(R.string.default_notification_channel_id);
     Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     NotificationCompat.Builder notificationBuilder;
