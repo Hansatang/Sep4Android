@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -44,19 +43,16 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   private TextView activeRoomCount;
   private RoomAdapter roomAdapter;
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    createViewModels();
-  }
-
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.i(TAG,"Create Main View");
     view = inflater.inflate(R.layout.main_layout, container, false);
-    findViews();
-    setListenersToButtons();
+    createViewModels();
+
+    // TODO: 24.05.2022 change this hard code back 
     roomVM.getRoomsLiveData().observe(getViewLifecycleOwner(), this::setRooms);
     roomVM.getCreationResultLiveData().observe(getViewLifecycleOwner(), this::refresh);
+    findViews();
+    setListenersToButtons();
     roomsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     roomAdapter = new RoomAdapter(this);
     roomsRV.setAdapter(roomAdapter);
@@ -111,7 +107,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
   private void setRooms(List<RoomObject> listObjects) {
     if (listObjects != null) {
       Log.i(TAG,"Initializing Status Cards");
-      activeRoomCount.setText(getString(R.string.bind_holder_room_count_online, listObjects.size()));
+      activeRoomCount.setText(getContext().getString(R.string.bind_holder_room_count_online, listObjects.size()));
       roomAdapter.updateListAndNotify(listObjects);
     }
   }
@@ -130,7 +126,9 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
       @Override
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
         int position = viewHolder.getAbsoluteAdapterPosition();
+        System.out.println("Pos" + position);
         createPopUp(position);
+
       }
     };
 
@@ -154,29 +152,34 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
     Button resetButton = dialogView.findViewById(R.id.resetButton);
     Button deleteButton = dialogView.findViewById(R.id.deleteButton);
     Button cancelButton = dialogView.findViewById(R.id.cancelButton);
-    titleTextView.setText(getString(R.string.pop_up_title, roomObject.getName()));
+    titleTextView.setText("What you want to do with: " + roomObject.getName());
     builder.setView(dialogView);
 
 
     AlertDialog alertDialog = builder.create();
     changeNameButton.setOnClickListener(view -> {
+      System.out.println("Change " + newName.getText());
+      System.out.println(roomObject.getName());
       roomObject.setName(newName.getText().toString());
-      roomVM.changeRoomName(roomObject);
+      roomVM.changeName(roomObject);
       alertDialog.dismiss();
     });
 
     resetButton.setOnClickListener(view -> {
-      roomVM.resetRoomMeasurements(roomObject.getRoomId());
+      System.out.println("reset");
+      roomVM.resetMeasurements(roomObject.getRoomId());
       undoSwipe(position);
       alertDialog.dismiss();
     });
 
     deleteButton.setOnClickListener(view -> {
+      System.out.println("delete");
       roomVM.deleteRoom(roomObject.getRoomId());
       alertDialog.dismiss();
     });
 
     cancelButton.setOnClickListener(view -> {
+      System.out.println("Cancel");
       undoSwipe(position);
       alertDialog.dismiss();
     });
@@ -197,6 +200,7 @@ public class MainFragment extends Fragment implements RoomAdapter.OnListItemClic
    */
   @SuppressLint("NotifyDataSetChanged")
   private void undoSwipe(int position) {
+    System.out.println("PosUndo " + position);
     roomAdapter.notifyItemChanged(position);
     roomsRV.scrollToPosition(position);
   }

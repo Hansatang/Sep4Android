@@ -57,6 +57,8 @@ public class CreateRoomFragment extends Fragment {
   }
 
 
+
+
   /**
    * navigate to MainFragment if adding new room was successful
    * @param creationResult of room creation

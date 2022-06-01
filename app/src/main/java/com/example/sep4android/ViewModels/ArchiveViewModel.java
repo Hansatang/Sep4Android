@@ -63,4 +63,9 @@ public class ArchiveViewModel extends AndroidViewModel {
       archiveRepository.insertAllMeasurements(measurementsObjects.toArray(new MeasurementsObject[0]));
     });
   }
+
+  public void clearFilter() {
+    System.out.println("Yolo");
+    roomMeasurementsLiveData.addSource(archiveRepository.clearFilter(), roomMeasurementsLiveData::setValue);
+  }
 }

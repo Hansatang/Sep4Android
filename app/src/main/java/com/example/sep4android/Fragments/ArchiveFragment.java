@@ -51,7 +51,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     findViews();
-    archiveVM.getMeasurementsLiveData().observe(getViewLifecycleOwner(),this::LogData);
+    archiveVM.getMeasurementsLocalLiveData().observe(getViewLifecycleOwner(),this::LogData);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);

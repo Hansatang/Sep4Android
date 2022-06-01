@@ -47,7 +47,7 @@ public class FCMService extends FirebaseMessagingService {
     Log.d(TAG, "From: " + remoteMessage.getFrom());
     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
       if (AppStatusChecker.isActivityVisible()) {
-        RoomRepository repository = RoomRepository.getInstance();
+        RoomRepository repository = RoomRepository.getInstance(getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
         if (remoteMessage.getData().get("exceeded").contains("true")) {
           sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), false);
