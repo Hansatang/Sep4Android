@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.example.sep4android.Adapters.ChildMeasurementAdapter;
 import com.example.sep4android.Adapters.ParentMeasurementAdapter;
 import com.example.sep4android.Adapters.SpinnerAdapter;
+import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 import com.example.sep4android.R;
 import com.example.sep4android.ViewModels.ArchiveViewModel;
@@ -42,6 +43,7 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     createViewModels();
+
   }
 
   @Override
@@ -49,13 +51,18 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     findViews();
+    archiveVM.getMeasurementsLiveData().observe(getViewLifecycleOwner(),this::LogData);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
-    archiveVM.getMeasurementsFromAllRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
     archiveVM.getRoomsLocal();
+    archiveVM.getMeasurementsFromAllRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
+  }
+
+  private void LogData(List<MeasurementsObject> measurementsObjects) {
+    Log.i(TAG, "Got "+measurementsObjects.size());
   }
 
   /**
@@ -132,4 +139,5 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     measurementsRV = view.findViewById(R.id.measurement_rv);
     spinner = view.findViewById(R.id.sp);
   }
+
 }

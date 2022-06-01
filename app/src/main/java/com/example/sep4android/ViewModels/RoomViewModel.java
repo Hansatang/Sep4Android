@@ -39,6 +39,7 @@ public class RoomViewModel extends AndroidViewModel {
 
   public void getRoomsFromRepo(String uid) {
     roomsLiveData.addSource(roomRepository.getDatabaseRooms(uid), roomObjects -> {
+      System.out.println("Insert");
       archiveRepository.insertAllRooms(roomObjects.toArray(new RoomObject[0]));
       roomsLiveData.setValue(roomObjects);
     });

@@ -20,7 +20,4 @@ public class AppStatusChecker extends Application {
 
   private static boolean activityVisible;
 
-
-
-
 }

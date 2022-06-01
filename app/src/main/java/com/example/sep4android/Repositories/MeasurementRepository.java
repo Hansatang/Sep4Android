@@ -52,6 +52,7 @@ public class MeasurementRepository{
                      Log.i(TAG, "Get Measurements Get Call response: "+ response);
                      if (response.isSuccessful()) {
                        List<MeasurementsObject> rs = response.body();
+                       System.out.println(rs.size());
                        liveData.setValue(rs);
                      }
                    }
