@@ -50,7 +50,11 @@ public class FCMService extends FirebaseMessagingService {
         RoomRepository repository = RoomRepository.getInstance(getApplication());
         repository.getDatabaseRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
         if (remoteMessage.getData().get("exceeded").contains("true")) {
+          System.out.println("True");
           sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), false);
+        }
+        else{
+          System.out.println("False");
         }
       } else {
         if (remoteMessage.getData().get("exceeded").contains("true")) {
@@ -99,6 +103,7 @@ public class FCMService extends FirebaseMessagingService {
    * @param title FCM message body received.
    */
   private void sendNotification(String title, String content, boolean openOnCLick) {
+    System.out.println("Notification");
     String channelId = getString(R.string.default_notification_channel_id);
     Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     NotificationCompat.Builder notificationBuilder;
@@ -119,7 +124,7 @@ public class FCMService extends FirebaseMessagingService {
     NotificationChannel channel = new NotificationChannel
         (channelId, "Channel human readable title", NotificationManager.IMPORTANCE_HIGH);
     notificationManager.createNotificationChannel(channel);
-
+    System.out.println("build");
     notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
   }
 
