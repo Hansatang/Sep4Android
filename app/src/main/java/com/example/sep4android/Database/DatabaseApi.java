@@ -24,8 +24,6 @@ public interface DatabaseApi {
   @POST("humidityThresholds/")
   Call<Integer> addHumidityThreshold(@Body HumidityThresholdObject object);
 
-  @PUT("humidityThresholds/")
-  Call<Integer> updateHumidityThreshold(@Body HumidityThresholdObject object);
 
   @DELETE("humidityThresholds/{id}")
   Call<Integer> deleteHumidityThreshold(@Path("id") int id);
@@ -72,6 +70,9 @@ public interface DatabaseApi {
   @DELETE("temperatureThresholds/{id}")
   Call<Integer> deleteTemperatureThreshold(@Path("id") int id);
 
+  @PUT("humidityThresholds/")
+  Call<Integer> updateHumidityThreshold(@Body HumidityThresholdObject object);
 
-
+  @PUT("temperatureThresholds/")
+  Call<Integer> updateTemperatureThreshold(@Body TemperatureThresholdObject temperatureThresholdObject);
 }

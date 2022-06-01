@@ -54,7 +54,7 @@ public class MainActivityInstrumentedTest {
 
   @Rule
   public ActivityTestRule<MainActivity> mainTestRule =
-          new ActivityTestRule<>(MainActivity.class);
+      new ActivityTestRule<>(MainActivity.class);
 
   @Before
   public void setUp() throws Exception {
@@ -78,7 +78,7 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Add_New_Room(){
+  public void test_Add_New_Room() {
     onView(withId(R.id.fabCreateRoom)).perform(click());
 
     onView(withId(R.id.deviceNameText)).perform(typeText("TestDevice"));
@@ -87,27 +87,27 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Change_Room_Name(){
+  public void test_Change_Room_Name() {
     onView(withId(R.id.room_container)).perform(swipeRight());
     onView(withId(R.id.nameText)).perform(typeText("TestRoom1"));
     onView(withId(R.id.changeNameButton));
   }
 
   @Test
-  public void test_Navigation_Bar_Visible(){
+  public void test_Navigation_Bar_Visible() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2),
-                    isDisplayed()));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2),
+            isDisplayed()));
   }
 
   @Test
   public void test_Navigation_To_Measurements() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.Archive)).perform(click());
 
@@ -116,25 +116,25 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Recycle_View_In_Measurements(){
+  public void test_Recycle_View_In_Measurements() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.Archive)).perform(click());
 
     ViewInteraction recyclerView = onView(allOf(withId(R.id.measurement_rv),
-            childAtPosition(withId(R.id.measurement_linearLayout), 0)));
+        childAtPosition(withId(R.id.measurement_linearLayout), 0)));
     recyclerView.perform(actionOnItemAtPosition(0, click()));
   }
 
   @Test
   public void test_Navigation_To_Statistics() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.Statistics)).perform(click());
 
@@ -147,9 +147,9 @@ public class MainActivityInstrumentedTest {
   @Test
   public void test_Navigation_To_TempThreshold() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.TemperatureThreshold)).perform(click());
 
@@ -158,11 +158,11 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Add_TemThreshold(){
+  public void test_Add_TemThreshold() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.TemperatureThreshold)).perform(click());
 
@@ -171,20 +171,20 @@ public class MainActivityInstrumentedTest {
     onView(withId(R.id.select_start_time)).perform(click());
     Calendar calendar = Calendar.getInstance();
     onView(isAssignableFrom(TimePicker.class)).perform(
-            PickerActions.setTime(
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE) + 2
-            )
+        PickerActions.setTime(
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE) + 2
+        )
     );
     onView(withText("OK")).perform(click());
 
     onView(withId(R.id.select_end_time)).perform(click());
     Calendar calendar1 = Calendar.getInstance();
     onView(isAssignableFrom(TimePicker.class)).perform(
-            PickerActions.setTime(
-                    calendar1.get(Calendar.HOUR_OF_DAY),
-                    calendar1.get(Calendar.MINUTE) + 4
-            )
+        PickerActions.setTime(
+            calendar1.get(Calendar.HOUR_OF_DAY),
+            calendar1.get(Calendar.MINUTE) + 4
+        )
     );
     onView(withText("OK")).perform(click());
 
@@ -198,9 +198,9 @@ public class MainActivityInstrumentedTest {
   @Test
   public void test_Navigation_To_HumThreshold() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.HumidityThreshold)).perform(click());
 
@@ -209,11 +209,11 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Add_HumThreshold(){
+  public void test_Add_HumThreshold() {
     ViewInteraction appCompatImageButton = onView(
-            allOf(withContentDescription("Open navigation drawer"),
-                    childAtPosition(allOf(withId(R.id.topAppBar),
-                            childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
+        allOf(withContentDescription("Open navigation drawer"),
+            childAtPosition(allOf(withId(R.id.topAppBar),
+                childAtPosition(withId(R.id.app_bar_main), 2)), 2)));
     appCompatImageButton.perform(click());
     onView(withId(R.id.HumidityThreshold)).perform(click());
 
@@ -222,20 +222,20 @@ public class MainActivityInstrumentedTest {
     onView(withId(R.id.select_start_time)).perform(click());
     Calendar calendar = Calendar.getInstance();
     onView(isAssignableFrom(TimePicker.class)).perform(
-            PickerActions.setTime(
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE) + 2
-            )
+        PickerActions.setTime(
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE) + 2
+        )
     );
     onView(withText("OK")).perform(click());
 
     onView(withId(R.id.select_end_time)).perform(click());
     Calendar calendar1 = Calendar.getInstance();
     onView(isAssignableFrom(TimePicker.class)).perform(
-            PickerActions.setTime(
-                    calendar1.get(Calendar.HOUR_OF_DAY),
-                    calendar1.get(Calendar.MINUTE) + 4
-            )
+        PickerActions.setTime(
+            calendar1.get(Calendar.HOUR_OF_DAY),
+            calendar1.get(Calendar.MINUTE) + 4
+        )
     );
     onView(withText("OK")).perform(click());
 
@@ -261,19 +261,19 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Setting_Change_Theme(){
+  public void test_Setting_Change_Theme() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
     onView(withText("Settings")).perform(click());
 
     ViewInteraction materialButton2 = onView(
-            allOf(withId(R.id.changeThemeButton), withText("Change"),
+        allOf(withId(R.id.changeThemeButton), withText("Change"),
+            childAtPosition(
+                allOf(withId(R.id.constraintLayout),
                     childAtPosition(
-                            allOf(withId(R.id.constraintLayout),
-                                    childAtPosition(
-                                            withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                            0)),
-                            2),
-                    isDisplayed()));
+                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                        0)),
+                2),
+            isDisplayed()));
     materialButton2.perform(click());
     onView(withId(R.id.oldPass)).check(matches(isDisplayed()));
     onView(withId(R.id.newPass)).check(matches(isDisplayed()));
@@ -287,7 +287,7 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Setting_Change_Password(){
+  public void test_Setting_Change_Password() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
     onView(withText("Settings")).perform(click());
 
@@ -300,13 +300,13 @@ public class MainActivityInstrumentedTest {
   }
 
   @Test
-  public void test_Delete_Room(){
+  public void test_Delete_Room() {
     onView(withId(R.id.room_container)).perform(swipeRight());
     onView(withId(R.id.deleteButton));
   }
 
   @Test
-  public void test_Setting_Delete_Account(){
+  public void test_Setting_Delete_Account() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
     onView(withText("Settings")).perform(click());
 
@@ -315,7 +315,7 @@ public class MainActivityInstrumentedTest {
 
 
   private static Matcher<View> childAtPosition(
-          final Matcher<View> parentMatcher, final int position) {
+      final Matcher<View> parentMatcher, final int position) {
 
     return new TypeSafeMatcher<View>() {
       @Override
@@ -328,7 +328,7 @@ public class MainActivityInstrumentedTest {
       public boolean matchesSafely(View view) {
         ViewParent parent = view.getParent();
         return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                && view.equals(((ViewGroup) parent).getChildAt(position));
+            && view.equals(((ViewGroup) parent).getChildAt(position));
       }
     };
   }

@@ -52,4 +52,8 @@ public class TemperatureThresholdViewModel extends AndroidViewModel {
   public void setResult() {
     statusLiveData.addSource(temperatureThresholdRepository.setResult(), statusLiveData::setValue);
   }
+
+  public void updateTemperatureThreshold(TemperatureThresholdObject temperatureThresholdObject) {
+    statusLiveData.addSource(temperatureThresholdRepository.updateHumidityThreshold(temperatureThresholdObject), statusLiveData::setValue);
+  }
 }

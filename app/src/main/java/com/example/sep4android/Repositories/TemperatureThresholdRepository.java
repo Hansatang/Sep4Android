@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Database.DatabaseApi;
 import com.example.sep4android.Database.DatabaseServiceGenerator;
+import com.example.sep4android.Objects.HumidityThresholdObject;
 import com.example.sep4android.Objects.TemperatureThresholdObject;
 
 import java.util.List;
@@ -139,6 +140,38 @@ public class TemperatureThresholdRepository{
               break;
             case 200:
               liveData.setValue("Complete");
+              break;
+          }
+        }
+      }
+
+      @EverythingIsNonNull
+      @Override
+      public void onFailure(Call<Integer> call, Throwable t) {
+        System.out.println(t);
+        System.out.println(t.getMessage());
+        Log.i("Retrofit", "Something went wrong :(");
+      }
+    });
+    return liveData;
+  }
+
+  public LiveData<String> updateHumidityThreshold(TemperatureThresholdObject temperatureThresholdObject) {
+    Log.i(TAG, "Update Temperature Threshold Post Call");
+    final MutableLiveData<String> liveData = new MutableLiveData<>();
+    Call<Integer> call = databaseApi.updateTemperatureThreshold(temperatureThresholdObject);
+    call.enqueue(new Callback<Integer>() {
+      @EverythingIsNonNull
+      @Override
+      public void onResponse(Call<Integer> call, Response<Integer> response) {
+        Log.i(TAG, "Humidity Temperature Update Call response: "+ response);
+        if (response.isSuccessful()) {
+          switch (response.body()) {
+            case 200:
+              liveData.setValue("Complete");
+              break;
+            case 400:
+              liveData.setValue("Wrong Threshold");
               break;
           }
         }
