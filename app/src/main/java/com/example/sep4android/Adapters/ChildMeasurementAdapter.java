@@ -35,12 +35,15 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   /**
    * Updates measurementsObjectList with new data and notify change
+   *
    * @param list new list with Measurements from repository
    */
   public void updateListAndNotify(List<MeasurementsObject> list) {
-    Log.i(TAG,"Update Child Adapter with "+list.size()+" objects");
+    Log.i(TAG, "Update Child Adapter with " + list.size() + " objects");
     if (!list.isEmpty()) {
       measurementsList = list;
+    } else {
+      measurementsList = new ArrayList<>();
     }
     notifyDataSetChanged();
   }
@@ -65,7 +68,7 @@ public class ChildMeasurementAdapter extends RecyclerView.Adapter<ChildMeasureme
 
   @Override
   public void onBindViewHolder(ChildViewHolder holder, int position) {
-    Log.i(TAG,"Binding viewHolder number : "+position);
+    Log.i(TAG, "Binding viewHolder number : " + position);
     MeasurementsObject currentItem = measurementsList.get(position);
     holder.dateText.setText(DateFormatter.getFormattedDateForChildAdapter(currentItem.getDate()));
     holder.temperatureText.setText(ctx.getString(R.string.bind_holder_temp, currentItem.getTemperature()));

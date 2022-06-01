@@ -3,10 +3,12 @@ package com.example.sep4android.LocalDatabase;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sep4android.Objects.MeasurementsObject;
 import com.example.sep4android.Objects.RoomObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +35,7 @@ public class ArchiveRepository {
 
   /**
    * Inserting all measurement objects into the local database
+   *
    * @param measurementsObjects array of measurement object
    */
   public void insertAllMeasurements(MeasurementsObject[] measurementsObjects) {
@@ -41,6 +44,7 @@ public class ArchiveRepository {
 
   /**
    * Inserting all rooms into the local database
+   *
    * @param roomObjects array of rooms
    */
   public void insertAllRooms(RoomObject[] roomObjects) {
@@ -50,6 +54,7 @@ public class ArchiveRepository {
 
   /**
    * Getting all the rooms from the local database
+   *
    * @return returns a list of rooms
    */
   public LiveData<List<RoomObject>> getRooms() {
@@ -58,7 +63,8 @@ public class ArchiveRepository {
 
   /**
    * Getting measurement objects from the local database by id and date
-   * @param id room id that the measurement is assigned to
+   *
+   * @param id   room id that the measurement is assigned to
    * @param date date within the measurement was taken
    * @return return a list of measurement object
    */
@@ -66,4 +72,10 @@ public class ArchiveRepository {
     return roomDao.getArchiveById(id, date);
   }
 
+  public LiveData<List<MeasurementsObject>> clearFilter() {
+    final MutableLiveData<List<MeasurementsObject>> liveData = new MutableLiveData<>();
+    List<MeasurementsObject> list = new ArrayList<>();
+    liveData.setValue(list);
+    return liveData;
+  }
 }
