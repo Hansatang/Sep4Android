@@ -32,10 +32,8 @@ public class DateFormatter {
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
       Date date1 = dateFormat.parse(date);
-      System.out.println("Gut"+date1);
       DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd E hh:mm:ss");
       strDate = dateFormat2.format(date1);
-      System.out.println("Tag"+strDate);
     } catch (ParseException e) {
       e.printStackTrace();
     }
