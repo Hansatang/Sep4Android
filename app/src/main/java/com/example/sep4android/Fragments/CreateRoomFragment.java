@@ -66,11 +66,13 @@ public class CreateRoomFragment extends Fragment {
     if (creationResult==200) {
       NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
       navController.popBackStack();
+      roomVM.setResult();
     }
     else if(creationResult==417){
       Toast.makeText(getContext(),"You already registered this room",Toast.LENGTH_SHORT).show();
+      roomVM.setResult();
     }
-    roomVM.setResult();
+
   }
 
   /**
