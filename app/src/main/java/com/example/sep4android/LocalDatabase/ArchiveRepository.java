@@ -39,7 +39,6 @@ public class ArchiveRepository {
    * @param measurementsObjects array of measurement object
    */
   public void insertAllMeasurements(MeasurementsObject[] measurementsObjects) {
-    System.out.println("LOLO"+measurementsObjects.length);
     executorService.execute(() -> roomDao.deleteAndCreateMeasurements(measurementsObjects));
   }
 
