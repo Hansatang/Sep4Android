@@ -217,10 +217,10 @@ public class HumidityThresholdFragment extends Fragment implements AdapterView.O
     endTime = popupView.findViewById(R.id.select_end_time);
     startValue = popupView.findViewById(R.id.select_start_value);
     startValue.setMinValue(0);
-    startValue.setMaxValue(35);
+    startValue.setMaxValue(100);
     endValue = popupView.findViewById(R.id.select_end_value);
     endValue.setMinValue(0);
-    endValue.setMaxValue(35);
+    endValue.setMaxValue(100);
   }
 
   public void popTimePicker(String title,int hourVal, int minuteVal, Button button) {

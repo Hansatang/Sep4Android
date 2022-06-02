@@ -51,17 +51,23 @@ public class ArchiveFragment extends Fragment implements ParentMeasurementAdapte
     Log.i(TAG, "Create Archive View");
     view = inflater.inflate(R.layout.fragment_measurements_list, container, false);
     findViews();
+
     archiveVM.getMeasurementsLocalLiveData().observe(getViewLifecycleOwner(),this::LogData);
     measurementsRV.setLayoutManager(new LinearLayoutManager(getContext()));
     parentMeasurementAdapter = new ParentMeasurementAdapter(this);
     archiveVM.getRoomsLocalLiveData().observe(getViewLifecycleOwner(), this::initList);
     archiveVM.getRoomsLocal();
     archiveVM.getMeasurementsFromAllRooms(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    archiveVM.getMeasurementsLiveData().observe(getViewLifecycleOwner(),this::LogMeasurements);
     measurementsRV.setAdapter(parentMeasurementAdapter);
     return view;
   }
 
   private void LogData(List<MeasurementsObject> measurementsObjects) {
+    Log.i(TAG, "Got "+measurementsObjects.size());
+  }
+
+  private void LogMeasurements(List<MeasurementsObject> measurementsObjects) {
     Log.i(TAG, "Got "+measurementsObjects.size());
   }
 
