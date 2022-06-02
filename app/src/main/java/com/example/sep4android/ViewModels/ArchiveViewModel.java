@@ -64,8 +64,5 @@ public class ArchiveViewModel extends AndroidViewModel {
     });
   }
 
-  public void clearFilter() {
-    System.out.println("Yolo");
-    roomMeasurementsLiveData.addSource(archiveRepository.clearFilter(), roomMeasurementsLiveData::setValue);
-  }
+
 }

@@ -72,11 +72,4 @@ public class ArchiveRepository {
   public LiveData<List<MeasurementsObject>> getMeasurementByID(String id, String date) {
     return roomDao.getArchiveById(id, date);
   }
-
-  public LiveData<List<MeasurementsObject>> clearFilter() {
-    final MutableLiveData<List<MeasurementsObject>> liveData = new MutableLiveData<>();
-    List<MeasurementsObject> list = new ArrayList<>();
-    liveData.setValue(list);
-    return liveData;
-  }
 }
